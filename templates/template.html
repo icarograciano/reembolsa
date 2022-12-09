@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Reembolsa</title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/images/logo_red.png">
+    <!-- Custom Stylesheet -->
+    <link href="/static/plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="/static/plugins/summernote/dist/summernote.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/upload_drag_abd_drop.css">
+</head>
+
+<body>
+
+    <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+        </div>
+    </div>
+
+    <!--*******************
+        Preloader end
+    ********************-->
+
+    
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <div class="nav-header">
+            <div class="brand-logo">
+                <a href="{{index}}">
+                    <b class="logo-abbr"><img style="margin-left: -3px; margin-top: -1px;" src="/static/images/logo_red.png" alt=""> </b>
+                    <span class="logo-compact"><img src="/static//images/logo-compact.png" alt=""></span>
+                    <span class="brand-title">
+                        <img style="width:243px; margin-top: -28px; margin-left: -30px;" src="/static/images/logo_reembolsa.png" alt="">
+                    </span>
+                </a>
+            </div>
+        </div>
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+
+        <!--**********************************
+            Header start
+        ***********************************-->
+        <div class="header">   
+            <div class="header-content clearfix">
+                
+                <div class="nav-control">
+                    <div class="hamburger">
+                        <span class="toggle-icon"><i class="icon-menu"></i></span>
+                    </div>
+                </div>
+                <div class="header-left">
+                    <!--<div class="input-group icons">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-transparent border-0 pr-2 pr-sm-3" id="basic-addon1"><i class="mdi mdi-magnify"></i></span>
+                        </div>
+                        <input type="search" class="form-control" placeholder="Search Dashboard" aria-label="Pesquisar">
+                        <div class="drop-down   d-md-none">
+							<form action="#">
+								<input type="text" class="form-control" placeholder="Search">
+							</form>
+                        </div>
+                    </div>-->
+                </div>
+                <div class="header-right">
+                    <ul class="clearfix">
+                        <li class="icons ">
+                            <a href="javascript:void(0)" class="log-user"  data-toggle="dropdown">
+                                <span>{{user_session}}</span>
+                            </a>
+                        </li>
+                        <li class="icons dropdown">
+                            <div class="user-img c-pointer position-relative" data-toggle="dropdown">
+                                <span class="activity active"></span>
+                                <img src="/static/images/user/1.png" height="40" width="40" alt="">
+                            </div>
+                            <div class="drop-down dropdown-profile   dropdown-menu">
+                                <div class="dropdown-content-body">
+                                    <ul>
+                                        <form action="/logout" method="post">
+                                        <li><p><button class="btn mb-1 btn-rounded btn-primary" type="submit"><i class="icon-key"></i> <span>Sair</span></button></p></li>
+                                        </form>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert alert-primary alert-dismissible fade show" role="alert" style="width: 35%;margin-left: 37%;">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <!-- <strong>Title</strong> --> {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+        <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        <div class="nk-sidebar">           
+            <div class="nk-nav-scroll">
+                <ul class="metismenu" id="menu">
+                    <li class="mega-menu mega-menu-sm">
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i> 
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder" viewBox="0 0 16 16">
+                                    <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4H2.19zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707z"/>
+                                  </svg>
+                            </i><span class="nav-text">Cadastros</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="##">Clientes</a></li>
+                        </ul>
+                        <ul aria-expanded="false">
+                            <li><a href="##">Motivos</a></li>
+                        </ul>
+                        <ul aria-expanded="false">
+                            <li><a href="##">Tipos de Despesa</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-headset" viewBox="0 0 16 16">
+                                    <path d="M8 1a5 5 0 0 0-5 5v1h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a6 6 0 1 1 12 0v6a2.5 2.5 0 0 1-2.5 2.5H9.366a1 1 0 0 1-.866.5h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 .866.5H11.5A1.5 1.5 0 0 0 13 12h-1a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h1V6a5 5 0 0 0-5-5z"/>
+                                </svg> 
+                            </i><span class="nav-text">Atendimentos</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="{{url_for('index')}}">Atendimentos</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon-user menu-icon"></i> <span class="nav-text">Usuários</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="##">Perfil de Usuário</a></li>
+                            <li><a href="##">Usuários</a></li>
+                            <li><a href="##">Alterar Senha</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+
+        {% block conteudo %} {% endblock %}
+        
+        
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        <div class="footer">
+            <div class="copyright">
+                <p><a href="#">Xc Soluções</a> 2022</p>
+            </div>
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
+    </div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <script src="/static/plugins/common/common.min.js"></script>
+    <script src="/static/js/custom.min.js"></script>
+    <script src="/static/js/settings.js"></script>
+    <script src="/static/js/gleek.js"></script>
+    <script src="/static/js/styleSwitcher.js"></script>
+    <script src="/static/plugins/summernote/dist/summernote.min.js"></script>
+    <script src="/static/plugins/summernote/dist/summernote-init.js"></script>
+    <script src="/static/plugins/tables/js/jquery.dataTables.min.js"></script>
+    <script src="/static/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
+    <script src="/static/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
+    <script src="/static/js/upload_drag_and_drop.js"></script>
+    
+
+    
+
+    <script>$(document).ready(function() {
+            $('#example').DataTable( {
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.13.1/i18n/pt-BR.json"
+                }
+            } );
+        } );
+    </script>
+    
+    {% if intervalo_edit != undefined %}
+    <script>
+      $('#modal_edita_atendimento_detalhe_intervalo_1').modal('show')  
+    </script>
+    {% endif %}
+
+</body>
+
+</html>

@@ -185,9 +185,9 @@
                                                         </div>
                                                         <hr>
                                                         <ul class="nav nav-pills mb-3">
-                                                            <li class="nav-item"><a href="#navpills-2" class="nav-link active" data-toggle="tab" aria-expanded="true">Resumo do Atendimento</a>
+                                                            <li class="nav-item"><a href="#navpills-2" class="nav-link {% if navpills == 'navpills_2' %} active {% endif%}" data-toggle="tab" aria-expanded="true">Resumo do Atendimento</a>
                                                             </li>
-                                                            <li class="nav-item"><a href="#navpills-3" class="nav-link" data-toggle="tab" aria-expanded="true">Intervalos</a>
+                                                            <li class="nav-item"><a href="#navpills-3" class="nav-link {% if navpills == 'navpills_3' %} active {% endif%}" data-toggle="tab" aria-expanded="true">Intervalos</a>
                                                             </li>
                                                             <li class="nav-item"><a href="#navpills-4" class="nav-link" data-toggle="tab" aria-expanded="true">Despesas</a>
                                                             </li>
@@ -195,14 +195,14 @@
                                                             </li>
                                                         </ul>
                                                         <div class="tab-content br-n pn">
-                                                            <div id="navpills-2" class="tab-pane active">
+                                                            <div id="navpills-2" class="tab-pane {% if navpills == 'navpills_2' %} active {% endif%}">
                                                                 <div class="row align-items-center">
                                                                     <div class="col-sm-6 col-md-8 col-xl-10">
                                                                     </div>
                                                                 </div>
                                                                 <textarea class="form-control" id="val-suggestions" name="atendimento_discriminacao" rows="10" maxlength=2000>{{reg_insert.descr_atendimento}}</textarea>
                                                             </div>
-                                                            <div id="navpills-3" class="tab-pane">
+                                                            <div id="navpills-3" class="tab-pane {% if navpills == 'navpills_3' %} active {% endif%}">
                                                                 <div class="row align-items-center">
                                                                     <div class="col-sm-6 col-md-8 col-xl-10">
                                                                     </div>
@@ -221,7 +221,7 @@
                                                                                     <div class="modal-content">
                                                                                         <div class="modal-header">
                                                                                             <h4 id="modal-basic-title" class="modal-title">Detalhe Intervalo no Atendimento</h4>
-                                                                                            <!--<a href="{{url_for('edita_atendimento_1', id=reg_insert.id)}}"><i class="fa fa-times" arial-hidden="true"></i></a>-->
+                                                                                            
                                                                                             <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
                                                                                         </div>
                                                                                         <div class="modal-body">

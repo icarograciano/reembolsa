@@ -44,29 +44,23 @@ def criar_atendimento():
     
     db.session.add(novo_lancamento)
     db.session.commit()
-    return redirect(url_for('edita_atendimento', reg_insert = novo_lancamento.id))
+    return redirect(url_for('edita_atendimento', reg_insert = novo_lancamento.id, navpills = 'navpills_2'))
 
-@app.route('/lancamentos/editar/<int:reg_insert>')
-def edita_atendimento(reg_insert):
+@app.route('/lancamentos/editar/<int:reg_insert>/<navpills>')
+def edita_atendimento(reg_insert, navpills):
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login'))
+    navpills = navpills
     reg_insert_1 = reg_insert
     reg_insert = Lancamentos.query.filter_by(id=reg_insert_1).first()
     intervalos = Intervalos.query.filter_by(id_lancamento=reg_insert_1).order_by(Intervalos.id)
-    return render_template('edita_atendimentos.html', user_session=session['usuario_logado'], reg_insert = reg_insert, intervalos = intervalos)
+    return render_template('edita_atendimentos.html', user_session=session['usuario_logado'], reg_insert = reg_insert, intervalos = intervalos, navpills = navpills )
 
 @app.route('/lancamentos/editando', methods=['POST',])
 def editando_atendimento():
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login'))
     return redirect(url_for('edita_atendimento'))
-
-@app.route('/lancamentos/editar_1/<int:id>')
-def edita_atendimento_1(id):
-    if 'usuario_logado' not in session or session['usuario_logado'] == None:
-        return redirect(url_for('login'))
-    reg_insert_1 = Lancamentos.query.filter_by(id=id).first()
-    return render_template('edita_atendimentos_1.html', user_session=session['usuario_logado'], reg_insert_1 = reg_insert_1)
 
 @app.route('/lancamentos/atualizar_1', methods=['POST',])
 def atualiza_atendimento_1():
@@ -88,7 +82,7 @@ def atualiza_atendimento_1():
     db.session.add(reg_insert_1)
     db.session.commit()
     flash('Registro editado com sucesso!')
-    return redirect(url_for('edita_atendimento', reg_insert = reg_insert_1.id))
+    return redirect(url_for('edita_atendimento', reg_insert = reg_insert_1.id, navpills = 'navpills_2'))
 
 @app.route('/lancamentos/deletar/<int:id>')
 def deletar(id):

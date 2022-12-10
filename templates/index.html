@@ -44,7 +44,7 @@
                                                 <td>{{reg.atendente}}</td>
                                                 <td>{{reg.status}}</td>
                                                 <td style="text-align: center"><span>
-                                                    <a href="{{ url_for('edita_atendimento', reg_insert=reg.id)}}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-pencil color-muted m-r-5" style="margin:0 5px;"></i> </a>
+                                                    <a href="{{ url_for('edita_atendimento', reg_insert=reg.id, navpills = 'navpills_2')}}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-pencil color-muted m-r-5" style="margin:0 5px;"></i> </a>
                                                     <a href="{{ url_for('deletar', id=reg.id)}}" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-close color-danger" style="margin:0 20px;"></i></a></span>
                                                 </td>
                                             </tr>

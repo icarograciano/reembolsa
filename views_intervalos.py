@@ -15,9 +15,9 @@ def criar_intervalo():
     db.session.add(novo_intervalo)
     db.session.commit()
     flash('Intervalo criado com sucesso!')
-    return redirect(url_for('edita_atendimento', reg_insert=id_lancamento))
+    return redirect(url_for('edita_atendimento', reg_insert=id_lancamento, navpills = 'navpills_3'))
 
-@app.route('/lancamentos/editar/<int:id_lancamento>/<int:id>')
+@app.route('/intervalos/editar/<int:id_lancamento>/<int:id>')
 def editar_intervalo(id_lancamento, id):
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login'))
@@ -25,7 +25,7 @@ def editar_intervalo(id_lancamento, id):
     reg_insert = Lancamentos.query.filter_by(id=id_lancamento).first()
     intervalos = Intervalos.query.filter_by(id_lancamento=id_lancamento).order_by(Intervalos.id)
     intervalo_edit = Intervalos.query.filter_by(id=id).first()
-    return render_template('edita_atendimentos.html', user_session=session['usuario_logado'], reg_insert = reg_insert, intervalos = intervalos, intervalo_edit = intervalo_edit)
+    return render_template('edita_atendimentos.html', user_session=session['usuario_logado'], reg_insert = reg_insert, intervalos = intervalos, intervalo_edit = intervalo_edit, navpills = 'navpills_3')
 
 @app.route('/intervalos/atualizar', methods=['POST',])
 def atualizar_intervalo():
@@ -38,7 +38,7 @@ def atualizar_intervalo():
     db.session.add(intervalo)
     db.session.commit()
     flash('Registro editado com sucesso!')
-    return redirect(url_for('edita_atendimento', reg_insert = intervalo.id_lancamento))
+    return redirect(url_for('edita_atendimento', reg_insert = intervalo.id_lancamento, navpills = 'navpills_3'))
 
 @app.route('/intervalos/deletar/<int:id>/<int:id_lancamento>')
 def deletar_intervalo(id, id_lancamento):
@@ -47,7 +47,7 @@ def deletar_intervalo(id, id_lancamento):
     Intervalos.query.filter_by(id=id).delete()
     db.session.commit()
     flash('Intervalo deletado com sucesso!')
-    return redirect(url_for('edita_atendimento', reg_insert=id_lancamento))
+    return redirect(url_for('edita_atendimento', reg_insert=id_lancamento, navpills = 'navpills_3'))
 
 
 

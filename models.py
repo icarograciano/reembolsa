@@ -54,4 +54,21 @@ class Intervalos(db.Model):
 
 def __repr__(self):
     return '<Name %r>' % self.name
+
+#Tabela de Despesas
+class Despesas(db.Model):
+    id = db.Column(db.Integer,primary_key = True, autoincrement=True)
+    tipo = db.Column(db.String(40), nullable=False)
+    quantidade = db.Column(db.Float, nullable=False)
+    valor_despesa = db.Column(db.Float, nullable=False)
+    valor_total = db.Column(db.Float, nullable=False)
+    id_lancamento = db.Column(db.Integer,primary_key = True)
+    observacao = db.Column(db.String(2000), nullable=False)
+    data_add = db.Column(db.DateTime, nullable=False)
+    usuario_add = db.Column(db.String(100), nullable=False)
+    data_edicao = db.Column(db.DateTime, nullable=False)
+    usuario_edicao = db.Column(db.String(100), nullable=False)
+
+def __repr__(self):
+    return '<Name %r>' % self.name
     

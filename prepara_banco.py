@@ -6,8 +6,8 @@ print("Conectando...")
 try:
       conn = mysql.connector.connect(
             host='127.0.0.1',
-            user='master',
-            password='master123'
+            user='root',
+            password='root'
       )
 except mysql.connector.Error as err:
       if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
@@ -65,6 +65,22 @@ TABLES['Intervalos'] = ('''
       `id_lancamento` varchar(40) CHARACTER SET utf8mb3 COLLATE utf8_bin NOT NULL,
       `hora_ini` time NOT NULL,
       `hora_fim` time NOT NULL,
+      `data_add` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      `usuario_add` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8_bin NOT NULL,
+      `data_edicao` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      `usuario_edicao` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8_bin NOT NULL,
+      PRIMARY KEY (`id`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;''')
+
+TABLES['Despesas'] = ('''
+      CREATE TABLE `Despesas` (
+      `id` int NOT NULL AUTO_INCREMENT,
+      `tipo` varchar(40) CHARACTER SET utf8mb3 COLLATE utf8_bin NOT NULL,
+      `id_lancamento` varchar(40) CHARACTER SET utf8mb3 COLLATE utf8_bin NOT NULL,
+      `quantidade` float NOT NULL,
+      `valor_despesa` float NULL,
+      `valor_total` float NULL,
+      `observacao` varchar(2000) NULL,
       `data_add` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
       `usuario_add` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8_bin NOT NULL,
       `data_edicao` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,

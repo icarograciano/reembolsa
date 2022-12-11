@@ -208,9 +208,6 @@
     <script src="/static/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
     <script src="/static/js/upload_drag_and_drop.js"></script>
     
-
-    
-
     <script>$(document).ready(function() {
             $('#example').DataTable( {
                 "language": {
@@ -223,6 +220,12 @@
     {% if intervalo_edit != undefined %}
     <script>
       $('#modal_edita_atendimento_detalhe_intervalo_1').modal('show')  
+    </script>
+    {% endif %}
+
+    {% if despesa_edit != undefined %}
+    <script>
+      $('#modal_edita_atendimento_inserir_despesas_1').modal('show')  
     </script>
     {% endif %}
 

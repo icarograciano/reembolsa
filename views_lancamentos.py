@@ -1,6 +1,7 @@
 from flask import render_template, request, redirect, session, flash, url_for
 from app import app, db
-from models import Lancamentos, Intervalos, present_time 
+from models import Lancamentos, Intervalos, Despesas, present_time 
+from sqlalchemy import func
 
 @app.route('/')
 @app.route('/index')
@@ -54,7 +55,13 @@ def edita_atendimento(reg_insert, navpills):
     reg_insert_1 = reg_insert
     reg_insert = Lancamentos.query.filter_by(id=reg_insert_1).first()
     intervalos = Intervalos.query.filter_by(id_lancamento=reg_insert_1).order_by(Intervalos.id)
-    return render_template('edita_atendimentos.html', user_session=session['usuario_logado'], reg_insert = reg_insert, intervalos = intervalos, navpills = navpills )
+    despesas = Despesas.query.filter_by(id_lancamento=reg_insert_1).order_by(Despesas.id)
+    despesas_total = 0
+    for despesa in despesas:
+        despesas_total = despesas_total + despesa.valor_total
+    despesas_total = despesas_total
+    return render_template('edita_atendimentos.html', user_session=session['usuario_logado'], reg_insert = reg_insert, intervalos = intervalos, 
+    despesas = despesas, despesas_total = despesas_total, navpills = navpills )
 
 @app.route('/lancamentos/editando', methods=['POST',])
 def editando_atendimento():
@@ -89,6 +96,8 @@ def deletar(id):
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login'))
     Lancamentos.query.filter_by(id=id).delete()
+    Intervalos.query.filter_by(id_lancamento=id).delete()
+    Despesas.query.filter_by(id_lancamento=id).delete()
     db.session.commit()
     flash('Registro deletado com sucesso!')
 

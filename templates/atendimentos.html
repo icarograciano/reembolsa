@@ -8,7 +8,7 @@
             <div class="row page-titles mx-0">
                 <div class="col p-md-0">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Atendimentos</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Atendimentos</a></li>
                         <li class="breadcrumb-item active"><a href="javascript:void(0)">Lançamento</a></li>
                     </ol>
                 </div>
@@ -23,53 +23,8 @@
                                 <div class="form-validation">
                                     <form class="form-valide" action="{{ url_for('criar_atendimento') }}" method="post">
                                     <fieldset>
+                                        <a href="{{ url_for('index') }}" data-placement="top" title="Modo Lista" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-list" style="margin: 0 3px;"></i>Modo Lista</a>
                                         <button type="submit" title="Gravar alterações" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-save"></i> Gravar</button>
-                                        <button type="button" title="Localizar atendimento" class="btn waves-effect waves-light btn-sm btn-info" data-toggle="modal" data-target="#exampleModalCenter" style="font-weight: bold;"><i class="fa fa-search"></i> Localizar</button>
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="exampleModalCenter">
-                                            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Lista de Atendimentos</h5>
-                                                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="table-responsive">
-                                                            <table id="tabelaIntervalos" class="table table-hover table-striped table-bordered display" width="100%">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th style="text-align: center;">Código</th>
-                                                                        <th style="text-align: center;">Cliente</th>
-                                                                        <th style="text-align: center;">Descrição Cliente</th>
-                                                                        <th style="text-align: center;">Motivo</th>
-                                                                        <th style="text-align: center;">Data Atendimento</th>
-                                                                        <th style="text-align: center;">Atendente</th>
-                                                                        <!---->
-                                                                    </tr>
-                                                                </thead><!---->
-                                                                <tbody class="ng-star-inserted">
-                                                                    {% for reg in atendimentos_lis %}
-                                                                    <tr class="ng-star-inserted">
-                                                                        <td style="text-align: center;" width="5%">{{reg.id}}</td>
-                                                                        <td style="text-align: center;" width="5%">{{reg.cliente}}</td>
-                                                                        <td style="text-align: center;" width="20%">{{reg.atendimento_descricao_cliente}}</td>
-                                                                        <td style="text-align: center;" width="5%">{{reg.atendimento_motivo}}</td>
-                                                                        <td style="text-align: center;" width="5%">{{reg.atendimento_dt_atendimento}}</td>
-                                                                        <td style="text-align: center;" width="20%">{{reg.atendimento_atendente}}</td>
-                                                                    </tr>
-                                                                    {% endfor %}
-                                                                </tbody><!---->
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
-                                                        <button type="button" class="btn btn-primary">Selecionar</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <button type="button" title="Imprimir atendimento" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-print"></i> Imprimir</button>
                                         <button type="button" title="Enviar e-mail com o atendimento" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-envelope"></i> E-mail</button>
                                         <br>

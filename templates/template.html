@@ -13,6 +13,39 @@
     <link href="/static/plugins/summernote/dist/summernote.css" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/upload_drag_abd_drop.css">
+    <style>
+        .alert-warning {
+          position: relative;
+        }
+        
+        .alert-warning:before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: #ffc107;
+          animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+          0% {
+            background-color: #ffc107;
+          }
+          50% {
+            background-color: transparent;
+          }
+          100% {
+            background-color: #ffc107;
+          }
+        }
+
+        .dropdown-menu li:hover {
+        background-color: rgb(215, 212, 212);
+        }
+
+        </style>
 </head>
 
 <body>
@@ -228,6 +261,18 @@
       $('#modal_edita_atendimento_inserir_despesas_1').modal('show')  
     </script>
     {% endif %}
+
+    {% if despesa_edit_upload != undefined %}
+    <script>
+      $('#fileModal').modal('show')  
+    </script>
+    {% endif %}
+
+    <script>$(document).ready(function() {
+  $('.alert').delay(500000).fadeIn('normal', function() {
+    $(this).delay(2500).fadeOut();
+  });
+});</script>
 
 </body>
 

@@ -64,6 +64,7 @@ class Despesas(db.Model):
     valor_total = db.Column(db.Float, nullable=False)
     id_lancamento = db.Column(db.Integer,primary_key = True)
     observacao = db.Column(db.String(2000), nullable=False)
+    anexo = db.Column(db.String(1), nullable=False)
     data_add = db.Column(db.DateTime, nullable=False)
     usuario_add = db.Column(db.String(100), nullable=False)
     data_edicao = db.Column(db.DateTime, nullable=False)

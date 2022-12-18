@@ -28,6 +28,13 @@
                                         <button type="submit" title="Gravar alterações" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-save"></i> Gravar</button>
                                         <button type="button" title="Imprimir atendimento" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-print"></i> Imprimir</button>
                                         <button type="button" title="Enviar e-mail com o atendimento" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-envelope"></i> E-mail</button>
+                                        <button class="btn waves-effect waves-light btn-sm btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" style="font-weight: bold;">
+                                            <i class="fas fa-more_horiz"> Ações</i>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <li><a class="dropdown-item" href="#">Enviar para Aprovação</a></li>
+                                            <li><a class="dropdown-item" href="#">Aprovar</a></li>
+                                        </ul>                                       
                                         <br>
                                         <br>
                                         <div class="d-md-flex align-items-center"><form novalidate="" class="ng-pristine ng-invalid ng-touched"><!----></form><div class="ml-auto"><div class="dl"><strong class="text-danger"> *</strong> Campos obrigatórios </div></div></div>
@@ -459,10 +466,49 @@
                                                                                     <td style="text-align: center;" class="ng-star-inserted" width="5%">
                                                                                         <div class="btn-group">
                                                                                             <a href="{{ url_for('editar_despesa', id=despesa.id, id_lancamento = despesa.id_lancamento) }}" data-placement="top" title="Editar linha"><i class="fa fa-edit text-primary m-r-10" style="margin: 0 3px;"></i></a>
+                                                                                            <a  href="{{ url_for('upload_despesa', id=despesa.id, id_lancamento = despesa.id_lancamento) }}" data-placement="top" title="Anexar Comprovante de Despesa"><i class="fa fa fa-upload text-primary" style="margin: 0 8px;"></i></a>
                                                                                             <a  href="{{ url_for('deletar_despesa', id=despesa.id, id_lancamento = despesa.id_lancamento) }}" data-placement="top" title="Excluir linha"><i class="fa fa fa-minus text-danger" style="margin: 0 8px;"></i></a>
                                                                                         </div>
+                                                                                        {% if despesa.anexo == 'N' %}
+                                                                                        <div class="alert alert-warning" role="alert">
+                                                                                            <i class="fa fa-exclamation-triangle fa-lg fa-fw"></i>
+                                                                                            Anexe um comprovante!
+                                                                                        </div>
+                                                                                        {% endif %}
                                                                                     </td><!---->
                                                                                 </tr><!---->
+                                                                                <!-- Modal upload file -->
+                                                                                <div class="modal fade" id="fileModal" tabindex="-1" role="dialog" aria-labelledby="fileModalLabel" aria-hidden="true">
+                                                                                    <div class="modal-dialog" role="document">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                        <h5 class="modal-title" id="fileModalLabel">Anexar arquivos</h5>
+                                                                                        <a href="{{ url_for('edita_atendimento', reg_insert=reg_insert.id, navpills = 'navpills_4')}}">
+                                                                                            <i class="fa fa-times" arial-hdden="true"></i>
+                                                                                        </a>
+                                                                                        </button>
+                                                                                        </div>
+                                                                                        <div class="modal-body">
+                                                                                        {% if despesa_edit_upload != undefined %}
+                                                                                        <form action="{{ url_for('upload_despesa', id=despesa_edit_upload.id, id_lancamento = despesa.id_lancamento)}}" method="post" enctype="multipart/form-data">
+                                                                                        {% endif %}
+                                                                                        {% if despesa_edit_upload == undefined %}
+                                                                                        <form>
+                                                                                        {% endif %}
+                                                                                            <div class="form-group">
+                                                                                            <label for="fileInput">Selecione o arquivo para anexar</label>
+                                                                                            <input type="file" name="file" class="form-control-file" id="file">
+                                                                                            </div>
+                                                                                            <div class="modal-footer">
+                                                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                                                                <button type="submit" class="btn btn-primary">Anexar</button>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <!-- Fim Modal upload file -->
                                                                                 {% endfor %}
                                                                             </tbody><!---->
                                                                             <tfoot class="ng-star-inserted">
@@ -478,7 +524,7 @@
                                                                         </thead>     
                                                                     </table>
                                                                 </div>
-                                                            </div>
+                                                            </div>                                                            
                                                             <!-- Modal Despesas (edição) -->
                                                             <div class="modal fade" id="modal_edita_atendimento_inserir_despesas_1">
                                                                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">

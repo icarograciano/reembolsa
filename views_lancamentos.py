@@ -1,7 +1,9 @@
-from flask import render_template, request, redirect, session, flash, url_for
+from flask import render_template, request, redirect, session, flash, url_for, send_file
 from app import app, db
 from models import Lancamentos, Intervalos, Despesas, present_time 
 from sqlalchemy import func
+from jsintegration.JasperServerIntegration import JasperServerIntegration
+from io import BytesIO
 
 @app.route('/')
 @app.route('/index')
@@ -102,6 +104,37 @@ def deletar(id):
     flash('Registro deletado com sucesso!')
 
     return redirect(url_for('index'))
+
+@app.route('/generate_report/<int:id>', methods=['GET', 'POST'])
+def generate_report(id):
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login'))
+    parameter1 = id
+    obj = JasperServerIntegration(
+      'http://localhost:8082/jasperserver',   # URL do Jasper Server
+      'reports/Invoice',                      # Caminho para o Relatório sem a primeira barra
+      'pdf',                                  # Tipo do Arquivo do Relatório
+      'jasperadmin',                          # Usuário com acesso ao relatório
+      'jasperadmin',                          # Senha do usuário
+      {"ID" :  parameter1}                    # Parâmetros opcionais
+    )
+    # Obtém os bytes do relatório
+    try:
+      report = obj.execute()
+      # Transforma os bytes do relatório em um objeto BytesIO
+      report_bytesio = BytesIO(report)  
+      
+      # Aqui, você pode fazer o que você quiser.
+      # No caso, vamos salvar o arquivo no disco, como report.pdf
+    # Crie um nome de arquivo temporário para armazenar o relatório
+      temp_file = 'report.pdf'
+      with open(temp_file, 'wb') as f:
+          f.write(report)
+          # Use o método send_file para enviar o arquivo para o navegador
+          return send_file(temp_file, mimetype='application/pdf')
+    # Exceção, caso ocorra um erro na geração do relatório
+    except:
+      print('Error ' + obj.error_code + ': ' + obj.error_message)
 
 
 

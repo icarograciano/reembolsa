@@ -26,7 +26,7 @@
                                         <input type="hidden" name="id" value="{{reg_insert.id}}">
                                         <a href="{{ url_for('index') }}" data-placement="top" title="Modo Lista" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-list" style="margin: 0 3px;"></i>Modo Lista</a>
                                         <button type="submit" title="Gravar alterações" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-save"></i> Gravar</button>
-                                        <button type="button" title="Imprimir atendimento" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-print"></i> Imprimir</button>
+                                        <a target="_blank" href="{{ url_for('generate_report', id = reg_insert.id ) }}" data-placement="top" title="Imprimir atendimento" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-print" style="margin: 0 3px;"></i>Imprimir atendimento</a>
                                         <button type="button" title="Enviar e-mail com o atendimento" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-envelope"></i> E-mail</button>
                                         <button class="btn waves-effect waves-light btn-sm btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" style="font-weight: bold;">
                                             <i class="fas fa-more_horiz"> Ações</i>

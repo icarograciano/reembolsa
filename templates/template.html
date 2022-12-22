@@ -13,7 +13,8 @@
     <link href="/static/plugins/summernote/dist/summernote.css" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/upload_drag_abd_drop.css">
-    <style>
+   <!--style do alerta no comprovante de despesas-->
+   <style>
         .alert-warning {
           position: relative;
         }
@@ -141,7 +142,7 @@
                 <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
                 {% if messages %}
                     {% for category, message in messages %}
-                    <div class="alert alert-primary alert-dismissible fade show" role="alert" style="width: 35%;margin-left: 37%;">
+                    <div id="flash-message" class="alert alert-primary alert-dismissible fade show" role="alert" style="width: 35%;margin-left: 37%;">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <!-- <strong>Title</strong> --> {{ message }}
                     </div>
@@ -240,6 +241,13 @@
     <script src="/static/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
     <script src="/static/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
     <script src="/static/js/upload_drag_and_drop.js"></script>
+
+    <script>
+    setTimeout(function() {
+        document.getElementById("flash-message").style.display = "none";
+    }, 2000);
+    </script>
+
     
     <script>$(document).ready(function() {
             $('#example').DataTable( {

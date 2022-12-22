@@ -50,6 +50,7 @@ def criar_atendimento():
     
     db.session.add(novo_lancamento)
     db.session.commit()
+    flash('Registro incluído com sucesso!')
     return redirect(url_for('edita_atendimento', reg_insert = novo_lancamento.id, navpills = 'navpills_2'))
 
 @app.route('/lancamentos/editar/<int:reg_insert>/<navpills>')

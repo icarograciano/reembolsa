@@ -455,8 +455,8 @@
                                                                                 <tr class="ng-star-inserted">
                                                                                     <td style="text-align: left;" width="10%">{{despesa.tipo}}</td>
                                                                                     <td style="text-align: center;" width="5%">{{despesa.quantidade}}</td>
-                                                                                    <td style="text-align: center;" width="10%">{{despesa.valor_despesa}}</td>
-                                                                                    <td style="text-align: center;" width="10%">{{despesa.valor_total}}</td>
+                                                                                    <td style="text-align: center;" width="10%">{{"R$ {:,.2f}".format(despesa.valor_despesa)}}</td>
+                                                                                    <td style="text-align: center;" width="10%">{{"R$ {:,.2f}".format(despesa.valor_total)}}</td>
                                                                                     <td style="text-align: center;" width="30%">{{despesa.observacao}}</td>
                                                                                     <td style="text-align: center;" class="ng-star-inserted" width="5%">
                                                                                         <div class="btn-group">
@@ -511,7 +511,7 @@
                                                                                     <td style="text-align: left; font-weight: bold;" width="10%">Total</td>
                                                                                     <td style="text-align: right;" width="5%"></td>
                                                                                     <td style="text-align: right;" width="5%"></td>
-                                                                                    <td style="text-align: center; font-weight: bold;" width="10%">{{despesas_total}}</td>
+                                                                                    <td style="text-align: center; font-weight: bold;" width="10%">{{"R$ {:,.2f}".format(despesas_total)}}</td>
                                                                                     <td style="text-align: center;" class="ng-star-inserted" width="5%"></td>
                                                                                     <!---->
                                                                                 </tr>

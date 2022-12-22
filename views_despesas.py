@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, session, flash, url_for
 from app import app, db
-from models import Despesas, Intervalos, Lancamentos, present_time 
+from models import Despesas, Intervalos, Lancamentos, Usuarios, present_time 
 import os
 from werkzeug.utils import secure_filename
 
@@ -31,12 +31,13 @@ def editar_despesa(id_lancamento, id):
     reg_insert = Lancamentos.query.filter_by(id=id_lancamento).first()
     intervalos = Intervalos.query.filter_by(id_lancamento=id_lancamento).order_by(Intervalos.id)
     despesas = Despesas.query.filter_by(id_lancamento=id_lancamento).order_by(Despesas.id)
+    nome_usuario = Usuarios.query.filter_by(login=session['usuario_logado']).first()
     despesas_total = 0
     for despesa in despesas:
         despesas_total = despesas_total + despesa.valor_total
     despesas_total = despesas_total
     despesa_edit = Despesas.query.filter_by(id=id).first()
-    return render_template('edita_atendimentos.html', user_session=session['usuario_logado'], reg_insert = reg_insert, intervalos = intervalos, despesas = despesas,
+    return render_template('edita_atendimentos.html', user_session = nome_usuario.nome, reg_insert = reg_insert, intervalos = intervalos, despesas = despesas,
      despesa_edit = despesa_edit, despesas_total = despesas_total, navpills = 'navpills_4')
 
 
@@ -73,12 +74,13 @@ def upload_despesa(id_lancamento, id):
     reg_insert = Lancamentos.query.filter_by(id=id_lancamento).first()
     intervalos = Intervalos.query.filter_by(id_lancamento=id_lancamento).order_by(Intervalos.id)
     despesas = Despesas.query.filter_by(id_lancamento=id_lancamento).order_by(Despesas.id)
+    nome_usuario = Usuarios.query.filter_by(login=session['usuario_logado']).first()
     despesas_total = 0
     for despesa in despesas:
         despesas_total = despesas_total + despesa.valor_total
     despesas_total = despesas_total
     despesa_edit_upload = Despesas.query.filter_by(id=id).first()
-    return render_template('edita_atendimentos.html', user_session=session['usuario_logado'], reg_insert = reg_insert, intervalos = intervalos, despesas = despesas,
+    return render_template('edita_atendimentos.html', user_session = nome_usuario.nome, reg_insert = reg_insert, intervalos = intervalos, despesas = despesas,
      despesa_edit_upload = despesa_edit_upload, despesas_total = despesas_total, navpills = 'navpills_4')
 # configurar o caminho de destino para os arquivos de upload
 # obter o caminho da pasta atual

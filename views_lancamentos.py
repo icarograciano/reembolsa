@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, session, flash, url_for, send_file
 from app import app, db
-from models import Lancamentos, Intervalos, Despesas, present_time 
+from models import Lancamentos, Intervalos, Despesas, Usuarios, present_time 
 from sqlalchemy import func
 from jsintegration.JasperServerIntegration import JasperServerIntegration
 from io import BytesIO
@@ -11,13 +11,16 @@ def index():
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login'))
     lista = Lancamentos.query.order_by(Lancamentos.id)
-    return render_template('index.html', user_session=session['usuario_logado'], atendimentos_lis = lista)
+    nome_usuario = Usuarios.query.filter_by(login=session['usuario_logado']).first()
+    return render_template('index.html', user_session = nome_usuario.nome, atendimentos_lis = lista)
 
 @app.route('/lancamentos/novo')
 def novo_atendimento():
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login'))
-    return render_template('atendimentos.html', user_session=session['usuario_logado'])
+    nome_usuario = Usuarios.query.filter_by(login=session['usuario_logado']).first()
+    return render_template('atendimentos.html', user_session = nome_usuario.nome)
+
 
 @app.route('/lancamentos/criar', methods=['POST',])
 def criar_atendimento():
@@ -32,7 +35,7 @@ def criar_atendimento():
     hora_fim = request.form['hora_fim']
     atendimento_atendente = request.form['atendimento_atendente']
     faturado = request.form['faturado']
-    atendimento_status = request.form['atendimento_status']
+    atendimento_status = "Aberto"
 
     #id_lancamento = Lancamentos.query.filter_by(id=id).first()
 
@@ -58,11 +61,12 @@ def edita_atendimento(reg_insert, navpills):
     reg_insert = Lancamentos.query.filter_by(id=reg_insert_1).first()
     intervalos = Intervalos.query.filter_by(id_lancamento=reg_insert_1).order_by(Intervalos.id)
     despesas = Despesas.query.filter_by(id_lancamento=reg_insert_1).order_by(Despesas.id)
+    nome_usuario = Usuarios.query.filter_by(login=session['usuario_logado']).first()
     despesas_total = 0
     for despesa in despesas:
         despesas_total = despesas_total + despesa.valor_total
     despesas_total = despesas_total
-    return render_template('edita_atendimentos.html', user_session=session['usuario_logado'], reg_insert = reg_insert, intervalos = intervalos, 
+    return render_template('edita_atendimentos.html', user_session=nome_usuario.nome, reg_insert = reg_insert, intervalos = intervalos, 
     despesas = despesas, despesas_total = despesas_total, navpills = navpills )
 
 @app.route('/lancamentos/editando', methods=['POST',])

@@ -187,8 +187,12 @@
                                 </svg> 
                             </i><span class="nav-text">Atendimentos</span>
                         </a>
-                        <ul aria-expanded="false">
+                       <!-- <ul aria-expanded="false">
                             <li><a href="{{url_for('index')}}">Atendimentos</a></li>
+                        </ul> 
+                        -->
+                        <ul aria-expanded="false">
+                            <li><a href="{{url_for('index_Reembolso_Adiantamento')}}">Reembolso/Adiantamento</a></li>
                         </ul>
                     </li>
                     <li>
@@ -273,6 +277,12 @@
     {% if despesa_edit_upload != undefined %}
     <script>
       $('#fileModal').modal('show')  
+    </script>
+    {% endif %}
+
+    {% if despesa_exibir_comprovante != undefined %}
+    <script>
+      $('#Modal-exibir-comprovante').modal('show')  
     </script>
     {% endif %}
 

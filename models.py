@@ -27,15 +27,36 @@ class Lancamentos(db.Model):
     cliente = db.Column(db.String(40), nullable=False)
     motivo = db.Column(db.String(40), nullable=False)
     dt_atendimento = db.Column(db.Date, nullable=False)
-    hora_ini = db.Column(db.Time, nullable=False)
-    hora_fim = db.Column(db.Time, nullable=False)
+    hora_ini = db.Column(db.Time, nullable=True)
+    hora_fim = db.Column(db.Time, nullable=True)
     atendente = db.Column(db.String(40), nullable=False)
-    faturado = db.Column(db.String(3), nullable=False)
+    faturado = db.Column(db.String(3), nullable=True)
     descr_atendimento = db.Column(db.String(2000), nullable=False)
     data_add = db.Column(db.DateTime, nullable=False)
     usuario_add = db.Column(db.String(100), nullable=False)
     data_edicao = db.Column(db.DateTime, nullable=False)
     usuario_edicao = db.Column(db.String(100), nullable=False)
+
+def __repr__(self):
+    return '<Name %r>' % self.name
+
+#Tabela de Lançamentos
+class Lancamentos_query(db.Model):
+    id = db.Column(db.Integer,primary_key = True, autoincrement=True)
+    status = db.Column(db.String(40), nullable=False)
+    cliente = db.Column(db.String(40), nullable=False)
+    motivo = db.Column(db.String(40), nullable=False)
+    dt_atendimento = db.Column(db.Date, nullable=False)
+    hora_ini = db.Column(db.Time, nullable=True)
+    hora_fim = db.Column(db.Time, nullable=True)
+    atendente = db.Column(db.String(40), nullable=False)
+    faturado = db.Column(db.String(3), nullable=True)
+    descr_atendimento = db.Column(db.String(2000), nullable=False)
+    data_add = db.Column(db.DateTime, nullable=False)
+    usuario_add = db.Column(db.String(100), nullable=False)
+    data_edicao = db.Column(db.DateTime, nullable=False)
+    usuario_edicao = db.Column(db.String(100), nullable=False)
+    valor_total = db.Column(db.Float, nullable=True)
 
 def __repr__(self):
     return '<Name %r>' % self.name
@@ -58,6 +79,7 @@ def __repr__(self):
 #Tabela de Despesas
 class Despesas(db.Model):
     id = db.Column(db.Integer,primary_key = True, autoincrement=True)
+    dt_despesa = db.Column(db.Date, nullable=False)
     tipo = db.Column(db.String(40), nullable=False)
     quantidade = db.Column(db.Float, nullable=False)
     valor_despesa = db.Column(db.Float, nullable=False)
@@ -65,6 +87,7 @@ class Despesas(db.Model):
     id_lancamento = db.Column(db.Integer,primary_key = True)
     observacao = db.Column(db.String(2000), nullable=False)
     anexo = db.Column(db.String(1), nullable=False)
+    nome_arquivo = db.Column(db.String(100), nullable=True)
     data_add = db.Column(db.DateTime, nullable=False)
     usuario_add = db.Column(db.String(100), nullable=False)
     data_edicao = db.Column(db.DateTime, nullable=False)

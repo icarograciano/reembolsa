@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, session, flash, url_for
 from app import app, db
-from models import Intervalos, Lancamentos, Despesas, present_time 
+from models import Intervalos, Lancamentos, Despesas, Usuarios, present_time 
 
 @app.route('/intervalos/criar', methods=['POST',])
 def criar_intervalo():
@@ -26,11 +26,12 @@ def editar_intervalo(id_lancamento, id):
     intervalos = Intervalos.query.filter_by(id_lancamento=id_lancamento).order_by(Intervalos.id)
     intervalo_edit = Intervalos.query.filter_by(id=id).first()
     despesas = Despesas.query.filter_by(id_lancamento=id_lancamento).order_by(Despesas.id)
+    nome_usuario = Usuarios.query.filter_by(login=session['usuario_logado']).first()
     despesas_total = 0
     for despesa in despesas:
         despesas_total = despesas_total + despesa.valor_total
     despesas_total = despesas_total
-    return render_template('edita_atendimentos.html', user_session=session['usuario_logado'], reg_insert = reg_insert, intervalos = intervalos, 
+    return render_template('edita_atendimentos.html', user_session = nome_usuario.nome, reg_insert = reg_insert, intervalos = intervalos, 
     intervalo_edit = intervalo_edit, despesas = despesas, despesas_total = despesas_total, navpills = 'navpills_3')
 
 @app.route('/intervalos/atualizar', methods=['POST',])

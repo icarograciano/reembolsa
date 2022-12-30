@@ -1,0 +1,126 @@
+{% extends "template.html" %}
+{% block conteudo %}
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+
+            <div class="row page-titles mx-0">
+                <div class="col p-md-0">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url_for('index_Reembolso_Adiantamento') }}">Reembolso/Adiantamento</a></li>
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Novo</a></li>
+                    </ol>
+                </div>
+            </div>
+            <!-- row -->
+
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-validation">
+                                    <form class="form-valide" action="{{ url_for('criar_reemb_adian') }}" method="post">
+                                    <fieldset>
+                                        <a href="{{ url_for('index_Reembolso_Adiantamento') }}" data-placement="top" title="Modo Lista" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-list" style="margin: 0 3px;"></i>Modo Lista</a>
+                                        <button type="submit" title="Gravar alterações" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-save"></i> Gravar</button>
+                                        <button type="button" title="Imprimir atendimento" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-print"></i> Imprimir</button>
+                                        <button type="button" title="Enviar e-mail com o atendimento" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-envelope"></i> E-mail</button>
+                                        <br>
+                                        <br>
+                                        <div class="d-md-flex align-items-center"><form novalidate="" class="ng-pristine ng-invalid ng-touched"><!----></form><div class="ml-auto"><div class="dl"><strong class="text-danger"> *</strong> Campos obrigatórios </div></div></div>
+                                        <hr>
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="basic-form">
+                                                        <div class="row">
+                                                            <div class="form-group col-md-2">
+                                                                <label for="atendimento_codigo">Código</label>
+                                                                <input type="text" id="atendimento_codigo" name="atendimento_codigo" class="form-control" disabled>
+                                                            </div>
+                                                            <div class="form-group col-md-2">
+                                                                <label>Status</label>
+                                                                <strong class="text-danger ng-star-inserted"> *</strong>
+                                                                <input type="text" id="atendimento_status" name="atendimento_status" class="form-control" disabled value="Aberto">
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label>Cliente</label>
+                                                                <strong class="text-danger ng-star-inserted"> *</strong>
+                                                                <select class="form-control" id="sel1" name="atendimento_cliente">
+                                                                    <option>-----------</option>
+                                                                    <option>XC Solucoes</option>
+                                                                    <option>Cellier Alimentos</option>
+                                                                    <option>Ipel Papel</option>
+                                                                    <option>RCervellini Distribuidora</option>
+                                                                    <option>Mega Modas Distribuidora</option>
+                                                                    <option>Comando Auto Peças</option>
+                                                                    <option>Giga Utilidades</option>
+                                                                    <option>Total Distribuidora</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label>Motivo</label>
+                                                                <strong class="text-danger ng-star-inserted"> *</strong>
+                                                                <select class="form-control" id="sel1" name="atendimento_motivo">
+                                                                    <option>-----------</option>
+                                                                    <option>Consultoria</option>
+                                                                    <option>Suporte</option>
+                                                                    <option>Desenvolvimento</option>
+                                                                    <option>Visita Comercial</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                        </div>
+                                                        <div class="row"></div>
+                                                            <div class="row align-items-center">
+                                                                <div class="form-group col-md-4">
+                                                                    <label>Data</label>
+                                                                    <strong class="text-danger ng-star-inserted"> *</strong>
+                                                                    <input type="date" class="form-control ng-pristine ng-valid ng-touched" name="atendimento_dt_atendimento" style="text-align: center;">
+                                                                </div>
+                                                                <div class="form-group col-md-4">
+                                                                    <label>Atendente</label>
+                                                                    <strong class="text-danger ng-star-inserted"> *</strong>
+                                                                    <select class="form-control" id="sel1" name="atendimento_atendente">
+                                                                        <option>-----------</option>
+                                                                        <option>Icaro Graciano</option>
+                                                                        <option>Alephe Baruc</option>
+                                                                        <option>Leandro Oliveira</option>
+                                                                        <option>Nicanor Soares</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                        <ul class="nav nav-pills mb-3">
+                                                            <li class="nav-item"><a href="#navpills-2" class="nav-link active" data-toggle="tab" aria-expanded="false">Descreva o Atendimento</a>
+                                                            </li>
+                                                        </ul>
+                                                        <div class="tab-content br-n pn">
+                                                            <div id="navpills-2" class="tab-pane active">
+                                                                <div class="row align-items-center">
+                                                                    <div class="col-sm-6 col-md-8 col-xl-10">
+                                                                    </div>
+                                                                </div>
+                                                                <textarea class="form-control" id="val-suggestions" name="atendimento_discriminacao" rows="10" maxlength=2000></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </fieldset>    
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #/ container -->
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+{% endblock %}

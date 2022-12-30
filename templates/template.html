@@ -13,7 +13,8 @@
     <link href="/static/plugins/summernote/dist/summernote.css" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/upload_drag_abd_drop.css">
-    <style>
+   <!--style do alerta no comprovante de despesas-->
+   <style>
         .alert-warning {
           position: relative;
         }
@@ -141,7 +142,7 @@
                 <!-- Categories: success (green), info (blue), warning (yellow), danger (red) -->
                 {% if messages %}
                     {% for category, message in messages %}
-                    <div class="alert alert-primary alert-dismissible fade show" role="alert" style="width: 35%;margin-left: 37%;">
+                    <div id="flash-message" class="alert alert-primary alert-dismissible fade show" role="alert" style="width: 35%;margin-left: 37%;">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <!-- <strong>Title</strong> --> {{ message }}
                     </div>
@@ -169,14 +170,21 @@
                             </i><span class="nav-text">Cadastros</span>
                         </a>
                         <ul aria-expanded="false">
+                            {% if 'Clientes' in permissions[current_user] %}
                             <li><a href="##">Clientes</a></li>
+                            {% endif %}
                         </ul>
                         <ul aria-expanded="false">
+                            {% if 'Motivos' in permissions[current_user] %}
                             <li><a href="##">Motivos</a></li>
+                            {% endif %}
                         </ul>
                         <ul aria-expanded="false">
+                            {% if 'Tipos de Despesa' in permissions[current_user] %}
                             <li><a href="##">Tipos de Despesa</a></li>
+                            {% endif %}
                         </ul>
+
                     </li>
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
@@ -186,8 +194,12 @@
                                 </svg> 
                             </i><span class="nav-text">Atendimentos</span>
                         </a>
-                        <ul aria-expanded="false">
+                       <!-- <ul aria-expanded="false">
                             <li><a href="{{url_for('index')}}">Atendimentos</a></li>
+                        </ul> 
+                        -->
+                        <ul aria-expanded="false">
+                            <li><a href="{{url_for('index_Reembolso_Adiantamento')}}">Reembolso/Adiantamento</a></li>
                         </ul>
                     </li>
                     <li>
@@ -195,7 +207,7 @@
                             <i class="icon-user menu-icon"></i> <span class="nav-text">Usuários</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="##">Perfil de Usuário</a></li>
+                            <li><a href="{{url_for('perfil_usuario')}}">Perfil de Usuário</a></li>
                             <li><a href="##">Usuários</a></li>
                             <li><a href="##">Alterar Senha</a></li>
                         </ul>
@@ -240,6 +252,13 @@
     <script src="/static/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
     <script src="/static/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
     <script src="/static/js/upload_drag_and_drop.js"></script>
+
+    <script>
+    setTimeout(function() {
+        document.getElementById("flash-message").style.display = "none";
+    }, 2000);
+    </script>
+
     
     <script>$(document).ready(function() {
             $('#example').DataTable( {
@@ -265,6 +284,12 @@
     {% if despesa_edit_upload != undefined %}
     <script>
       $('#fileModal').modal('show')  
+    </script>
+    {% endif %}
+
+    {% if despesa_exibir_comprovante != undefined %}
+    <script>
+      $('#Modal-exibir-comprovante').modal('show')  
     </script>
     {% endif %}
 

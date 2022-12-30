@@ -13,7 +13,7 @@ def autenticar():
         if request.form['senha'] == usuario.senha:
             session['usuario_logado'] = usuario.login
             flash(usuario.login + ' logado com sucesso!')
-            return redirect(url_for('index'))
+            return redirect(url_for('index_Reembolso_Adiantamento'))
     else:
         flash('Senha ou Usuário inválido. Verifique!')
         return redirect(url_for('login'))

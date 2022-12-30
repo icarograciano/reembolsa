@@ -8,8 +8,8 @@
             <div class="row page-titles mx-0">
                 <div class="col p-md-0">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ url_for('index') }}">Atendimentos</a></li>
-                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Editar Lançamento</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url_for('index_Reembolso_Adiantamento') }}">Reembolso/Adiantamento</a></li>
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Editar</a></li>
                     </ol>
                 </div>
             </div>
@@ -21,12 +21,12 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="form-validation">
-                                    <form class="form-valide" action="{{ url_for('atualiza_atendimento_1') }}" method="post">
+                                    <form class="form-valide" action="{{ url_for('atualiza_reemb_adian') }}" method="post">
                                     <fieldset>
                                         <input type="hidden" name="id" value="{{reg_insert.id}}">
-                                        <a href="{{ url_for('index') }}" data-placement="top" title="Modo Lista" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-list" style="margin: 0 3px;"></i>Modo Lista</a>
+                                        <a href="{{ url_for('index_Reembolso_Adiantamento') }}" data-placement="top" title="Modo Lista" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-list" style="margin: 0 3px;"></i>Modo Lista</a>
                                         <button type="submit" title="Gravar alterações" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-save"></i> Gravar</button>
-                                        <a target="_blank" href="{{ url_for('generate_report', id = reg_insert.id ) }}" data-placement="top" title="Imprimir atendimento" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-print" style="margin: 0 3px;"></i>Imprimir atendimento</a>
+                                        <a target="_blank" href="{{ url_for('rel_reemb_adian', id = reg_insert.id ) }}" data-placement="top" title="Imprimir atendimento" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-print" style="margin: 0 3px;"></i>Imprimir atendimento</a>
                                         <!--<button type="button" title="Enviar e-mail com o atendimento" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-envelope"></i> E-mail</button>-->
                                         <button class="btn waves-effect waves-light btn-sm btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" style="font-weight: bold;">
                                             <i class="fas fa-more_horiz"> Ações</i>
@@ -82,21 +82,6 @@
                                                                     <option>Visita Comercial</option>
                                                                 </select>
                                                             </div>
-                                                            <!--
-                                                            <div class="form-group col-md-2">
-                                                                <label>Cliente</label>
-                                                                <strong class="text-danger ng-star-inserted"> *</strong>
-                                                                <input type="text" name="atendimento_cliente" class="form-control">
-                                                                
-                                                            </div>
-                                                            <div class="form-group col-md-5" style="padding-left: 0px; padding-top: 20px; margin-left: -10px; margin-top: 9px;">
-                                                                <div class="input-group">
-                                                                    <input readonly="" type="text" id="descricaoComponentCliente" formcontrolname="descricao" name="atendimento_descricao_cliente" class="form-control ng-untouched ng-pristine ng-valid">
-                                                                    <button style="height: 32px;" type="button" title="Localizar Cliente" class="btn btn-outline-info">
-                                                                        <i class="fa fa-search"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </div>-->
                                                         </div>
                                                         <div class="row">
                                                         </div>
@@ -106,16 +91,6 @@
                                                                     <label>Data Atendimento</label>
                                                                     <strong class="text-danger ng-star-inserted"> *</strong>
                                                                     <input type="date" class="form-control ng-pristine ng-valid ng-touched" name="atendimento_dt_atendimento" style="text-align: center;" value="{{reg_insert.dt_atendimento}}">
-                                                                </div>
-                                                                <div class="form-group col-md-4">
-                                                                    <label>Hora Inicio</label>
-                                                                    <strong class="text-danger ng-star-inserted"> *</strong>
-                                                                    <input type="time" class="form-control ng-pristine ng-valid ng-touched" name="hora_ini" style="text-align: center;" value="{{reg_insert.hora_ini}}">
-                                                                </div>
-                                                                <div class="form-group col-md-4">
-                                                                    <label>Hora Fim</label>
-                                                                    <strong class="text-danger ng-star-inserted"> *</strong>
-                                                                    <input type="time" class="form-control ng-pristine ng-valid ng-touched" name="hora_fim" style="text-align: center;" value="{{reg_insert.hora_fim}}">
                                                                 </div>
                                                                 <div class="form-group col-md-4">
                                                                     <label>Atendente</label>
@@ -129,22 +104,11 @@
                                                                         <option>Nicanor Soares</option>
                                                                     </select>
                                                                 </div>
-                                                                <div class="form-group col-md-4">
-                                                                    <label>Faturado?</label>
-                                                                    <strong class="text-danger ng-star-inserted"> *</strong>
-                                                                    <select class="form-control" id="sel1" name="faturado">
-                                                                        <option value="selected" selected disabled hidden>{{reg_insert.faturado}}</option>
-                                                                        <option>Não</option>
-                                                                        <option>Sim</option>
-                                                                    </select>
-                                                                </div>
                                                             </div>
                                                         </div>
                                                         <hr>
                                                         <ul class="nav nav-pills mb-3">
                                                             <li class="nav-item"><a href="#navpills-2" class="nav-link {% if navpills == 'navpills_2' %} active {% endif%}" data-toggle="tab" aria-expanded="true">Resumo do Atendimento</a>
-                                                            </li>
-                                                            <li class="nav-item"><a href="#navpills-3" class="nav-link {% if navpills == 'navpills_3' %} active {% endif%}" data-toggle="tab" aria-expanded="true">Intervalos</a>
                                                             </li>
                                                             <li class="nav-item"><a href="#navpills-4" class="nav-link {% if navpills == 'navpills_4' %} active {% endif%}" data-toggle="tab" aria-expanded="true">Despesas</a>
                                                             </li>
@@ -157,191 +121,6 @@
                                                                 </div>
                                                                 <textarea class="form-control" id="val-suggestions" name="atendimento_discriminacao" rows="10" maxlength=2000>{{reg_insert.descr_atendimento}}</textarea>
                                                             </div>
-                                                            <div id="navpills-3" class="tab-pane {% if navpills == 'navpills_3' %} active {% endif%}">
-                                                                <div class="row align-items-center">
-                                                                    <div class="col-sm-6 col-md-8 col-xl-10">
-                                                                    </div>
-                                                                    <div class="tab-pane fade ng-star-inserted active show" id="ngb-nav-114-panel" role="tabpanel"
-                                                                        aria-labelledby="ngb-nav-114" style="width:100%">
-                                                                            <button type="button" title="Detalhe Intervalo de Atendimento" 
-                                                                                class="btn waves-effect waves-light btn-sm btn-info" data-toggle="modal" 
-                                                                                data-target="#modal_edita_atendimento_detalhe_intervalo" style="font-weight: bold;">
-                                                                                <i class="fa fa-plus"></i> 
-                                                                                Inserir intervalo
-                                                                            </button>
-                                                                            <hr>
-                                                                            <!-- Modal -->
-                                                                            <div class="modal fade" id="modal_edita_atendimento_detalhe_intervalo">
-                                                                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                                                                                    <div class="modal-content">
-                                                                                        <div class="modal-header">
-                                                                                            <h4 id="modal-basic-title" class="modal-title">Detalhe Intervalo no Atendimento</h4>
-                                                                                            <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
-                                                                                        </div>
-                                                                                        <div class="modal-body">
-                                                                                            <form  action="{{ url_for('criar_intervalo') }}" method="post" class="ng-untouched ng-pristine ng-invalid">
-                                                                                            <fieldset>
-                                                                                                <div class="row">
-                                                                                                    <input type="hidden" name="id_lancamento" value="{{ reg_insert.id }}">
-                                                                                                    <div class="col-sm-6"><label class="control-label" style="font-weight: bold;">Início</label><strong
-                                                                                                            class="text-danger"> *</strong><input apponlytime="" appnexttab="" formcontrolname="inicio" type="time"
-                                                                                                            class="form-control ng-untouched ng-pristine ng-invalid"
-                                                                                                            style="text-align: center; background-color: white;" name="hora_ini">
-                                                                                                    </div>
-                                                                                                <div class="col-sm-6"><label class="control-label" style="font-weight: bold;">Término</label><strong
-                                                                                                        class="text-danger"> *</strong><input apponlytime="" appnexttab="" formcontrolname="termino" type="time"
-                                                                                                        class="form-control ng-untouched ng-pristine ng-invalid" style="text-align: center;" name="hora_fim">
-                                                                                                </div>
-                                                                                                </div><br>
-                                                                                                <div class="row">
-                                                                                                    <div class="col-sm-12"><label class="control-label" style="font-weight: bold;">Motivo do
-                                                                                                            Intervalo</label><strong class="text-danger"> *</strong>
-                                                                                                        <select appnexttab="" formcontrolname="idMotivoIntervalo" id="cmbMotivo" name="tipo"
-                                                                                                            class="form-control ng-untouched ng-pristine ng-invalid">
-                                                                                                            <option> --------------------- </option>
-                                                                                                            <option> Acompanhando Processo </option>
-                                                                                                            <option> Aguardando Atendimento Da Software House </option>
-                                                                                                            <option> Aguardando Cliente </option>
-                                                                                                            <option> Aguardando Correcao Da Software House </option>
-                                                                                                            <option> Ajuste Do Desenvolvimento </option>
-                                                                                                            <option> Almoco </option>
-                                                                                                            <option> Break </option>
-                                                                                                            <option> Descanso </option>
-                                                                                                            <option> Falta De Conexao Na Loja </option>
-                                                                                                            <option> Intervencao XC </option>
-                                                                                                            <option> Janta </option>
-                                                                                                            <option> Problemas De Conexao </option>
-                                                                                                            <option> Problemas Na Versao </option>
-                                                                                                            <option> Refeicao </option>
-                                                                                                        </select>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <br>
-                                                                                                <strong class="text-danger"> *</strong> Campos obrigatórios
-                                                                                                <br><br>
-                                                                                                <div>
-                                                                                                    <button type="submit" class="btn waves-effect waves-light btn-sm btn-success" style="font-weight: bold;">
-                                                                                                        <i class="fa fa-save"></i>
-                                                                                                        <a>Gravar</a>
-                                                                                                    </button>
-                                                                                                </div>
-                                                                                            </fieldset>
-                                                                                            </form>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <!---->
-                                                                            <div class="table-responsive">
-                                                                                <table id="tabelaIntervalos" class="table table-hover table-striped table-bordered display" width="100%">
-                                                                                    <thead>
-                                                                                        <tr>
-                                                                                            <th>Início</th>
-                                                                                            <th>Término</th>
-                                                                                            <th>Motivo</th>
-                                                                                            <th class="ng-star-inserted">Ações</th>
-                                                                                            <!---->
-                                                                                        </tr>
-                                                                                    </thead>
-                                                                                    <tbody class="ng-star-inserted">
-                                                                                        {% for intervalo in intervalos %}
-                                                                                        <tr class="ng-star-inserted">
-                                                                                            <td>{{intervalo.hora_ini}}</td>
-                                                                                            <td>{{intervalo.hora_fim}}</td>
-                                                                                            <td>{{intervalo.tipo}}</td>
-                                                                                            <td style="text-align: center;" class="ng-star-inserted" width="5%">
-                                                                                                <div class="btn-group">
-                                                                                                    <a href="{{ url_for('editar_intervalo', id=intervalo.id, id_lancamento = intervalo.id_lancamento) }}" data-placement="top" title="Editar linha"><i class="fa fa-edit text-primary m-r-10" style="margin: 0 3px;"></i></a>
-                                                                                                    <a  href="{{ url_for('deletar_intervalo', id=intervalo.id, id_lancamento = intervalo.id_lancamento) }}" data-placement="top" title="Excluir linha"><i class="fa fa fa-minus text-danger" style="margin: 0 8px;"></i></a>
-                                                                                                </div>
-                                                                                            </td>
-                                                                                            <!---->
-                                                                                        </tr>
-                                                                                        {% endfor %}
-                                                                                        <!---->
-                                                                                    </tbody>
-                                                                                    <!---->
-                                                                                    <!---->
-                                                                                </table>
-                                                                            </div>
-                                                                        <!---->
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!-- Modal Intervalos (edição)-->
-                                                            <div class="modal fade" id="modal_edita_atendimento_detalhe_intervalo_1">
-                                                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-header">
-                                                                            <h4 id="modal-basic-title" class="modal-title">Detalhe Intervalo no Atendimento
-                                                                            </h4>
-                                                                            <a href="{{ url_for('edita_atendimento', reg_insert=reg_insert.id, navpills = 'navpills_3')}}">
-                                                                                <i class="fa fa-times" arial-hdden="true"></i>
-                                                                            </a>
-                                                                        </div>
-                                                                        <div class="modal-body">
-                                                                            <form action="{{ url_for('atualizar_intervalo') }}" method="post" novalidate=""
-                                                                                class="ng-untouched ng-pristine ng-invalid">
-                                                                                <div class="row">
-                                                                                    <input type="hidden" name="id" value="{{ intervalo_edit.id if intervalo_edit != undefined else '' }}">
-                                                                                    <div class="col-sm-6">
-                                                                                        <label class="control-label" style="font-weight: bold;">Início</label>
-                                                                                        <strong class="text-danger"></strong>
-                                                                                        <input apponlytime="" appnexttab="" formcontrolname="inicio" type="time" class="form-control ng-untouched ng-pristine ng-invalid" 
-                                                                                        style="text-align: center; background-color: white;" name="hora_ini" 
-                                                                                        value="{{intervalo_edit.hora_ini if intervalo_edit != undefined else ''}}">
-                                                                                    </div>
-                                                                                    <div class="col-sm-6"><label class="control-label"
-                                                                                            style="font-weight: bold;">Término</label><strong
-                                                                                            class="text-danger"></strong><input apponlytime=""
-                                                                                            appnexttab="" formcontrolname="termino" type="time"
-                                                                                            class="form-control ng-untouched ng-pristine ng-invalid"
-                                                                                            style="text-align: center;" name="hora_fim" value="{{intervalo_edit.hora_fim if intervalo_edit != undefined else ''}}">
-                                                                                    </div>
-                                                                                </div><br>
-                                                                                <div class="row">
-                                                                                    <div class="col-sm-12"><label class="control-label"
-                                                                                            style="font-weight: bold;">Motivo do
-                                                                                            Intervalo</label><strong class="text-danger"> *</strong>
-                                                                                        <select
-                                                                                            appnexttab="" formcontrolname="idMotivoIntervalo" id="cmbMotivo"
-                                                                                            class="form-control ng-untouched ng-pristine ng-invalid"
-                                                                                            name="tipo">
-                                                                                            <option value="selected" selected disabled hidden>{{intervalo_edit.tipo if intervalo_edit != undefined else ''}}</option>
-                                                                                            <option> Acompanhando Processo </option>
-                                                                                            <option> Aguardando Atendimento Da Software House </option>
-                                                                                            <option> Aguardando Cliente</option>
-                                                                                            <option> Aguardando Correcao Da Software House </option>
-                                                                                            <option> Ajuste Do Desenvolvimento </option>
-                                                                                            <option> Almoco </option>
-                                                                                            <option> Break </option>
-                                                                                            <option> Descanso </option>
-                                                                                            <option> Falta De Conexao Na Loja </option>
-                                                                                            <option> Intervencao XC</option>
-                                                                                            <option> Janta </option>
-                                                                                            <option> Problemas De Conexao </option>
-                                                                                            <option> Problemas Na Versao</option>
-                                                                                            <option> Refeicao </option>
-                                                                                        </select>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <br>
-                                                                                <strong class="text-danger"> *</strong> Campos obrigatórios
-                                                                                <br><br>
-                                                                                <div><button type="submit"
-                                                                                        class="btn waves-effect waves-light btn-sm btn-success"
-                                                                                        style="font-weight: bold;"><i class="fa fa-save"></i>
-                                                                                        Gravar</button>
-                                                                                </div>
-                                                                            </form>
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                        
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!---->
                                                             <div id="navpills-4" class="tab-pane {% if navpills == 'navpills_4' %} active {% endif%}">
                                                                 <div class="row align-items-center">
                                                                     <div class="col-sm-6 col-md-8 col-xl-10">
@@ -364,35 +143,33 @@
                                                                                             <fieldset>    
                                                                                                 <div class="row">
                                                                                                     <input type="hidden" name="id_lancamento" value="{{ reg_insert.id }}">
+                                                                                                    <div class="form-group col-md-4">
+                                                                                                        <label class="control-label" style="font-weight: bold;">Data</label>
+                                                                                                        <strong class="text-danger ng-star-inserted"> *</strong>
+                                                                                                        <input type="date" class="form-control ng-untouched ng-pristine ng-invalid" 
+                                                                                                        style="text-align: center;" name="dt_despesa">
+                                                                                                    </div>
                                                                                                     <div class="col-sm-9">
                                                                                                         <label class="control-label" style="font-weight: bold;">Tipo</label>
                                                                                                         <strong class="text-danger"> *</strong>
                                                                                                         <select appnexttab="" formcontrolname="idLancamento" class="form-control ng-pristine ng-valid ng-touched" name="tipo">
-                                                                                                            <option class="ng-star-inserted"> Acordo Comercial </option>
-                                                                                                            <option class="ng-star-inserted"> Alimentacao </option>
-                                                                                                            <option class="ng-star-inserted"> Aluguel De Carros </option>
-                                                                                                            <option class="ng-star-inserted"> Combustivel Tecnicos </option>
-                                                                                                            <option class="ng-star-inserted"> Estacionamentos </option>
-                                                                                                            <option class="ng-star-inserted"> Frete </option>
+                                                                                                            <option class="ng-star-inserted"> Adiantamento </option>
+                                                                                                            <option class="ng-star-inserted"> Almoco </option>
+                                                                                                            <option class="ng-star-inserted"> Aluguel De Carro </option>
+                                                                                                            <option class="ng-star-inserted"> Cafe da manha </option>
+                                                                                                            <option class="ng-star-inserted"> Cafe da tarde </option>
+                                                                                                            <option class="ng-star-inserted"> Combustivel </option>
+                                                                                                            <option class="ng-star-inserted"> Estacionamento </option>
                                                                                                             <option class="ng-star-inserted"> Hospedagem </option>
-                                                                                                            <option class="ng-star-inserted"> Insumos </option>
+                                                                                                            <option class="ng-star-inserted"> Jantar </option>
                                                                                                             <option class="ng-star-inserted"> Km Carro </option>
                                                                                                             <option class="ng-star-inserted"> Laboratorio </option>
-                                                                                                            <option class="ng-star-inserted"> Manutencao De Veiculos </option>
-                                                                                                            <option class="ng-star-inserted"> Mao De Obra De Consultoria </option>
-                                                                                                            <option class="ng-star-inserted"> Mao De Obra Hardware </option>
                                                                                                             <option class="ng-star-inserted"> Outros </option>
-                                                                                                            <option class="ng-star-inserted"> Pacote De Horas </option>
                                                                                                             <option class="ng-star-inserted"> Passagem Aviao </option>
-                                                                                                            <option class="ng-star-inserted"> Passagem Metro </option>
-                                                                                                            <option class="ng-star-inserted"> Passagem Onibus Intermunicipal </option>
-                                                                                                            <option class="ng-star-inserted"> Passagem Onibus Municipal </option>
-                                                                                                            <option class="ng-star-inserted"> Passagem Onibus Rodoviario </option>
-                                                                                                            <option class="ng-star-inserted"> Passagem Trem </option>
+                                                                                                            <option class="ng-star-inserted"> Passagem Metro/Trem</option>
+                                                                                                            <option class="ng-star-inserted"> Passagem Onibus </option>
                                                                                                             <option class="ng-star-inserted"> Pedagios </option>
-                                                                                                            <option class="ng-star-inserted"> Scrum Premiacao </option>
-                                                                                                            <option class="ng-star-inserted"> Taxi </option>
-                                                                                                            <option class="ng-star-inserted"> Visita Tecnica </option>
+                                                                                                            <option class="ng-star-inserted"> Uber/Taxi </option>
                                                                                                             <!---->
                                                                                                         </select>
                                                                                                         <!---->
@@ -442,6 +219,7 @@
                                                                     <table id="tabelaDespesas" class="table table-hover table-striped table-bordered display" width="100%">
                                                                         <thead>
                                                                             <tr>
+                                                                                <th style="text-align: center;">Data</th>
                                                                                 <th style="text-align: center;">Tipo</th>
                                                                                 <th style="text-align: center;">Qtde</th>
                                                                                 <th style="text-align: center;">Valor</th>
@@ -453,23 +231,27 @@
                                                                             <tbody class="ng-star-inserted">
                                                                                 {% for despesa in despesas %}
                                                                                 <tr class="ng-star-inserted">
-                                                                                    <td style="text-align: left;" width="10%">{{despesa.tipo}}</td>
+                                                                                    <td style="text-align: center;" width="10%">{{despesa.dt_despesa.strftime('%d/%m/%Y')}}</td>
+                                                                                    <td style="text-align: center;" width="10%">{{despesa.tipo}}</td>
                                                                                     <td style="text-align: center;" width="5%">{{despesa.quantidade}}</td>
                                                                                     <td style="text-align: center;" width="10%">{{"R$ {:,.2f}".format(despesa.valor_despesa)}}</td>
                                                                                     <td style="text-align: center;" width="10%">{{"R$ {:,.2f}".format(despesa.valor_total)}}</td>
                                                                                     <td style="text-align: center;" width="30%">{{despesa.observacao}}</td>
                                                                                     <td style="text-align: center;" class="ng-star-inserted" width="5%">
-                                                                                        <div class="btn-group">
+                                                                                        <div class="btn-group" style="align-items: center;">
                                                                                             <a href="{{ url_for('editar_despesa', id=despesa.id, id_lancamento = despesa.id_lancamento) }}" data-placement="top" title="Editar linha"><i class="fa fa-edit text-primary m-r-10" style="margin: 0 3px;"></i></a>
                                                                                             <a  href="{{ url_for('upload_despesa', id=despesa.id, id_lancamento = despesa.id_lancamento) }}" data-placement="top" title="Anexar Comprovante de Despesa"><i class="fa fa fa-upload text-primary" style="margin: 0 8px;"></i></a>
                                                                                             <a  href="{{ url_for('deletar_despesa', id=despesa.id, id_lancamento = despesa.id_lancamento) }}" data-placement="top" title="Excluir linha"><i class="fa fa fa-minus text-danger" style="margin: 0 8px;"></i></a>
+                                                                                            {% if despesa.anexo == 'N' %}
+                                                                                            <div class="alert alert-warning" role="alert">
+                                                                                                <i class="fa fa-exclamation-triangle fa-lg fa-fw"></i>
+                                                                                                Anexe um comprovante!
+                                                                                            </div>
+                                                                                            {% endif %}
+                                                                                            {% if despesa.anexo == 'S' %}
+                                                                                            <a  href="{{url_for('exibir_comprovante', id_lancamento = despesa.id_lancamento, nome_arquivo = despesa.nome_arquivo) }}" data-placement="top" title="Exibir Comprovante"><i class="fa fa fa-image text-primary" style="margin: 0 8px"></i></a>
+                                                                                            {% endif %}
                                                                                         </div>
-                                                                                        {% if despesa.anexo == 'N' %}
-                                                                                        <div class="alert alert-warning" role="alert">
-                                                                                            <i class="fa fa-exclamation-triangle fa-lg fa-fw"></i>
-                                                                                            Anexe um comprovante!
-                                                                                        </div>
-                                                                                        {% endif %}
                                                                                     </td><!---->
                                                                                 </tr><!---->
                                                                                 <!-- Modal upload file -->
@@ -478,7 +260,7 @@
                                                                                     <div class="modal-content">
                                                                                         <div class="modal-header">
                                                                                         <h5 class="modal-title" id="fileModalLabel">Anexar arquivos</h5>
-                                                                                        <a href="{{ url_for('edita_atendimento', reg_insert=reg_insert.id, navpills = 'navpills_4')}}">
+                                                                                        <a href="{{ url_for('edita_reemb_adian', reg_insert=reg_insert.id, navpills = 'navpills_4')}}">
                                                                                             <i class="fa fa-times" arial-hdden="true"></i>
                                                                                         </a>
                                                                                         </button>
@@ -504,11 +286,34 @@
                                                                                     </div>
                                                                                 </div>
                                                                                 <!-- Fim Modal upload file -->
+                                                                                <!--Modal de exibição do comprovante de despesa-->
+                                                                                <div class="modal fade" id="Modal-exibir-comprovante" tabindex="-1" role="dialog" aria-labelledby="fileModalLabel" aria-hidden="true">
+                                                                                    <div class="modal-dialog" role="document">
+                                                                                        <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <h5 class="modal-title" id="fileModalLabel">Arquivo</h5>
+                                                                                            <a href="{{ url_for('edita_reemb_adian', reg_insert=reg_insert.id, navpills = 'navpills_4')}}">
+                                                                                                <i class="fa fa-times" arial-hdden="true"></i>
+                                                                                            </a>
+                                                                                        </div>
+                                                                                        <div class="modal-body">
+                                                                                            <iframe src="/static/uploads/{{despesa_exibir_comprovante if despesa_exibir_comprovante != undefined else ''}}" frameborder="0" width="100%" height="500"></iframe>
+                                                                                        </div>
+                                                                                        <div class="modal-footer">
+                                                                                            <a href="{{ url_for('edita_reemb_adian', reg_insert=reg_insert.id, navpills = 'navpills_4')}}" class="btn btn-secondary">
+                                                                                                Fechar
+                                                                                            </a>
+                                                                                        </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <!--Fim Modal de exibição do comprovante de despesa-->
                                                                                 {% endfor %}
                                                                             </tbody><!---->
                                                                             <tfoot class="ng-star-inserted">
                                                                                 <tr>
                                                                                     <td style="text-align: left; font-weight: bold;" width="10%">Total</td>
+                                                                                    <td style="text-align: right;" width="5%"></td>
                                                                                     <td style="text-align: right;" width="5%"></td>
                                                                                     <td style="text-align: right;" width="5%"></td>
                                                                                     <td style="text-align: center; font-weight: bold;" width="10%">{{"R$ {:,.2f}".format(despesas_total)}}</td>
@@ -526,7 +331,7 @@
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
                                                                             <h4 id="modal-basic-title" class="modal-title">Detalhe da Despesa no Atendimento</h4>
-                                                                            <a href="{{ url_for('edita_atendimento', reg_insert=reg_insert.id, navpills = 'navpills_4')}}">
+                                                                            <a href="{{ url_for('edita_reemb_adian', reg_insert=reg_insert.id, navpills = 'navpills_4')}}">
                                                                                 <i class="fa fa-times" arial-hdden="true"></i>
                                                                             </a>
                                                                         </div>
@@ -534,36 +339,34 @@
                                                                             <form action="{{ url_for('atualizar_despesa') }}" method="post" class="ng-pristine ng-invalid ng-touched">
                                                                                 <div class="row">
                                                                                     <input type="hidden" name="id" value="{{ despesa_edit.id if despesa_edit != undefined else ''}}">
+                                                                                    <div class="form-group col-md-4">
+                                                                                        <label class="control-label" style="font-weight: bold;">Data</label>
+                                                                                        <strong class="text-danger ng-star-inserted"> *</strong>
+                                                                                        <input type="date" class="form-control ng-untouched ng-pristine ng-invalid" 
+                                                                                        style="text-align: center;" name="dt_despesa" value="{{ despesa_edit.dt_despesa if despesa_edit != undefined else ''}}">
+                                                                                    </div>
                                                                                     <div class="col-sm-9">
                                                                                         <label class="control-label" style="font-weight: bold;">Tipo</label>
                                                                                         <strong class="text-danger"> *</strong>
                                                                                         <select appnexttab="" formcontrolname="idLancamento" class="form-control ng-pristine ng-valid ng-touched" name="tipo">
                                                                                             <option value="selected" selected disabled hidden>{{despesa_edit.tipo if despesa_edit != undefined else ''}}</option>
-                                                                                            <option class="ng-star-inserted"> Acordo Comercial </option>
-                                                                                            <option class="ng-star-inserted"> Alimentacao </option>
-                                                                                            <option class="ng-star-inserted"> Aluguel De Carros </option>
-                                                                                            <option class="ng-star-inserted"> Combustivel Tecnicos </option>
-                                                                                            <option class="ng-star-inserted"> Estacionamentos </option>
-                                                                                            <option class="ng-star-inserted"> Frete </option>
+                                                                                            <option class="ng-star-inserted"> Adiantamento </option>
+                                                                                            <option class="ng-star-inserted"> Almoco </option>
+                                                                                            <option class="ng-star-inserted"> Aluguel De Carro </option>
+                                                                                            <option class="ng-star-inserted"> Cafe da manha </option>
+                                                                                            <option class="ng-star-inserted"> Cafe da tarde </option>
+                                                                                            <option class="ng-star-inserted"> Combustivel </option>
+                                                                                            <option class="ng-star-inserted"> Estacionamento </option>
                                                                                             <option class="ng-star-inserted"> Hospedagem </option>
-                                                                                            <option class="ng-star-inserted"> Insumos </option>
+                                                                                            <option class="ng-star-inserted"> Jantar </option>
                                                                                             <option class="ng-star-inserted"> Km Carro </option>
                                                                                             <option class="ng-star-inserted"> Laboratorio </option>
-                                                                                            <option class="ng-star-inserted"> Manutencao De Veiculos </option>
-                                                                                            <option class="ng-star-inserted"> Mao De Obra De Consultoria </option>
-                                                                                            <option class="ng-star-inserted"> Mao De Obra Hardware </option>
                                                                                             <option class="ng-star-inserted"> Outros </option>
-                                                                                            <option class="ng-star-inserted"> Pacote De Horas </option>
                                                                                             <option class="ng-star-inserted"> Passagem Aviao </option>
-                                                                                            <option class="ng-star-inserted"> Passagem Metro </option>
-                                                                                            <option class="ng-star-inserted"> Passagem Onibus Intermunicipal </option>
-                                                                                            <option class="ng-star-inserted"> Passagem Onibus Municipal </option>
-                                                                                            <option class="ng-star-inserted"> Passagem Onibus Rodoviario </option>
-                                                                                            <option class="ng-star-inserted"> Passagem Trem </option>
+                                                                                            <option class="ng-star-inserted"> Passagem Metro/Trem</option>
+                                                                                            <option class="ng-star-inserted"> Passagem Onibus </option>
                                                                                             <option class="ng-star-inserted"> Pedagios </option>
-                                                                                            <option class="ng-star-inserted"> Scrum Premiacao </option>
-                                                                                            <option class="ng-star-inserted"> Taxi </option>
-                                                                                            <option class="ng-star-inserted"> Visita Tecnica </option>
+                                                                                            <option class="ng-star-inserted"> Uber/Taxi </option>
                                                                                             <!---->
                                                                                         </select>
                                                                                         <!---->

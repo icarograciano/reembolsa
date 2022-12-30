@@ -1,29 +1,41 @@
 from flask import render_template, request, redirect, session, flash, url_for, send_file
 from app import app, db
-from models import Lancamentos, Intervalos, Despesas, Usuarios, present_time 
-from sqlalchemy import func
+from models import Lancamentos, Intervalos, Despesas, Usuarios, present_time, Lancamentos_query 
+from sqlalchemy import func, text
 from jsintegration.JasperServerIntegration import JasperServerIntegration
 from io import BytesIO
 
+
+permissions = {
+    'icaro.graciano@xcsolucoes.com.br': ['Clientes', 'Motivos'],
+    'hilton.rocha@xcsolucoes.com.br': ['Tipos de Despesa']
+}
+
+#pagina inicial com tabela dos registros
 @app.route('/')
-@app.route('/index')
-def index():
+@app.route('/reemb_adian')
+def index_Reembolso_Adiantamento():
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login'))
-    lista = Lancamentos.query.order_by(Lancamentos.id)
+    #lista = Lancamentos.query.order_by(Lancamentos.id)
+    query = text('''SELECT t1.*, 
+                    (select sum(t2.valor_total) from app_admin.despesas t2 where t2.id_lancamento = t1.id) as valor_total
+                    FROM app_admin.lancamentos t1 ORDER BY id''')
+    lista = Lancamentos_query.query.from_statement(query).all()
     nome_usuario = Usuarios.query.filter_by(login=session['usuario_logado']).first()
-    return render_template('index.html', user_session = nome_usuario.nome, atendimentos_lis = lista)
+    return render_template('index-Reembolso-Adiantamento.html', user_session = nome_usuario.nome, atendimentos_lis = lista, current_user=nome_usuario.login, permissions=permissions)
 
-@app.route('/lancamentos/novo')
-def novo_atendimento():
+#redirecionamento para inserir novo registro
+@app.route('/reemb_adian/novo')
+def novo_reemb_adian():
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login'))
     nome_usuario = Usuarios.query.filter_by(login=session['usuario_logado']).first()
-    return render_template('atendimentos.html', user_session = nome_usuario.nome)
+    return render_template('Reembolso-Adiantamento.html', user_session = nome_usuario.nome)
 
-
-@app.route('/lancamentos/criar', methods=['POST',])
-def criar_atendimento():
+#inserindo novo registro
+@app.route('/reemb_adian/criar', methods=['POST',])
+def criar_reemb_adian():
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login'))
 
@@ -31,30 +43,22 @@ def criar_atendimento():
     atendimento_motivo = request.form['atendimento_motivo']
     atendimento_discriminacao = request.form['atendimento_discriminacao']
     atendimento_dt_atendimento = request.form['atendimento_dt_atendimento']
-    hora_ini = request.form['hora_ini']
-    hora_fim = request.form['hora_fim']
     atendimento_atendente = request.form['atendimento_atendente']
-    faturado = request.form['faturado']
     atendimento_status = "Aberto"
 
-    #id_lancamento = Lancamentos.query.filter_by(id=id).first()
-
-    #if id_lancamento:
-    #    flash('Registro já existe!')
-    #    return redirect(url_for('novo_atendimento'))
-
     novo_lancamento = Lancamentos(cliente = atendimento_cliente, motivo = atendimento_motivo, dt_atendimento = atendimento_dt_atendimento,
-    hora_ini = hora_ini, hora_fim = hora_fim, descr_atendimento = atendimento_discriminacao, atendente = atendimento_atendente, 
-    faturado = faturado, status = atendimento_status, usuario_add = session['usuario_logado'] , usuario_edicao = session['usuario_logado'], 
+    descr_atendimento = atendimento_discriminacao, atendente = atendimento_atendente, 
+    status = atendimento_status, usuario_add = session['usuario_logado'] , usuario_edicao = session['usuario_logado'], 
     data_add = f'''{present_time}''' , data_edicao = f'''{present_time}''')
     
     db.session.add(novo_lancamento)
     db.session.commit()
     flash('Registro incluído com sucesso!')
-    return redirect(url_for('edita_atendimento', reg_insert = novo_lancamento.id, navpills = 'navpills_2'))
+    return redirect(url_for('edita_reemb_adian', reg_insert = novo_lancamento.id, navpills = 'navpills_2'))
 
-@app.route('/lancamentos/editar/<int:reg_insert>/<navpills>')
-def edita_atendimento(reg_insert, navpills):
+#redirecionamento para editar novo registro
+@app.route('/reemb_adian/editar/<int:reg_insert>/<navpills>',  methods=['POST','GET'])
+def edita_reemb_adian(reg_insert, navpills):
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login'))
     navpills = navpills
@@ -67,17 +71,12 @@ def edita_atendimento(reg_insert, navpills):
     for despesa in despesas:
         despesas_total = despesas_total + despesa.valor_total
     despesas_total = despesas_total
-    return render_template('edita_atendimentos.html', user_session=nome_usuario.nome, reg_insert = reg_insert, intervalos = intervalos, 
-    despesas = despesas, despesas_total = despesas_total, navpills = navpills )
+    return render_template('edita_Reembolso-Adiantamento.html', user_session=nome_usuario.nome, reg_insert = reg_insert, intervalos = intervalos, 
+    despesas = despesas, despesas_total = despesas_total, navpills = navpills)
 
-@app.route('/lancamentos/editando', methods=['POST',])
-def editando_atendimento():
-    if 'usuario_logado' not in session or session['usuario_logado'] == None:
-        return redirect(url_for('login'))
-    return redirect(url_for('edita_atendimento'))
-
-@app.route('/lancamentos/atualizar_1', methods=['POST',])
-def atualiza_atendimento_1():
+#atualizando o registro
+@app.route('/reemb_adian/atualizar', methods=['POST',])
+def atualiza_reemb_adian():
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login'))
     reg_insert_1 = Lancamentos.query.filter_by(id=request.form['id']).first()
@@ -85,10 +84,7 @@ def atualiza_atendimento_1():
     reg_insert_1.cliente = request.form.get('atendimento_cliente') if request.form.get('atendimento_cliente') != None else reg_insert_1.cliente
     reg_insert_1.motivo = request.form.get('atendimento_motivo') if request.form.get('atendimento_motivo') != None else reg_insert_1.motivo 
     reg_insert_1.dt_atendimento = request.form['atendimento_dt_atendimento']
-    reg_insert_1.hora_ini = request.form['hora_ini']
-    reg_insert_1.hora_fim = request.form['hora_fim']
     reg_insert_1.atendente = request.form.get('atendimento_atendente') if request.form.get('atendimento_atendente') != None else reg_insert_1.atendente 
-    reg_insert_1.faturado = request.form.get('faturado') if request.form.get('faturado') != None else reg_insert_1.faturado
     reg_insert_1.descr_atendimento = request.form['atendimento_discriminacao']
     reg_insert_1.data_edicao = f'''{present_time}''' 
     reg_insert_1.usuario_edicao = session['usuario_logado']
@@ -96,10 +92,11 @@ def atualiza_atendimento_1():
     db.session.add(reg_insert_1)
     db.session.commit()
     flash('Registro editado com sucesso!')
-    return redirect(url_for('edita_atendimento', reg_insert = reg_insert_1.id, navpills = 'navpills_2'))
+    return redirect(url_for('edita_reemb_adian', reg_insert = reg_insert_1.id, navpills = 'navpills_2'))
 
-@app.route('/lancamentos/deletar/<int:id>')
-def deletar(id):
+#deletando o registro
+@app.route('/reemb_adian/deletar/<int:id>')
+def deletar_reemb_adian(id):
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login'))
     Lancamentos.query.filter_by(id=id).delete()
@@ -108,10 +105,11 @@ def deletar(id):
     db.session.commit()
     flash('Registro deletado com sucesso!')
 
-    return redirect(url_for('index'))
+    return redirect(url_for('index_Reembolso_Adiantamento'))
 
-@app.route('/generate_report/<int:id>', methods=['GET', 'POST'])
-def generate_report(id):
+#geração de relatorio 
+@app.route('/rel_reemb_adian/<int:id>', methods=['GET', 'POST'])
+def rel_reemb_adian(id):
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login'))
     parameter1 = id
@@ -140,8 +138,3 @@ def generate_report(id):
     # Exceção, caso ocorra um erro na geração do relatório
     except:
       print('Error ' + obj.error_code + ': ' + obj.error_message)
-
-
-
-
-

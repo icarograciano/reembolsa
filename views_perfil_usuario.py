@@ -59,36 +59,36 @@ def perfil_usuario_editar():
     for id in ids:
         query_1 = text(f'''SELECT * FROM app_admin.Perfil_Usuario_Det t1 where t1.id = {id}''')
         reg_insert_2 = PerfilUsuarioDet.query.from_statement(query_1).first()
-        print(request.form.get(f'mostrar_{id}'))
         reg_insert_2.mostrar = 'S' if request.form.get(f'mostrar_{id}') == 'S' else 'N'
-        print(reg_insert_2.mostrar)
+        reg_insert_2.data_edicao = f'''{present_time}''' 
+        reg_insert_2.usuario_edicao = session['usuario_logado']
         db.session.add(reg_insert_2)
 
     ids_1 = [int(k.split("_")[1]) for k in request.form.keys() if k.startswith("incluir_")]
     for id in ids_1:
         query_1 = text(f'''SELECT * FROM app_admin.Perfil_Usuario_Det t1 where t1.id = {id}''')
         reg_insert_2 = PerfilUsuarioDet.query.from_statement(query_1).first()
-        print(request.form.get(f'incluir_{id}'))
         reg_insert_2.incluir = 'S' if request.form.get(f'incluir_{id}') == 'S' else 'N'
-        print(reg_insert_2.incluir)
+        reg_insert_2.data_edicao = f'''{present_time}''' 
+        reg_insert_2.usuario_edicao = session['usuario_logado']        
         db.session.add(reg_insert_2)
 
     ids_2 = [int(k.split("_")[1]) for k in request.form.keys() if k.startswith("editar_")]
     for id in ids_2:
         query_1 = text(f'''SELECT * FROM app_admin.Perfil_Usuario_Det t1 where t1.id = {id}''')
         reg_insert_2 = PerfilUsuarioDet.query.from_statement(query_1).first()
-        print(request.form.get(f'editar_{id}'))
         reg_insert_2.editar = 'S' if request.form.get(f'editar_{id}') == 'S' else 'N'
-        print(reg_insert_2.editar)
+        reg_insert_2.data_edicao = f'''{present_time}''' 
+        reg_insert_2.usuario_edicao = session['usuario_logado']
         db.session.add(reg_insert_2)
 
     ids_3 = [int(k.split("_")[1]) for k in request.form.keys() if k.startswith("excluir_")]
     for id in ids_3:
         query_1 = text(f'''SELECT * FROM app_admin.Perfil_Usuario_Det t1 where t1.id = {id}''')
         reg_insert_2 = PerfilUsuarioDet.query.from_statement(query_1).first()
-        print(request.form.get(f'excluir_{id}'))
         reg_insert_2.excluir = 'S' if request.form.get(f'excluir_{id}') == 'S' else 'N'
-        print(reg_insert_2.excluir)
+        reg_insert_2.data_edicao = f'''{present_time}''' 
+        reg_insert_2.usuario_edicao = session['usuario_logado']
         db.session.add(reg_insert_2)
 
     db.session.add(reg_insert_1)

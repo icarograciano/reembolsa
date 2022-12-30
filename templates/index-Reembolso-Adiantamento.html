@@ -47,8 +47,8 @@
                                                 <td>{{reg.atendente}}</td>
                                                 <td>{{reg.status}}</td>
                                                 <td>{{"R$ {:,.2f}".format(0.00)}}</td>
-                                                <td>{{"R$ {:,.2f}".format(reg.valor_total)}}</td>
-                                                <td>{{"R$ {:,.2f}".format(reg.valor_total-0)}}</td>
+                                                <td>{{"R$ {:,.2f}".format(reg.valor_total if reg.valor_total != None else 0)}}</td>
+                                                <td>{{"R$ {:,.2f}".format(reg.valor_total if reg.valor_total != None else 0)}}</td>
                                                 <td style="text-align: center"><span>
                                                     <a href="{{ url_for('edita_reemb_adian', reg_insert=reg.id, navpills = 'navpills_2')}}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-pencil color-muted m-r-5" style="margin:0 5px;"></i> </a>
                                                     <a href="{{ url_for('deletar_reemb_adian', id=reg.id)}}" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-close color-danger" style="margin:0 20px;"></i></a></span>

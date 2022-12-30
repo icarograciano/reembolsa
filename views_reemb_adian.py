@@ -5,6 +5,12 @@ from sqlalchemy import func, text
 from jsintegration.JasperServerIntegration import JasperServerIntegration
 from io import BytesIO
 
+
+permissions = {
+    'icaro.graciano@xcsolucoes.com.br': ['Clientes', 'Motivos'],
+    'hilton.rocha@xcsolucoes.com.br': ['Tipos de Despesa']
+}
+
 #pagina inicial com tabela dos registros
 @app.route('/')
 @app.route('/reemb_adian')
@@ -17,7 +23,7 @@ def index_Reembolso_Adiantamento():
                     FROM app_admin.lancamentos t1 ORDER BY id''')
     lista = Lancamentos_query.query.from_statement(query).all()
     nome_usuario = Usuarios.query.filter_by(login=session['usuario_logado']).first()
-    return render_template('index-Reembolso-Adiantamento.html', user_session = nome_usuario.nome, atendimentos_lis = lista)
+    return render_template('index-Reembolso-Adiantamento.html', user_session = nome_usuario.nome, atendimentos_lis = lista, current_user=nome_usuario.login, permissions=permissions)
 
 #redirecionamento para inserir novo registro
 @app.route('/reemb_adian/novo')

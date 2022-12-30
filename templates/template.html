@@ -170,14 +170,21 @@
                             </i><span class="nav-text">Cadastros</span>
                         </a>
                         <ul aria-expanded="false">
+                            {% if 'Clientes' in permissions[current_user] %}
                             <li><a href="##">Clientes</a></li>
+                            {% endif %}
                         </ul>
                         <ul aria-expanded="false">
+                            {% if 'Motivos' in permissions[current_user] %}
                             <li><a href="##">Motivos</a></li>
+                            {% endif %}
                         </ul>
                         <ul aria-expanded="false">
+                            {% if 'Tipos de Despesa' in permissions[current_user] %}
                             <li><a href="##">Tipos de Despesa</a></li>
+                            {% endif %}
                         </ul>
+
                     </li>
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
@@ -200,7 +207,7 @@
                             <i class="icon-user menu-icon"></i> <span class="nav-text">Usuários</span>
                         </a>
                         <ul aria-expanded="false">
-                            <li><a href="##">Perfil de Usuário</a></li>
+                            <li><a href="{{url_for('perfil_usuario')}}">Perfil de Usuário</a></li>
                             <li><a href="##">Usuários</a></li>
                             <li><a href="##">Alterar Senha</a></li>
                         </ul>

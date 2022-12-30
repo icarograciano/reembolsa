@@ -1,6 +1,6 @@
-from flask import render_template, request, redirect, session, url_for
+from flask import render_template, request, redirect, session, url_for, flash
 from app import app, db
-from models import Perfil_Usuario, Perfil_Usuario_Det, Usuarios, present_time
+from models import Perfil_Usuario, Perfil_Usuario_Det, Usuarios, present_time, PerfilUsuario, PerfilUsuarioDet
 import os
 from werkzeug.utils import secure_filename
 from sqlalchemy import func, text
@@ -19,8 +19,8 @@ def perfil_usuario():
     permissions=permissions, lista = lista)
 
 
-@app.route('/perfil_usuario/editar/<int:cod_perfil>')
-def perfil_usuario_edita(cod_perfil):
+@app.route('/perfil_usuario/editar/<int:cod_perfil>/<string:navpills>')
+def perfil_usuario_edita(cod_perfil, navpills):
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login'))
     permissions = {}
@@ -41,7 +41,62 @@ def perfil_usuario_edita(cod_perfil):
 
     return render_template('perfil_usuario_edita.html', user_session = nome_usuario.nome,  current_user=nome_usuario.login, 
     permissions=permissions, lista = lista, perfil_usuario_det_cadastros =perfil_usuario_det_cadastros,
-    perfil_usuario_det_atendimentos = perfil_usuario_det_atendimentos, perfil_usuario_det_usuarios = perfil_usuario_det_usuarios, navpills = 'navpills_1')
+    perfil_usuario_det_atendimentos = perfil_usuario_det_atendimentos, perfil_usuario_det_usuarios = perfil_usuario_det_usuarios, navpills = navpills)
+
+
+#atualizando o registro
+@app.route('/perfil_usuario/atualizar', methods=['POST',])
+def perfil_usuario_editar():
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login'))
+    query = text(f'''SELECT * FROM app_admin.Perfil_Usuario t1 where t1.id = {request.form['id']}''')
+    reg_insert_1 = PerfilUsuario.query.from_statement(query).first()
+    reg_insert_1.nome_perfil = request.form.get('nome_perfil')
+    reg_insert_1.data_edicao = f'''{present_time}''' 
+    reg_insert_1.usuario_edicao = session['usuario_logado']
+
+    ids = [int(k.split("_")[1]) for k in request.form.keys() if k.startswith("mostrar_")]
+    for id in ids:
+        query_1 = text(f'''SELECT * FROM app_admin.Perfil_Usuario_Det t1 where t1.id = {id}''')
+        reg_insert_2 = PerfilUsuarioDet.query.from_statement(query_1).first()
+        print(request.form.get(f'mostrar_{id}'))
+        reg_insert_2.mostrar = 'S' if request.form.get(f'mostrar_{id}') == 'S' else 'N'
+        print(reg_insert_2.mostrar)
+        db.session.add(reg_insert_2)
+
+    ids_1 = [int(k.split("_")[1]) for k in request.form.keys() if k.startswith("incluir_")]
+    for id in ids_1:
+        query_1 = text(f'''SELECT * FROM app_admin.Perfil_Usuario_Det t1 where t1.id = {id}''')
+        reg_insert_2 = PerfilUsuarioDet.query.from_statement(query_1).first()
+        print(request.form.get(f'incluir_{id}'))
+        reg_insert_2.incluir = 'S' if request.form.get(f'incluir_{id}') == 'S' else 'N'
+        print(reg_insert_2.incluir)
+        db.session.add(reg_insert_2)
+
+    ids_2 = [int(k.split("_")[1]) for k in request.form.keys() if k.startswith("editar_")]
+    for id in ids_2:
+        query_1 = text(f'''SELECT * FROM app_admin.Perfil_Usuario_Det t1 where t1.id = {id}''')
+        reg_insert_2 = PerfilUsuarioDet.query.from_statement(query_1).first()
+        print(request.form.get(f'editar_{id}'))
+        reg_insert_2.editar = 'S' if request.form.get(f'editar_{id}') == 'S' else 'N'
+        print(reg_insert_2.editar)
+        db.session.add(reg_insert_2)
+
+    ids_3 = [int(k.split("_")[1]) for k in request.form.keys() if k.startswith("excluir_")]
+    for id in ids_3:
+        query_1 = text(f'''SELECT * FROM app_admin.Perfil_Usuario_Det t1 where t1.id = {id}''')
+        reg_insert_2 = PerfilUsuarioDet.query.from_statement(query_1).first()
+        print(request.form.get(f'excluir_{id}'))
+        reg_insert_2.excluir = 'S' if request.form.get(f'excluir_{id}') == 'S' else 'N'
+        print(reg_insert_2.excluir)
+        db.session.add(reg_insert_2)
+
+    db.session.add(reg_insert_1)
+    db.session.commit()
+    flash('Perfil editado com sucesso!')
+    return redirect(url_for('perfil_usuario_edita', cod_perfil = reg_insert_1.id, navpills = 'navpills_1'))
+
+
 
 
 

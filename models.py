@@ -95,9 +95,34 @@ class Despesas(db.Model):
 
 def __repr__(self):
     return '<Name %r>' % self.name
-    
 
 #Tabela de Perfil de Usuario
+class Perfil_Usuario(db.Model):
+    id = db.Column(db.Integer,primary_key = True, autoincrement=True)
+    nome_perfil = db.Column(db.String(40), nullable=False)
+    data_add = db.Column(db.DateTime, nullable=False)
+    usuario_add = db.Column(db.String(100), nullable=False)
+    data_edicao = db.Column(db.DateTime, nullable=False)
+    usuario_edicao = db.Column(db.String(100), nullable=False)
+
+def __repr__(self):
+    return '<Name %r>' % self.name
+
+
+#Tabela de Perfil de Usuario para fazer post e put, por algum motivo o Perfil_Usuario insere dois underscore __
+class PerfilUsuario(db.Model):
+    id = db.Column(db.Integer,primary_key = True, autoincrement=True)
+    nome_perfil = db.Column(db.String(40), nullable=False)
+    data_add = db.Column(db.DateTime, nullable=False)
+    usuario_add = db.Column(db.String(100), nullable=False)
+    data_edicao = db.Column(db.DateTime, nullable=False)
+    usuario_edicao = db.Column(db.String(100), nullable=False)
+
+def __repr__(self):
+    return '<Name %r>' % self.name
+    
+
+#Tabela de Perfil de Usuario Det
 class Perfil_Usuario_Det(db.Model):
     id = db.Column(db.Integer,primary_key = True, autoincrement=True)
     cod_perfil = db.Column(db.Integer, nullable=False)
@@ -115,10 +140,16 @@ class Perfil_Usuario_Det(db.Model):
 def __repr__(self):
     return '<Name %r>' % self.name
 
-#Tabela de Perfil de Usuario
-class Perfil_Usuario(db.Model):
+#Tabela de Perfil de Usuario Det
+class PerfilUsuarioDet(db.Model):
     id = db.Column(db.Integer,primary_key = True, autoincrement=True)
-    nome_perfil = db.Column(db.String(40), nullable=False)
+    cod_perfil = db.Column(db.Integer, nullable=False)
+    grupo_menu = db.Column(db.String(40), nullable=False)
+    tela = db.Column(db.String(40), nullable=False)
+    mostrar = db.Column(db.String(1), nullable=False)
+    incluir = db.Column(db.String(1),primary_key = True)
+    editar = db.Column(db.String(1), nullable=False)
+    excluir = db.Column(db.String(1), nullable=False)
     data_add = db.Column(db.DateTime, nullable=False)
     usuario_add = db.Column(db.String(100), nullable=False)
     data_edicao = db.Column(db.DateTime, nullable=False)
@@ -126,3 +157,5 @@ class Perfil_Usuario(db.Model):
 
 def __repr__(self):
     return '<Name %r>' % self.name
+
+

@@ -93,7 +93,7 @@ TABLES['Despesas'] = ('''
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;''')
 
 
-TABLES['Perfil_Usuario'] = ('''
+TABLES['PerfilUsuario'] = ('''
       CREATE TABLE `Perfil_Usuario` (
       `id` int NOT NULL AUTO_INCREMENT,
       `nome_perfil` varchar(40) CHARACTER SET utf8mb3 COLLATE utf8_bin NOT NULL,

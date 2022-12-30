@@ -7,7 +7,7 @@ try:
       conn = mysql.connector.connect(
             host='127.0.0.1',
             user='root',
-            password='123456'
+            password='root'
       )
 except mysql.connector.Error as err:
       if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
@@ -177,11 +177,11 @@ cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela,
 VALUES (1, "Atendimentos", "Reembolso/Adiantamento", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
 
 cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil,grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
-VALUES (1, "Usuários", "Perfil de Usuário", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+VALUES (1, "Usuarios", "Perfil de Usuário", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
 cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
-VALUES (1, "Usuários", "Usuários", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+VALUES (1, "Usuarios", "Usuários", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
 cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
-VALUES (1, "Usuários", "Alterar Senha", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+VALUES (1, "Usuarios", "Alterar Senha", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
 
 cursor.execute('select * from app_admin.Perfil_Usuario_Det')
 print(' -------------  Perfil_Usuario_Det:  -------------')

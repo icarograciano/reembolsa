@@ -4,12 +4,7 @@ from models import Lancamentos, Intervalos, Despesas, Usuarios, present_time, La
 from sqlalchemy import func, text
 from jsintegration.JasperServerIntegration import JasperServerIntegration
 from io import BytesIO
-
-
-permissions = {
-    'icaro.graciano@xcsolucoes.com.br': ['Clientes', 'Motivos'],
-    'hilton.rocha@xcsolucoes.com.br': ['Tipos de Despesa']
-}
+from permissoes import permissoes
 
 #pagina inicial com tabela dos registros
 @app.route('/')
@@ -17,12 +12,16 @@ permissions = {
 def index_Reembolso_Adiantamento():
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login'))
+    permissions = {}
+    permissions = permissoes(permissions)
+    print(permissions)
     #lista = Lancamentos.query.order_by(Lancamentos.id)
     query = text('''SELECT t1.*, 
                     (select sum(t2.valor_total) from app_admin.despesas t2 where t2.id_lancamento = t1.id) as valor_total
                     FROM app_admin.lancamentos t1 ORDER BY id''')
     lista = Lancamentos_query.query.from_statement(query).all()
     nome_usuario = Usuarios.query.filter_by(login=session['usuario_logado']).first()
+    print(nome_usuario.login)
     return render_template('index-Reembolso-Adiantamento.html', user_session = nome_usuario.nome, atendimentos_lis = lista, current_user=nome_usuario.login, permissions=permissions)
 
 #redirecionamento para inserir novo registro
@@ -30,8 +29,10 @@ def index_Reembolso_Adiantamento():
 def novo_reemb_adian():
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login'))
+    permissions = {}
+    permissions = permissoes(permissions)
     nome_usuario = Usuarios.query.filter_by(login=session['usuario_logado']).first()
-    return render_template('Reembolso-Adiantamento.html', user_session = nome_usuario.nome)
+    return render_template('Reembolso-Adiantamento.html', user_session = nome_usuario.nome, current_user=nome_usuario.login, permissions = permissions)
 
 #inserindo novo registro
 @app.route('/reemb_adian/criar', methods=['POST',])
@@ -61,6 +62,8 @@ def criar_reemb_adian():
 def edita_reemb_adian(reg_insert, navpills):
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login'))
+    permissions = {}
+    permissions = permissoes(permissions)
     navpills = navpills
     reg_insert_1 = reg_insert
     reg_insert = Lancamentos.query.filter_by(id=reg_insert_1).first()
@@ -72,7 +75,7 @@ def edita_reemb_adian(reg_insert, navpills):
         despesas_total = despesas_total + despesa.valor_total
     despesas_total = despesas_total
     return render_template('edita_Reembolso-Adiantamento.html', user_session=nome_usuario.nome, reg_insert = reg_insert, intervalos = intervalos, 
-    despesas = despesas, despesas_total = despesas_total, navpills = navpills)
+    despesas = despesas, despesas_total = despesas_total, navpills = navpills, current_user=nome_usuario.login, permissions = permissions)
 
 #atualizando o registro
 @app.route('/reemb_adian/atualizar', methods=['POST',])

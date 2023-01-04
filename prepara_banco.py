@@ -144,7 +144,7 @@ cursor.execute(f'''INSERT INTO usuarios (nome, login, senha, id_perfil, data_add
 VALUES ("Admin", "admin", '{generate_password_hash("admin").decode('utf-8')}', '1', current_timestamp(), "master", current_timestamp(), "master");''')
 
 cursor.execute(f'''INSERT INTO usuarios (nome, login, senha, id_perfil, data_add, usuario_add, data_edicao, usuario_edicao)
-VALUES ("Icaro", "icaro.graciano@xcsolucoes.com.br", 'master', '1', current_timestamp(), "master", current_timestamp(), "master");''')
+VALUES ("Icaro Graciano", "icaro.graciano@xcsolucoes.com.br", 'master', '1', current_timestamp(), "master", current_timestamp(), "master");''')
 
 cursor.execute(f'''INSERT INTO usuarios (nome, login, senha, id_perfil, data_add, usuario_add, data_edicao, usuario_edicao)
 VALUES ("Hilton", "hilton.rocha@xcsolucoes.com.br", 'master', '2', current_timestamp(), "master", current_timestamp(), "master");''')

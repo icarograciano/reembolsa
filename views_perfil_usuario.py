@@ -52,6 +52,7 @@ def perfil_usuario_editar():
     query = text(f'''SELECT * FROM app_admin.Perfil_Usuario t1 where t1.id = {request.form['id']}''')
     reg_insert_1 = PerfilUsuario.query.from_statement(query).first()
     reg_insert_1.nome_perfil = request.form.get('nome_perfil')
+    reg_insert_1.aprovador = request.form.get('aprovador')
     reg_insert_1.data_edicao = f'''{present_time}''' 
     reg_insert_1.usuario_edicao = session['usuario_logado']
 

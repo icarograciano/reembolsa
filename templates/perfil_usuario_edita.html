@@ -48,23 +48,32 @@
                                               <div class="card">
                                                   <div class="card-body">
                                                     {% for reg in lista %}
-                                                      <input type="hidden" name="id" value="{{reg.id}}">
-                                                      <div class="basic-form">
-                                                          <div class="row">
-                                                              <div class="form-group col-md-2">
-                                                                  <label for="codigo_perfil">Código</label>
-                                                                  <input type="text" id="codigo_perfil" name="codigo_perfil" class="form-control" disabled value="{{reg.id}}">
-                                                              </div>
-                                                          </div>
-                                                          <div class="row">
-                                                              <div class="form-group col-md-4">
-                                                                  <label>Nome Perfil</label>
-                                                                  <strong class="text-danger ng-star-inserted"> *</strong>
-                                                                  <input type="text" id="nome_perfil" name="nome_perfil" class="form-control" value="{{reg.nome_perfil}}">
-                                                              </div>
-                                                          </div>
+                                                    <input type="hidden" name="id" value="{{reg.id}}">
+                                                    <div class="basic-form">
+                                                      <div class="row">
+                                                        <div class="form-group col-md-2">
+                                                          <label for="codigo_perfil">Código</label>
+                                                          <input type="text" id="codigo_perfil" name="codigo_perfil" class="form-control" disabled value="{{reg.id}}">
+                                                        </div>
                                                       </div>
-                                                    {% endfor %}
+                                                      <div class="row">
+                                                        <div class="form-group col-md-4">
+                                                          <label>Nome Perfil</label>
+                                                          <strong class="text-danger ng-star-inserted"> *</strong>
+                                                          <input type="text" id="nome_perfil" name="nome_perfil" class="form-control" value="{{reg.nome_perfil}}">
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                          <label for="aprovador">Aprovador?</label>
+                                                          <strong class="text-danger ng-star-inserted"> *</strong>
+                                                          <select id="aprovador" name="aprovador" class="form-control">
+                                                            <option value="S" {% if reg.aprovador == "S" %}selected{% endif %}>Sim</option>
+                                                            <option value="N" {% if reg.aprovador == "N" %}selected{% endif %}>Não</option>
+                                                          </select>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  {% endfor %}
+                                                  
                                                   </div>
                                               </div>
                                           </div>

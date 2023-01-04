@@ -100,6 +100,7 @@ def __repr__(self):
 class Perfil_Usuario(db.Model):
     id = db.Column(db.Integer,primary_key = True, autoincrement=True)
     nome_perfil = db.Column(db.String(40), nullable=False)
+    aprovador = db.Column(db.String(1), nullable=False)
     data_add = db.Column(db.DateTime, nullable=False)
     usuario_add = db.Column(db.String(100), nullable=False)
     data_edicao = db.Column(db.DateTime, nullable=False)
@@ -113,6 +114,7 @@ def __repr__(self):
 class PerfilUsuario(db.Model):
     id = db.Column(db.Integer,primary_key = True, autoincrement=True)
     nome_perfil = db.Column(db.String(40), nullable=False)
+    aprovador = db.Column(db.String(1), nullable=False)
     data_add = db.Column(db.DateTime, nullable=False)
     usuario_add = db.Column(db.String(100), nullable=False)
     data_edicao = db.Column(db.DateTime, nullable=False)
@@ -157,5 +159,11 @@ class PerfilUsuarioDet(db.Model):
 
 def __repr__(self):
     return '<Name %r>' % self.name
+    
 
+#Tabela de Perfil de Usuario Det
+class Aprovador(db.Model):
+    aprovador = db.Column(db.String(1),primary_key = True, nullable=False)
+def __repr__(self):
+    return '<Name %r>' % self.name
 

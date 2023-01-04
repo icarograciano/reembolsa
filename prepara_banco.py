@@ -97,6 +97,7 @@ TABLES['PerfilUsuario'] = ('''
       CREATE TABLE `Perfil_Usuario` (
       `id` int NOT NULL AUTO_INCREMENT,
       `nome_perfil` varchar(40) CHARACTER SET utf8mb3 COLLATE utf8_bin NOT NULL,
+      `aprovador` varchar(1) CHARACTER SET utf8mb3 COLLATE utf8_bin NOT NULL,
       `data_add` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
       `usuario_add` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8_bin NOT NULL,
       `data_edicao` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -157,8 +158,14 @@ for user in cursor.fetchall():
     print(user[1])
 
 
-cursor.execute(f'''INSERT INTO Perfil_Usuario (nome_perfil, data_add, usuario_add, data_edicao, usuario_edicao)
-VALUES ("Admin", current_timestamp(), "master", current_timestamp(), "master");''')
+cursor.execute(f'''INSERT INTO Perfil_Usuario (nome_perfil, aprovador, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES ("Admin", 'S', current_timestamp(), "master", current_timestamp(), "master");''')
+
+cursor.execute(f'''INSERT INTO Perfil_Usuario (nome_perfil, aprovador, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES ("Aprovador", 'S', current_timestamp(), "master", current_timestamp(), "master");''')
+
+cursor.execute(f'''INSERT INTO Perfil_Usuario (nome_perfil, aprovador, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES ("Colaborador", 'N', current_timestamp(), "master", current_timestamp(), "master");''')
 
 cursor.execute('select * from app_admin.Perfil_Usuario')
 print(' -------------  Perfil_Usuario:  -------------')
@@ -174,14 +181,58 @@ cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela,
 VALUES (1, "Cadastros", "Tipos de Despesa", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
 
 cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES (1, "Atendimentos", "Atendimento Diario", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
 VALUES (1, "Atendimentos", "Reembolso/Adiantamento", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
 
 cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil,grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
-VALUES (1, "Usuarios", "Perfil de Usuário", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+VALUES (1, "Usuarios", "Perfil de Usuario", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
 cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
-VALUES (1, "Usuarios", "Usuários", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+VALUES (1, "Usuarios", "Usuarios", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
 cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
 VALUES (1, "Usuarios", "Alterar Senha", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+
+#####################################################################
+
+cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES (2, "Cadastros", "Clientes", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES (2, "Cadastros", "Motivos", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES (2, "Cadastros", "Tipos de Despesa", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+
+cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES (2, "Atendimentos", "Atendimento Diario", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES (2, "Atendimentos", "Reembolso/Adiantamento", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+
+cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil,grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES (2, "Usuarios", "Perfil de Usuario", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES (2, "Usuarios", "Usuarios", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES (2, "Usuarios", "Alterar Senha", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+
+#####################################################################
+
+cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES (3, "Cadastros", "Clientes", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES (3, "Cadastros", "Motivos", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES (3, "Cadastros", "Tipos de Despesa", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+
+cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES (3, "Atendimentos", "Atendimento Diario", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES (3, "Atendimentos", "Reembolso/Adiantamento", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+
+cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil,grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES (3, "Usuarios", "Perfil de Usuario", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES (3, "Usuarios", "Usuarios", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES (3, "Usuarios", "Alterar Senha", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
 
 cursor.execute('select * from app_admin.Perfil_Usuario_Det')
 print(' -------------  Perfil_Usuario_Det:  -------------')

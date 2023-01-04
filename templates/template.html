@@ -169,22 +169,21 @@
                                   </svg>
                             </i><span class="nav-text">Cadastros</span>
                         </a>
+                        {% if 'Clientes' in permissions[current_user] %}
                         <ul aria-expanded="false">
-                            {% if 'Clientes' in permissions[current_user] %}
                             <li><a href="##">Clientes</a></li>
-                            {% endif %}
                         </ul>
+                        {% endif %}
+                        {% if 'Motivos' in permissions[current_user] %}
                         <ul aria-expanded="false">
-                            {% if 'Motivos' in permissions[current_user] %}
                             <li><a href="##">Motivos</a></li>
-                            {% endif %}
                         </ul>
+                        {% endif %}
+                        {% if 'Tipos de Despesa' in permissions[current_user] %}
                         <ul aria-expanded="false">
-                            {% if 'Tipos de Despesa' in permissions[current_user] %}
                             <li><a href="##">Tipos de Despesa</a></li>
-                            {% endif %}
                         </ul>
-
+                        {% endif %}
                     </li>
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
@@ -194,22 +193,31 @@
                                 </svg> 
                             </i><span class="nav-text">Atendimentos</span>
                         </a>
-                       <!-- <ul aria-expanded="false">
-                            <li><a href="{{url_for('index')}}">Atendimentos</a></li>
+                        {% if 'Atendimento Diario' in permissions[current_user] %}
+                        <ul aria-expanded="false">
+                            <li><a href="{{url_for('index')}}">Atendimento Diário</a></li>
                         </ul> 
-                        -->
+                        {% endif %}
+                        {% if 'Reembolso/Adiantamento' in permissions[current_user] %}
                         <ul aria-expanded="false">
                             <li><a href="{{url_for('index_Reembolso_Adiantamento')}}">Reembolso/Adiantamento</a></li>
                         </ul>
+                        {% endif %}
                     </li>
                     <li>
                         <a class="has-arrow" href="javascript:void()" aria-expanded="false">
                             <i class="icon-user menu-icon"></i> <span class="nav-text">Usuários</span>
                         </a>
                         <ul aria-expanded="false">
+                            {% if 'Perfil de Usuario' in permissions[current_user] %}
                             <li><a href="{{url_for('perfil_usuario')}}">Perfil de Usuário</a></li>
+                            {% endif %}
+                            {% if 'Usuarios' in permissions[current_user] %}
                             <li><a href="##">Usuários</a></li>
+                            {% endif %}
+                            {% if 'Alterar Senha' in permissions[current_user] %}
                             <li><a href="##">Alterar Senha</a></li>
+                            {% endif %}
                         </ul>
                     </li>
                 </ul>

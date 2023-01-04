@@ -1,10 +1,11 @@
 from flask import render_template, request, redirect, session, flash, url_for, send_file
 from app import app, db
-from models import Lancamentos, Intervalos, Despesas, Usuarios, present_time, Lancamentos_query 
+from models import Lancamentos, Intervalos, Despesas, Usuarios, present_time, Lancamentos_query, Aprovador 
 from sqlalchemy import func, text
 from jsintegration.JasperServerIntegration import JasperServerIntegration
 from io import BytesIO
 from permissoes import permissoes
+from aprovador import aprovador
 
 #pagina inicial com tabela dos registros
 @app.route('/')
@@ -12,16 +13,25 @@ from permissoes import permissoes
 def index_Reembolso_Adiantamento():
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login'))
+    nome_usuario = Usuarios.query.filter_by(login=session['usuario_logado']).first()
+    
     permissions = {}
     permissions = permissoes(permissions)
-    print(permissions)
-    #lista = Lancamentos.query.order_by(Lancamentos.id)
-    query = text('''SELECT t1.*, 
-                    (select sum(t2.valor_total) from app_admin.despesas t2 where t2.id_lancamento = t1.id) as valor_total
-                    FROM app_admin.lancamentos t1 ORDER BY id''')
-    lista = Lancamentos_query.query.from_statement(query).all()
-    nome_usuario = Usuarios.query.filter_by(login=session['usuario_logado']).first()
-    print(nome_usuario.login)
+
+    aprovadores = {}
+    aprovadores = aprovador(aprovadores)
+
+    if 'S' in aprovadores[nome_usuario.login]:
+        query = text(f'''SELECT t1.*, 
+                        (select sum(t2.valor_total) from app_admin.despesas t2 where t2.id_lancamento = t1.id) as valor_total
+                        FROM app_admin.lancamentos t1 ORDER BY id''')
+        lista = Lancamentos_query.query.from_statement(query).all()
+    else:
+        query = text(f'''SELECT t1.*, 
+                (select sum(t2.valor_total) from app_admin.despesas t2 where t2.id_lancamento = t1.id) as valor_total
+                FROM app_admin.lancamentos t1 where t1.atendente = '{nome_usuario.nome}' ORDER BY id''')
+        lista = Lancamentos_query.query.from_statement(query).all()
+
     return render_template('index-Reembolso-Adiantamento.html', user_session = nome_usuario.nome, atendimentos_lis = lista, current_user=nome_usuario.login, permissions=permissions)
 
 #redirecionamento para inserir novo registro

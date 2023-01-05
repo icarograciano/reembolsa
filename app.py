@@ -12,6 +12,7 @@ from views_intervalos import *
 from views_despesas import *
 from views_reemb_adian import *
 from views_perfil_usuario import *
+from views_usuario import *
 
 
 if __name__ =="__main__":

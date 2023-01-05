@@ -1,0 +1,100 @@
+{% extends "template.html" %}
+{% block conteudo %}
+
+<!--**********************************
+    Content body start
+***********************************-->
+<div class="content-body">
+    <div class="row page-titles mx-0">
+        <div class="col p-md-0">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Novo Usuário</a></li>
+            </ol>
+        </div>
+    </div>
+    <!-- row -->
+    <div class="container-fluid">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Usuário</h4>
+                    <div class="form-validation">
+                      <form class="form-valide" action="{{ url_for('criar_usuario') }}" method="post" onsubmit="return validarSenhas()">
+                      <fieldset>
+                        <a href="{{ url_for('usuario') }}" data-placement="top" title="Modo Lista" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-list" style="margin: 0 3px;"></i>Modo Lista</a>
+                        <button type="submit" title="Gravar alterações" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-save"></i> Gravar</button>                                       
+                        <br>
+                        <br>
+                          <div class="row align-items-center">
+                              <div class="col-sm-6 col-md-8 col-xl-12">
+                              <div class="form-validation">
+                                  <form class="form-valide" action="" method="post">
+                                  <fieldset>
+                                      <div class="d-md-flex align-items-center"><form novalidate="" class="ng-pristine ng-invalid ng-touched"><!----></form><div class="ml-auto"><div class="dl"><strong class="text-danger"> *</strong> Campos obrigatórios </div></div></div>
+                                      <hr>
+                                      <div class="col-lg-12">
+                                          <div class="card">
+                                              <div class="card-body">
+                                                <input type="hidden" name="id" value="">
+                                                <div class="basic-form">
+                                                  <div class="row">
+                                                    <div class="form-group col-md-2">
+                                                      <label for="codigo_perfil">Código</label>
+                                                      <input type="text" id="id" name="id" class="form-control" disabled value="">
+                                                    </div>
+                                                  </div>
+                                                  <div class="row">
+                                                    <div class="form-group col-md-4">
+                                                      <label>Login</label>
+                                                      <strong class="text-danger ng-star-inserted"> *</strong>
+                                                      <input type="text" id="login" name="login" class="form-control" value="">
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                      <label>Nome</label>
+                                                      <strong class="text-danger ng-star-inserted"> *</strong>
+                                                      <input type="text" id="nome" name="nome" class="form-control" value="">
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                      <label for="aprovador">Perfil de Usuário</label>
+                                                      <strong class="text-danger ng-star-inserted"> *</strong>
+                                                      <select id="id_perfil" name="id_perfil" class="form-control">
+                                                        <option value="1">Admin</option>
+                                                        <option value="2">Aprovador</option>
+                                                        <option value="3" selected>Consultor</option>
+                                                        <option value="4">Desenvolvedor</option>
+                                                      </select>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                      <label for="senha">Senha</label>
+                                                      <input type="password" id="senha" name="senha" class="form-control">
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                      <label for="confirmacao_senha">Confirme a Senha</label>
+                                                      <input type="password" id="confirmacao_senha" name="confirmacao_senha" class="form-control">
+                                                      <div class="text-danger" id="mensagemErro"></div>
+                                                    </div>
+                                                  
+                                                  </div>
+                                                </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      </fieldset>    
+                                      </form>
+                                  </div>
+                                  </div>
+                              </div>
+                      </fieldset>
+                      </form>
+                    </div>         
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #/ container -->
+</div>
+<!--**********************************
+    Content body end
+***********************************-->
+        
+{% endblock %}

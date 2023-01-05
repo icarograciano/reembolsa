@@ -213,7 +213,7 @@
                             <li><a href="{{url_for('perfil_usuario')}}">Perfil de Usuário</a></li>
                             {% endif %}
                             {% if 'Usuarios' in permissions[current_user] %}
-                            <li><a href="##">Usuários</a></li>
+                            <li><a href="{{url_for('usuario')}}">Usuários</a></li>
                             {% endif %}
                             {% if 'Alterar Senha' in permissions[current_user] %}
                             <li><a href="##">Alterar Senha</a></li>
@@ -314,7 +314,19 @@
     }
     </script>
 
+    <script>
+        function validarSenhas() {
+        var senha = document.getElementById("senha").value;
+        var confirmacaoSenha = document.getElementById("confirmacao_senha").value;
 
+        if (senha != confirmacaoSenha) {
+            document.getElementById("mensagemErro").innerHTML = "As senhas não são iguais!";
+            return false;
+        }
+
+        return true;
+        }
+    </script>
 
 </body>
 

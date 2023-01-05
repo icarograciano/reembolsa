@@ -12,6 +12,23 @@ class Usuarios(db.Model):
     nome = db.Column(db.String(20), nullable=False)
     login = db.Column(db.String(8), nullable=False)
     senha = db.Column(db.String(100), nullable=False)
+    id_perfil = db.Column(db.Integer, nullable=False)
+    data_add = db.Column(db.DateTime, nullable=False)
+    usuario_add = db.Column(db.String(100), nullable=False)
+    data_edicao = db.Column(db.DateTime, nullable=False)
+    usuario_edicao = db.Column(db.String(100), nullable=False)
+
+def __repr__(self):
+    return '<Name %r>' % self.name
+
+#Tabela de Usuários
+class Usuarios_1(db.Model):
+    id = db.Column(db.Integer,primary_key = True, autoincrement=True)
+    nome = db.Column(db.String(20), nullable=False)
+    login = db.Column(db.String(8), nullable=False)
+    senha = db.Column(db.String(100), nullable=False)
+    id_perfil = db.Column(db.Integer, nullable=False)
+    nome_perfil = db.Column(db.String(40), nullable=False)
     data_add = db.Column(db.DateTime, nullable=False)
     usuario_add = db.Column(db.String(100), nullable=False)
     data_edicao = db.Column(db.DateTime, nullable=False)

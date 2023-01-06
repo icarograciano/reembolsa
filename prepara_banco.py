@@ -33,6 +33,7 @@ TABLES['Usuarios'] = ('''
       `login` varchar(50) NOT NULL,
       `senha` varchar(100) NOT NULL,
       `id_perfil` int NOT NULL,
+      `atendente` varchar(1) NOT NULL,
       `data_add` datetime NOT NULL,
       `usuario_add` varchar(100) NOT NULL,
       `data_edicao` datetime NOT NULL default current_timestamp(),
@@ -137,20 +138,20 @@ for tabela_nome in TABLES:
       else:
             print('OK')
 
-cursor.execute(f'''INSERT INTO usuarios (nome, login, senha, id_perfil, data_add, usuario_add, data_edicao, usuario_edicao)
-VALUES ("Master", "master", '{generate_password_hash("master").decode('utf-8')}', '1', current_timestamp(), "master", current_timestamp(), "master");''')
+cursor.execute(f'''INSERT INTO usuarios (nome, login, senha, id_perfil, atendente, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES ("Master", "master", '{generate_password_hash("master").decode('utf-8')}', '1', 'S', current_timestamp(), "master", current_timestamp(), "master");''')
 
-cursor.execute(f'''INSERT INTO usuarios (nome, login, senha, id_perfil, data_add, usuario_add, data_edicao, usuario_edicao)
-VALUES ("Admin", "admin", '{generate_password_hash("admin").decode('utf-8')}', '1', current_timestamp(), "master", current_timestamp(), "master");''')
+cursor.execute(f'''INSERT INTO usuarios (nome, login, senha, id_perfil, atendente, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES ("Admin", "admin", '{generate_password_hash("admin").decode('utf-8')}', '1', 'S', current_timestamp(), "master", current_timestamp(), "master");''')
 
-cursor.execute(f'''INSERT INTO usuarios (nome, login, senha, id_perfil, data_add, usuario_add, data_edicao, usuario_edicao)
-VALUES ("Icaro Graciano", "icaro.graciano@xcsolucoes.com.br", '{generate_password_hash("master").decode('utf-8')}', '1', current_timestamp(), "master", current_timestamp(), "master");''')
+cursor.execute(f'''INSERT INTO usuarios (nome, login, senha, id_perfil, atendente, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES ("Icaro Graciano", "icaro.graciano@xcsolucoes.com.br", '{generate_password_hash("master").decode('utf-8')}', '1', 'S', current_timestamp(), "master", current_timestamp(), "master");''')
 
-cursor.execute(f'''INSERT INTO usuarios (nome, login, senha, id_perfil, data_add, usuario_add, data_edicao, usuario_edicao)
-VALUES ("Hilton", "hilton.rocha@xcsolucoes.com.br", '{generate_password_hash("master").decode('utf-8')}', '2', current_timestamp(), "master", current_timestamp(), "master");''')
+cursor.execute(f'''INSERT INTO usuarios (nome, login, senha, id_perfil, atendente, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES ("Hilton", "hilton.rocha@xcsolucoes.com.br", '{generate_password_hash("master").decode('utf-8')}', '2', 'S', current_timestamp(), "master", current_timestamp(), "master");''')
 
-cursor.execute(f'''INSERT INTO usuarios (nome, login, senha, id_perfil, data_add, usuario_add, data_edicao, usuario_edicao)
-VALUES ("Nicanor", "nicanor.soares@xcsolucoes.com.br", '{generate_password_hash("master").decode('utf-8')}', '2', current_timestamp(), "master", current_timestamp(), "master");''')
+cursor.execute(f'''INSERT INTO usuarios (nome, login, senha, id_perfil, atendente, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES ("Nicanor", "nicanor.soares@xcsolucoes.com.br", '{generate_password_hash("master").decode('utf-8')}', '2', 'S', current_timestamp(), "master", current_timestamp(), "master");''')
 
 cursor.execute('select * from app_admin.usuarios')
 print(' -------------  Usuários:  -------------')

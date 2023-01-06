@@ -60,10 +60,10 @@
                                                       <label for="id_perfil">Perfil de Usuário</label>
                                                       <strong class="text-danger ng-star-inserted"> *</strong>
                                                       <select id="id_perfil" name="id_perfil" class="form-control">
-                                                        <option value="1" {% if reg.id_perfil == 1 %}selected{% endif %}>Admin</option>
-                                                        <option value="2" {% if reg.id_perfil == 2 %}selected{% endif %}>Aprovador</option>
-                                                        <option value="3" {% if reg.id_perfil == 3 %}selected{% endif %}>Consultor</option>
-                                                        <option value="4" {% if reg.id_perfil == 4 %}selected{% endif %}>Desenvolvedor</option>
+                                                        <option value="{{reg.id}}" selected disabled hidden>{{reg.nome_perfil}}</option>
+                                                        {% for perfil in perfils %}
+                                                          <option value="{{ perfil.id }}" {% if reg.id_perfil == perfil.id %}selected{% endif %}>{{ perfil.nome_perfil }}</option>
+                                                        {% endfor %}
                                                       </select>
                                                     </div>
                                                     <div class="form-group col-md-4">
@@ -75,6 +75,10 @@
                                                       <input type="password" id="confirmacao_senha" name="confirmacao_senha" class="form-control" value="{{reg.senha}}">
                                                       <div class="text-danger" id="mensagemErro"></div>
                                                     </div>
+                                                    <div class="form-group col-md-6">
+                                                      <label for="atendente">Atendente</label>
+                                                      <input type="checkbox" id="atendente" name="atendente" value="S" {% if reg.atendente == "S" %}checked{% endif %} onchange="this.value = this.checked ? 'S' : 'N'">
+                                                    </div>                                                    
                                                     {% endfor %}
                                                   </div>
                                                 </div>

@@ -216,7 +216,7 @@
                             <li><a href="{{url_for('usuario')}}">Usuários</a></li>
                             {% endif %}
                             {% if 'Alterar Senha' in permissions[current_user] %}
-                            <li><a href="##">Alterar Senha</a></li>
+                            <li><a href="{{url_for('alterar_senha')}}">Alterar Senha</a></li>
                             {% endif %}
                         </ul>
                     </li>

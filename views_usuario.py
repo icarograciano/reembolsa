@@ -6,6 +6,7 @@ from werkzeug.utils import secure_filename
 from sqlalchemy import func, text
 from permissoes import permissoes
 from flask_bcrypt import generate_password_hash
+from views_pag_ini import index_ini
 
 @app.route('/usuario')
 def usuario():
@@ -31,7 +32,8 @@ def novo_usuario():
     permissions = {}
     permissions = permissoes(permissions)
     nome_usuario = Usuarios.query.filter_by(login=session['usuario_logado']).first()
-    return render_template('usuario_novo.html', user_session = nome_usuario.nome, current_user=nome_usuario.login, permissions = permissions)
+    perfils = PerfilUsuario.query.all()
+    return render_template('usuario_novo.html', user_session = nome_usuario.nome, current_user=nome_usuario.login, permissions = permissions, perfils = perfils)
 
 
 #inserindo novo registro
@@ -45,12 +47,17 @@ def criar_usuario():
     id_perfil = request.form['id_perfil']
     senha = request.form['senha']
 
-    novo_usuario = Usuarios(nome = nome, login = login, senha = generate_password_hash(senha).decode('utf-8'), id_perfil = id_perfil,
-    usuario_add = session['usuario_logado'] , usuario_edicao = session['usuario_logado'], 
-    data_add = f'''{present_time}''' , data_edicao = f'''{present_time}''')
+    atendente = request.form.get('atendente')
+    if atendente:
+        atendente = "S"
+    else:
+        atendente = "N"
+
+    novo_usuario = Usuarios(nome=nome, login=login, senha=generate_password_hash(senha).decode('utf-8'), id_perfil=id_perfil,
+                        usuario_add=session['usuario_logado'], usuario_edicao=session['usuario_logado'],
+                        data_add=f'''{present_time}''', data_edicao=f'''{present_time}''', atendente=atendente)
 
 
-    
     db.session.add(novo_usuario)
     db.session.commit()
     flash('Registro incluído com sucesso!')
@@ -67,9 +74,10 @@ def usuario_edita(id):
     lista = Usuarios.query.from_statement(query).all()
 
     nome_usuario = Usuarios.query.filter_by(login=session['usuario_logado']).first()
+    perfils = PerfilUsuario.query.all()
 
     return render_template('usuario_editar.html', user_session = nome_usuario.nome,  current_user=nome_usuario.login, 
-    permissions=permissions, lista = lista)
+    permissions=permissions, lista = lista, perfils = perfils)
 
 
 #atualizando o registro
@@ -82,6 +90,11 @@ def atualiza_usuario():
     usuario.senha = generate_password_hash(request.form.get('senha')).decode('utf-8')
     usuario.data_edicao = f'''{present_time}''' 
     usuario.usuario_edicao = session['usuario_logado']
+    usuario.atendente = request.form.get('atendente')
+    if usuario.atendente:
+        usuario.atendente = "S"
+    else:
+        usuario.atendente = "N"
 
     db.session.add(usuario)
     db.session.commit()
@@ -103,4 +116,29 @@ def deletar_usuario(id):
         flash('Registro deletado com sucesso!')
 
     return redirect(url_for('usuario'))
+
+@app.route('/alterar_senha')
+def alterar_senha():
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login'))
+    permissions = {}
+    permissions = permissoes(permissions)
+    nome_usuario = Usuarios.query.filter_by(login=session['usuario_logado']).first()
+    return render_template('alterar_senha.html', user_session = nome_usuario.nome,  current_user=nome_usuario.login, 
+    permissions=permissions, user_id = nome_usuario.id)
+
+#atualizando o registro
+@app.route('/usuario/atualizar_senha', methods=['POST',])
+def atualiza_usuario_senha():
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login'))
+    usuario = Usuarios.query.filter_by(id=request.form['id_user']).first()
+    usuario.senha = generate_password_hash(request.form.get('senha')).decode('utf-8')
+    usuario.data_edicao = f'''{present_time}''' 
+    usuario.usuario_edicao = session['usuario_logado']
+
+    db.session.add(usuario)
+    db.session.commit()
+    flash('Senha alterada com Sucesso')
+    return redirect(url_for('index_ini'))
 

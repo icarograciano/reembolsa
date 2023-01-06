@@ -41,8 +41,9 @@ def novo_reemb_adian():
         return redirect(url_for('login'))
     permissions = {}
     permissions = permissoes(permissions)
+    atendentes  = Usuarios.query.filter_by(atendente="S").all()
     nome_usuario = Usuarios.query.filter_by(login=session['usuario_logado']).first()
-    return render_template('Reembolso-Adiantamento.html', user_session = nome_usuario.nome, current_user=nome_usuario.login, permissions = permissions)
+    return render_template('Reembolso-Adiantamento.html', user_session = nome_usuario.nome, current_user=nome_usuario.login, permissions = permissions, atendentes =atendentes )
 
 #inserindo novo registro
 @app.route('/reemb_adian/criar', methods=['POST',])
@@ -84,8 +85,9 @@ def edita_reemb_adian(reg_insert, navpills):
     for despesa in despesas:
         despesas_total = despesas_total + despesa.valor_total
     despesas_total = despesas_total
+    atendentes  = Usuarios.query.filter_by(atendente="S").all()
     return render_template('edita_Reembolso-Adiantamento.html', user_session=nome_usuario.nome, reg_insert = reg_insert, intervalos = intervalos, 
-    despesas = despesas, despesas_total = despesas_total, navpills = navpills, current_user=nome_usuario.login, permissions = permissions)
+    despesas = despesas, despesas_total = despesas_total, navpills = navpills, current_user=nome_usuario.login, permissions = permissions, atendentes = atendentes)
 
 #atualizando o registro
 @app.route('/reemb_adian/atualizar', methods=['POST',])

@@ -58,10 +58,11 @@
                                                       <label for="aprovador">Perfil de Usuário</label>
                                                       <strong class="text-danger ng-star-inserted"> *</strong>
                                                       <select id="id_perfil" name="id_perfil" class="form-control">
-                                                        <option value="1">Admin</option>
-                                                        <option value="2">Aprovador</option>
-                                                        <option value="3" selected>Consultor</option>
-                                                        <option value="4">Desenvolvedor</option>
+                                                        <option value="" selected disabled hidden>Selecione</option>
+                                                        {% for perfil in perfils %}
+                                                          <option value="{{ perfil.id }}">{{ perfil.nome_perfil }}</option>
+                                                        {% endfor %}
+                                                      </select>
                                                       </select>
                                                     </div>
                                                     <div class="form-group col-md-4">
@@ -73,6 +74,10 @@
                                                       <input type="password" id="confirmacao_senha" name="confirmacao_senha" class="form-control">
                                                       <div class="text-danger" id="mensagemErro"></div>
                                                     </div>
+                                                    <div class="form-group col-md-6">
+                                                      <label for="atendente">Atendente</label>
+                                                      <input type="checkbox" id="atendente" name="atendente" value="S" onchange="this.value = this.checked ? 'S' : 'N'">
+                                                    </div> 
                                                   
                                                   </div>
                                                 </div>

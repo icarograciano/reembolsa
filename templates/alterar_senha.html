@@ -1,0 +1,52 @@
+{% extends "template.html" %}
+{% block conteudo %}
+
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+
+            <div class="row page-titles mx-0">
+                <div class="col p-md-0">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Alterar Senha</a></li>
+                    </ol>
+                </div>
+            </div>
+            <!-- row -->
+            <form class="form-valide" action="{{ url_for('atualiza_usuario_senha') }}" method="post">
+            <fieldset>
+            <input type="hidden" name="id_user" value="{{user_id}}">
+            <div class="login-form-bg h-100">
+                <div class="container h-100">
+                    <div class="row justify-content-center h-100">
+                        <div class="col-xl-6">
+                            <div class="form-input-content">
+                                <div class="card login-form mb-0">
+                                    <div class="card-body pt-5">
+                                        <a class="text-center" href="index.html"> <h4>{{user_session}}</h4></a>
+                                        <form class="mt-5 mb-3 login-input">
+                                            <div class="form-group">
+                                                <input type="password" class="form-control" name="senha" placeholder="Insira uma senha nova" required>
+                                            </div>
+                                            <button class="btn login-form__btn submit w-100">Alterar</button>
+                                        </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </fieldset>
+            </form>
+            <div class="container-fluid">
+            </div>
+            <!-- #/ container -->
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+        
+{% endblock %}

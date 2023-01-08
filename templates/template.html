@@ -171,7 +171,7 @@
                         </a>
                         {% if 'Clientes' in permissions[current_user] %}
                         <ul aria-expanded="false">
-                            <li><a href="##">Clientes</a></li>
+                            <li><a href="{{url_for('clientes')}}">Clientes</a></li>
                         </ul>
                         {% endif %}
                         {% if 'Motivos' in permissions[current_user] %}
@@ -260,6 +260,7 @@
     <script src="/static/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
     <script src="/static/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
     <script src="/static/js/upload_drag_and_drop.js"></script>
+    <script src="/static/js/valida_cnpj.js"></script>
 
     <script>
     setTimeout(function() {
@@ -326,6 +327,18 @@
 
         return true;
         }
+    </script>
+
+    <script>
+        function applyCnpjMask(cnpj) {
+        cnpj.value = cnpj.value.replace(/\D/g, '').replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5");
+        }
+    </script>
+    
+    <script>
+        document.getElementById('cnpj').addEventListener('keyup', function(e) {
+        applyCnpjMask(e.target);
+        });
     </script>
 
 </body>

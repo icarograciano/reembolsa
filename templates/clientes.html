@@ -1,0 +1,75 @@
+{% extends "template.html" %}
+{% block conteudo %}
+
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+
+            <div class="row page-titles mx-0">
+                <div class="col p-md-0">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Clientes</a></li>
+                    </ol>
+                </div>
+            </div>
+            <!-- row -->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Clientes</h4>
+                                <a href="{{url_for('novo_cliente')}}"><button type="button" title="Inserir novo registro" class="btn waves-effect waves-light btn-info" style="font-weight: bold;"><i class="fa fa-plus"></i> Novo</button></a>
+                                <div class="table-responsive">
+                                    <table id="example" class="table table-striped" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Código</th>
+                                                <th>CNPJ</th>
+                                                <th>Nome Fantasia</th>
+                                                <th>Razão Social</th>
+                                                <th>UF</th>
+                                                <th>Cidade</th>
+                                                <th>Bairro</th>
+                                                <th>Endereço</th>
+                                                <th>Número</th>
+                                                <th style="text-align: center" scope="col">Ações</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for reg in lista %}
+                                            <tr>
+                                                <td>{{reg.id}}</td>
+                                                <td>{{reg.cnpj}}</td>
+                                                <td>{{reg.nome_fantasia}}</td>
+                                                <td>{{reg.raz_social}}</td>
+                                                <td>{{reg.uf}}</td>
+                                                <td>{{reg.cidade}}</td>
+                                                <td>{{reg.bairro}}</td>
+                                                <td>{{reg.endereco}}</td>
+                                                <td>{{reg.numero}}</td>
+                                                <td style="text-align: center"><span>
+                                                    <a href="{{ url_for('cliente_edita', id=reg.id)}}" data-toggle="tooltip" data-placement="top" title="Editar"><i class="fa fa-pencil color-muted m-r-5" style="margin:0 5px;"></i> </a>
+                                                    <a href="{{ url_for('deleta_cliente', id=reg.id)}}" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="fa fa-close color-danger" style="margin:0 20px;"></i></a></span>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-fluid">
+            </div>
+            <!-- #/ container -->
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+        
+{% endblock %}

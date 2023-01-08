@@ -22,6 +22,27 @@ class Usuarios(db.Model):
 def __repr__(self):
     return '<Name %r>' % self.name
 
+#Tabela de Clientes
+class Clientes(db.Model):
+    id = db.Column(db.Integer, autoincrement=True)
+    cnpj = db.Column(db.String(18), primary_key = True)
+    nome_fantasia = db.Column(db.String(100), nullable=False)
+    raz_social = db.Column(db.String(100), nullable=False)
+    cep = db.Column(db.String(9), nullable=False)
+    uf = db.Column(db.String(2), nullable=False)
+    cidade = db.Column(db.String(100), nullable=False)
+    bairro = db.Column(db.String(100), nullable=False)
+    endereco = db.Column(db.String(100), nullable=False)
+    numero = db.Column(db.String(10), nullable=False)
+    ativo = db.Column(db.String(1), nullable=False)
+    data_add = db.Column(db.DateTime, nullable=False)
+    usuario_add = db.Column(db.String(100), nullable=False)
+    data_edicao = db.Column(db.DateTime, nullable=False)
+    usuario_edicao = db.Column(db.String(100), nullable=False)
+
+def __repr__(self):
+    return '<Name %r>' % self.name
+
 #Tabela de Usuários
 class Usuarios_1(db.Model):
     id = db.Column(db.Integer,primary_key = True, autoincrement=True)

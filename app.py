@@ -14,6 +14,8 @@ from views_reemb_adian import *
 from views_perfil_usuario import *
 from views_usuario import *
 from views_pag_ini import *
+from views_clientes import *
+
 
 
 if __name__ =="__main__":

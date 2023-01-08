@@ -41,6 +41,26 @@ TABLES['Usuarios'] = ('''
       PRIMARY KEY (`id`, `login`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;''')
 
+TABLES['Clientes'] = ('''
+      CREATE TABLE clientes (
+      `id` INTEGER NOT NULL AUTO_INCREMENT,
+      `cnpj` CHAR(18) NOT NULL PRIMARY KEY,
+      `nome_fantasia` VARCHAR(100) NOT NULL,
+      `raz_social` VARCHAR(100) NOT NULL,
+      `cep` VARCHAR(9) NOT NULL,
+      `uf` CHAR(2) NOT NULL,
+      `cidade` VARCHAR(100) NOT NULL,
+      `bairro` VARCHAR(100) NOT NULL,
+      `endereco` VARCHAR(100) NOT NULL,
+      `numero` VARCHAR(10) NOT NULL,
+      `ativo` varchar(1) NOT NULL,
+      `data_add` datetime NOT NULL,
+      `usuario_add` varchar(100) NOT NULL,
+      `data_edicao` datetime NOT NULL default current_timestamp(),
+      `usuario_edicao` varchar(100) NOT NULL,
+      UNIQUE KEY id (id)
+      )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;''')
+
 TABLES['Lancamentos'] = ('''
       CREATE TABLE `Lancamentos` (
       `id` int(11) NOT NULL auto_increment,

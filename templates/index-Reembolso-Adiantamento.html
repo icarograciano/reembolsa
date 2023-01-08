@@ -41,7 +41,7 @@
                                             {% for reg in atendimentos_lis %}
                                             <tr>
                                                 <td>{{reg.id}}</td>
-                                                <td>{{reg.cliente}}</td>
+                                                <td>{{reg.nome_fantasia}}</td>
                                                 <td>{{reg.motivo}}</td>
                                                 <td>{{reg.dt_atendimento.strftime('%d/%m/%Y')}}</td>
                                                 <td>{{reg.atendente}}</td>

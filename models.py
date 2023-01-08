@@ -4,7 +4,16 @@ from datetime import datetime
 
 #pegando a data e hora atual
 present_time = datetime.now()   
-'{:%H:%M:%S}'.format(present_time)     
+'{:%H:%M:%S}'.format(present_time)
+
+#Tabela de Uf
+class uf(db.Model):
+    id = db.Column(db.Integer,primary_key = True, autoincrement=True)
+    sigla = db.Column(db.String(100), primary_key = True, nullable=False)
+    descricao = db.Column(db.String(100), nullable=False)
+
+def __repr__(self):
+    return '<Name %r>' % self.name
 
 #Tabela de Usuários
 class Usuarios(db.Model):
@@ -64,7 +73,7 @@ def __repr__(self):
 class Lancamentos(db.Model):
     id = db.Column(db.Integer,primary_key = True, autoincrement=True)
     status = db.Column(db.String(40), nullable=False)
-    cliente = db.Column(db.String(40), nullable=False)
+    cliente = db.Column(db.Integer, nullable=False)
     motivo = db.Column(db.String(40), nullable=False)
     dt_atendimento = db.Column(db.Date, nullable=False)
     hora_ini = db.Column(db.Time, nullable=True)
@@ -97,6 +106,7 @@ class Lancamentos_query(db.Model):
     data_edicao = db.Column(db.DateTime, nullable=False)
     usuario_edicao = db.Column(db.String(100), nullable=False)
     valor_total = db.Column(db.Float, nullable=True)
+    nome_fantasia = db.Column(db.String(100), nullable=False)
 
 def __repr__(self):
     return '<Name %r>' % self.name

@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, session, url_for, flash
 from app import app, db
-from models import Usuarios, present_time, Clientes
+from models import Usuarios, present_time, Clientes, uf
 from sqlalchemy import func, text
 from permissoes import permissoes
 import re
@@ -33,7 +33,8 @@ def novo_cliente():
     permissions = {}
     permissions = permissoes(permissions)
     nome_usuario = Usuarios.query.filter_by(login=session['usuario_logado']).first()
-    return render_template('clientes_novo.html', user_session = nome_usuario.nome, current_user=nome_usuario.login, permissions = permissions)
+    ufs = uf.query.all()
+    return render_template('clientes_novo.html', user_session = nome_usuario.nome, current_user=nome_usuario.login, permissions = permissions,  ufs = ufs)
 
 
 #inserindo novo registro
@@ -82,9 +83,10 @@ def cliente_edita(id):
     permissions = permissoes(permissions)
     nome_usuario = Usuarios.query.filter_by(login=session['usuario_logado']).first()
     lista = Clientes.query.filter_by(id=id).all()
+    ufs = uf.query.all()
 
     return render_template('clientes_editar.html', user_session = nome_usuario.nome, current_user=nome_usuario.login, 
-    permissions=permissions, lista = lista)
+    permissions=permissions, lista = lista, ufs = ufs)
 
 
 #atualizando o registro

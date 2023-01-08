@@ -57,17 +57,11 @@
                                                             <div class="form-group col-md-4">
                                                                 <label>Cliente</label>
                                                                 <strong class="text-danger ng-star-inserted"> *</strong>
-                                                                <select class="form-control" id="sel1" name="atendimento_cliente">
-                                                                    <option value="selected" selected disabled hidden>{{reg_insert.cliente}}</option>
-                                                                    <option>-----------</option>
-                                                                    <option>XC Solucoes</option>
-                                                                    <option>Cellier Alimentos</option>
-                                                                    <option>Ipel Papel</option>
-                                                                    <option>RCervellini Distribuidora</option>
-                                                                    <option>Mega Modas Distribuidora</option>
-                                                                    <option>Comando Auto Peças</option>
-                                                                    <option>Giga Utilidades</option>
-                                                                    <option>Total Distribuidora</option>
+                                                                <select id="atendimento_cliente" name="atendimento_cliente" class="form-control">
+                                                                    {% for cliente in lista_clientes %}
+                                                                    <option value="{{ cliente.id}}" {% if reg_insert.cliente == cliente.id %}selected{% endif %}>{{ cliente.nome_fantasia }}</option>
+                                                                    {% endfor %}
+                                                                  </select>
                                                                 </select>
                                                             </div>
                                                             <div class="form-group col-md-4">
@@ -183,7 +177,8 @@
                                                                                                     </div>
                                                                                                 </div><br>
                                                                                                 <div class="row">
-                                                                                                    <div class="col-sm-6"><label class="control-label" style="font-weight: bold;">Valor da Despesa</label><input
+                                                                                                    <div class="col-sm-6"><label class="control-label" style="font-weight: bold;">Valor da Despesa</label>
+                                                                                                        <input
                                                                                                             appnexttab="" apponlydecimal="" formcontrolname="valor" type="float"
                                                                                                             class="form-control ng-untouched ng-pristine ng-valid" style="text-align: right;" name="valor_despesa"></div>
                                                                                                     <div class="col-sm-6"><label class="control-label" style="font-weight: bold;">Total</label><input readonly=""

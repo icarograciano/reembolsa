@@ -26,6 +26,14 @@ cursor.execute("USE `app_admin`;")
 # criando tabelas
 TABLES = {}
 
+TABLES['uf'] = ('''
+      CREATE TABLE `uf` (
+      `id` int(11) NOT NULL auto_increment,
+      `sigla` varchar(22) NOT NULL,
+      `descricao` varchar(50) NOT NULL,
+      PRIMARY KEY (`id`, `sigla`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;''')
+
 TABLES['Usuarios'] = ('''
       CREATE TABLE `Usuarios` (
       `id` int(11) NOT NULL auto_increment,
@@ -65,7 +73,7 @@ TABLES['Lancamentos'] = ('''
       CREATE TABLE `Lancamentos` (
       `id` int(11) NOT NULL auto_increment,
       `status` varchar(40) NOT NULL,
-      `cliente` varchar(40) NOT NULL,
+      `cliente` integer NOT NULL,
       `motivo` varchar(40) NOT NULL,
       `dt_atendimento` date NOT NULL,
       `hora_ini` time  NULL,
@@ -157,6 +165,43 @@ for tabela_nome in TABLES:
                   print(err.msg)
       else:
             print('OK')
+
+
+
+cursor.execute(f'''INSERT INTO uf (sigla, descricao) VALUES
+                        ('AC', 'Acre'),
+                        ('AL', 'Alagoas'),
+                        ('AP', 'Amapá'),
+                        ('AM', 'Amazonas'),
+                        ('BA', 'Bahia'),
+                        ('CE', 'Ceará'),
+                        ('DF', 'Distrito Federal'),
+                        ('ES', 'Espírito Santo'),
+                        ('GO', 'Goiás'),
+                        ('MA', 'Maranhão'),
+                        ('MT', 'Mato Grosso'),
+                        ('MS', 'Mato Grosso do Sul'),
+                        ('MG', 'Minas Gerais'),
+                        ('PA', 'Pará'),
+                        ('PB', 'Paraíba'),
+                        ('PR', 'Paraná'),
+                        ('PE', 'Pernambuco'),
+                        ('PI', 'Piauí'),
+                        ('RJ', 'Rio de Janeiro'),
+                        ('RN', 'Rio Grande do Norte'),
+                        ('RS', 'Rio Grande do Sul'),
+                        ('RO', 'Rondônia'),
+                        ('RR', 'Roraima'),
+                        ('SC', 'Santa Catarina'),
+                        ('SP', 'São Paulo'),
+                        ('SE', 'Sergipe'),
+                        ('TO', 'Tocantins');''')
+
+cursor.execute('select * from uf')
+print(' -------------  Ufs:  -------------')
+for uf in cursor.fetchall():
+    print(uf[1])
+
 
 cursor.execute(f'''INSERT INTO usuarios (nome, login, senha, id_perfil, atendente, data_add, usuario_add, data_edicao, usuario_edicao)
 VALUES ("Master", "master", '{generate_password_hash("master").decode('utf-8')}', '1', 'S', current_timestamp(), "master", current_timestamp(), "master");''')
@@ -281,7 +326,7 @@ for i in range(1):
                               usuario_edicao)
                         values(
                         'Aberto',
-                        'IPEL',
+                        1,
                         'Consultoria',
                         CURRENT_TIMESTAMP(),
                         CURTIME(),

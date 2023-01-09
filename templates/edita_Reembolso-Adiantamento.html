@@ -140,12 +140,13 @@
                                                                                                         <label class="control-label" style="font-weight: bold;">Data</label>
                                                                                                         <strong class="text-danger ng-star-inserted"> *</strong>
                                                                                                         <input type="date" class="form-control ng-untouched ng-pristine ng-invalid" 
-                                                                                                        style="text-align: center;" name="dt_despesa">
+                                                                                                        style="text-align: center;" name="dt_despesa" required>
                                                                                                     </div>
                                                                                                     <div class="col-sm-9">
                                                                                                         <label class="control-label" style="font-weight: bold;">Tipo</label>
                                                                                                         <strong class="text-danger"> *</strong>
-                                                                                                        <select appnexttab="" formcontrolname="idLancamento" class="form-control ng-pristine ng-valid ng-touched" name="tipo">
+                                                                                                        <select appnexttab="" formcontrolname="idLancamento" class="form-control ng-pristine ng-valid ng-touched" name="tipo" required>
+                                                                                                            <option value="" selected disabled hidden>Selecione</option>
                                                                                                             <option class="ng-star-inserted"> Adiantamento </option>
                                                                                                             <option class="ng-star-inserted"> Almoco </option>
                                                                                                             <option class="ng-star-inserted"> Aluguel De Carro </option>
@@ -172,16 +173,17 @@
                                                                                                         <strong class="text-danger"> *</strong>
                                                                                                         <input appnexttab="" apponlydecimal="" formcontrolname="qtde"
                                                                                                             type="float" class="form-control ng-untouched ng-pristine ng-invalid" 
-                                                                                                            style="text-align: right;" name="quantidade">
+                                                                                                            style="text-align: right;" name="quantidade" required>
                                                                                                         <!---->
                                                                                                     </div>
                                                                                                 </div><br>
                                                                                                 <div class="row">
-                                                                                                    <div class="col-sm-6"><label class="control-label" style="font-weight: bold;">Valor da Despesa</label>
-                                                                                                        <input
-                                                                                                            appnexttab="" apponlydecimal="" formcontrolname="valor" type="float"
-                                                                                                            class="form-control ng-untouched ng-pristine ng-valid" style="text-align: right;" name="valor_despesa"></div>
-                                                                                                    <div class="col-sm-6"><label class="control-label" style="font-weight: bold;">Total</label><input readonly=""
+                                                                                                    <div class="col-sm-6">
+                                                                                                        <label class="control-label" style="font-weight: bold;">Valor da Despesa</label>
+                                                                                                        <input appnexttab="" apponlydecimal="" formcontrolname="valor" type="float"
+                                                                                                            class="form-control ng-untouched ng-pristine ng-valid" style="text-align: right;" name="valor_despesa" required></div>
+                                                                                                    <div class="col-sm-6"><label class="control-label" style="font-weight: bold;">Total</label>
+                                                                                                        <input readonly=""
                                                                                                             apponlydecimal="" tabindex="32000" formcontrolname="total" type="text"
                                                                                                             class="form-control ng-untouched ng-pristine ng-valid" style="text-align: right;" name="valor_total"></div>
                                                                                                 </div>

@@ -49,12 +49,12 @@
                                                     <div class="form-group col-md-4">
                                                       <label>Login</label>
                                                       <strong class="text-danger ng-star-inserted"> *</strong>
-                                                      <input type="text" id="login" name="login" class="form-control" disabled value="{{reg.login}}">
+                                                      <input type="text" id="login" name="login" class="form-control" disabled value="{{reg.login}}" required>
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                       <label>Nome</label>
                                                       <strong class="text-danger ng-star-inserted"> *</strong>
-                                                      <input type="text" id="nome" name="nome" class="form-control" disabled value="{{reg.nome}}">
+                                                      <input type="text" id="nome" name="nome" class="form-control" disabled value="{{reg.nome}}" required>
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                       <label for="id_perfil">Perfil de Usuário</label>
@@ -68,11 +68,11 @@
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                       <label for="senha">Senha</label>
-                                                      <input type="password" id="senha" name="senha" class="form-control" value="{{reg.senha}}">
+                                                      <input type="password" id="senha" name="senha" class="form-control" value="{{reg.senha}}" required>
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                       <label for="confirmacao_senha">Confirme a Senha</label>
-                                                      <input type="password" id="confirmacao_senha" name="confirmacao_senha" class="form-control" value="{{reg.senha}}">
+                                                      <input type="password" id="confirmacao_senha" name="confirmacao_senha" class="form-control" value="{{reg.senha}}" required>
                                                       <div class="text-danger" id="mensagemErro"></div>
                                                     </div>
                                                     <div class="form-group col-md-6">

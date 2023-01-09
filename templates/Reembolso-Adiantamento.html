@@ -37,17 +37,17 @@
                                                         <div class="row">
                                                             <div class="form-group col-md-2">
                                                                 <label for="atendimento_codigo">Código</label>
-                                                                <input type="text" id="atendimento_codigo" name="atendimento_codigo" class="form-control" disabled>
+                                                                <input type="text" id="atendimento_codigo" name="atendimento_codigo" class="form-control" disabled required>
                                                             </div>
                                                             <div class="form-group col-md-2">
                                                                 <label>Status</label>
                                                                 <strong class="text-danger ng-star-inserted"> *</strong>
-                                                                <input type="text" id="atendimento_status" name="atendimento_status" class="form-control" disabled value="Aberto">
+                                                                <input type="text" id="atendimento_status" name="atendimento_status" class="form-control" disabled value="Aberto" required>
                                                             </div>
                                                             <div class="form-group col-md-4">
                                                                 <label>Cliente</label>
                                                                 <strong class="text-danger ng-star-inserted"> *</strong>
-                                                                <select class="form-control" id="sel1" name="atendimento_cliente">
+                                                                <select class="form-control" id="sel1" name="atendimento_cliente" required>
                                                                     <option value="" selected disabled hidden>Selecione</option>
                                                                     {% for cliente in lista_clientes %}
                                                                       <option value="{{ cliente.id }}">{{ cliente.nome_fantasia }}</option>
@@ -57,8 +57,8 @@
                                                             <div class="form-group col-md-4">
                                                                 <label>Motivo</label>
                                                                 <strong class="text-danger ng-star-inserted"> *</strong>
-                                                                <select class="form-control" id="sel1" name="atendimento_motivo">
-                                                                    <option>-----------</option>
+                                                                <select class="form-control" id="sel1" name="atendimento_motivo" required>
+                                                                    <option value="" selected disabled hidden>Selecione</option>
                                                                     <option>Consultoria</option>
                                                                     <option>Suporte</option>
                                                                     <option>Desenvolvimento</option>
@@ -73,17 +73,18 @@
                                                                 <div class="form-group col-md-4">
                                                                     <label>Data</label>
                                                                     <strong class="text-danger ng-star-inserted"> *</strong>
-                                                                    <input type="date" class="form-control ng-pristine ng-valid ng-touched" name="atendimento_dt_atendimento" style="text-align: center;">
+                                                                    <input type="date" class="form-control ng-pristine ng-valid ng-touched" name="atendimento_dt_atendimento" style="text-align: center;" 
+                                                                    required>
                                                                 </div>
                                                                 <div class="form-group col-md-4">
                                                                     <label>Atendente</label>
                                                                     <strong class="text-danger ng-star-inserted"> *</strong>
-                                                                    <select class="form-control" id="sel1" name="atendimento_atendente">
+                                                                    <select class="form-control" id="sel1" name="atendimento_atendente" required>
                                                                         <option value="" selected disabled hidden>Selecione</option>
                                                                         {% for atendente in atendentes %}
-                                                                          <option value="{{ atendente.nome }}" {% if atendente.nome == atendente.nome %}selected{% endif %}>{{ atendente.nome }}</option>
+                                                                        <option value="{{ atendente.nome }}">{{ atendente.nome }}</option>
                                                                         {% endfor %}
-                                                                      </select>
+                                                                    </select>
                                                                       
                                                                 </div>
                                                             </div>

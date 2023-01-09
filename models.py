@@ -65,6 +65,19 @@ class Motivos(db.Model):
 def __repr__(self):
     return '<Name %r>' % self.name
 
+#Tabela de Tipos_despesa
+class Tipos_despesa(db.Model):
+    id = db.Column(db.Integer, primary_key = True, autoincrement=True)
+    descricao = db.Column(db.String(50), nullable=False)
+    ativo = db.Column(db.String(1), nullable=False)
+    data_add = db.Column(db.DateTime, nullable=False)
+    usuario_add = db.Column(db.String(100), nullable=False)
+    data_edicao = db.Column(db.DateTime, nullable=False)
+    usuario_edicao = db.Column(db.String(100), nullable=False)
+
+def __repr__(self):
+    return '<Name %r>' % self.name
+
 #Tabela de Usuários
 class Usuarios_1(db.Model):
     id = db.Column(db.Integer,primary_key = True, autoincrement=True)

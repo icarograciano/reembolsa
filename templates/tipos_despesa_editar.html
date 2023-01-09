@@ -1,0 +1,81 @@
+{% extends "template.html" %}
+{% block conteudo %}
+
+<!--**********************************
+    Content body start
+***********************************-->
+<div class="content-body">
+    <div class="row page-titles mx-0">
+        <div class="col p-md-0">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Editar Tipo de Despesa</a></li>
+            </ol>
+        </div>
+    </div>
+    <!-- row -->
+    <div class="container-fluid">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Tipo de Despesa</h4>
+                    <div class="form-validation">
+                      <form class="form-valide" action="{{ url_for('atualiza_tipo_despesa') }}" method="post">
+                      <fieldset>
+                        <a href="{{ url_for('tipos_despesa') }}" data-placement="top" title="Modo Lista" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-list" style="margin: 0 3px;"></i>Modo Lista</a>
+                        <button type="submit" title="Gravar alterações" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-save"></i> Gravar</button>                                       
+                        <br>
+                        <br>
+                          <div class="row align-items-center">
+                              <div class="col-sm-6 col-md-8 col-xl-12">
+                              <div class="form-validation">
+                                  <form class="form-valide" action="" method="post">
+                                  <fieldset>
+                                      <div class="d-md-flex align-items-center"><form novalidate="" class="ng-pristine ng-invalid ng-touched"><!----></form><div class="ml-auto"><div class="dl"><strong class="text-danger"> *</strong> Campos obrigatórios </div></div></div>
+                                      <hr>
+                                      <div class="col-lg-12">
+                                          <div class="card">
+                                            {% for reg in lista %}
+                                              <div class="card-body">
+                                                <input type="hidden" name="id" value="{{reg.id}}">
+                                                <div class="basic-form">
+                                                  <div class="row">
+                                                    <div class="form-group col-md-2">
+                                                      <label>Código</label>
+                                                      <input type="text" id="id" name="id" class="form-control" disabled value="{{reg.id}}">
+                                                    </div>
+                                                  </div>
+                                                  <div class="row">
+                                                    <div class="form-group col-md-4">
+                                                      <label for="descricao">Descrição</label>
+                                                      <strong class="text-danger ng-star-inserted"> *</strong>
+                                                      <input type="text" class="form-control" id="descricao" name="descricao" maxlength="50" required value="{{reg.descricao}}">
+                                                    </div>                                                    
+                                                  </div>
+                                                  <div class="form-group">
+                                                    <label for="ativo">Ativo</label>
+                                                    <input type="checkbox" id="ativo" name="ativo" value="S" {% if reg.ativo == "S" %}checked{% endif %} onchange="this.value = this.checked ? 'S' : 'N'">
+                                                  </div> 
+                                                </div>
+                                              </div>
+                                            {% endfor %}
+                                          </div>
+                                      </div>
+                                      </fieldset>    
+                                      </form>
+                                  </div>
+                                  </div>
+                              </div>
+                      </fieldset>
+                      </form>
+                    </div>         
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #/ container -->
+</div>
+<!--**********************************
+    Content body end
+***********************************-->
+        
+{% endblock %}

@@ -15,7 +15,7 @@ def autenticar():
         if check_password_hash(usuario.senha, request.form['senha']):
             session['usuario_logado'] = usuario.login
             flash(usuario.login + ' logado com sucesso!')
-            return redirect(url_for('index_Reembolso_Adiantamento'))
+            return redirect(url_for('index_ini'))
         else:
             flash('Senha inválida. Verifique!')
             return redirect(url_for('login'))

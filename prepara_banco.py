@@ -98,7 +98,7 @@ TABLES['Lancamentos'] = ('''
       `id` int(11) NOT NULL auto_increment,
       `status` varchar(40) NOT NULL,
       `cliente` integer NOT NULL,
-      `motivo` varchar(40) NOT NULL,
+      `motivo`  integer NOT NULL,
       `dt_atendimento` date NOT NULL,
       `hora_ini` time  NULL,
       `hora_fim` time  NULL,
@@ -130,7 +130,7 @@ TABLES['Despesas'] = ('''
       CREATE TABLE `Despesas` (
       `id` int NOT NULL AUTO_INCREMENT,
       `dt_despesa` date NOT NULL,
-      `tipo` varchar(40) CHARACTER SET utf8mb3 COLLATE utf8_bin NOT NULL,
+      `tipo` integer NOT NULL,
       `id_lancamento` varchar(40) CHARACTER SET utf8mb3 COLLATE utf8_bin NOT NULL,
       `quantidade` float NOT NULL,
       `valor_despesa` float NOT NULL,
@@ -351,7 +351,7 @@ for i in range(1):
                         values(
                         'Aberto',
                         1,
-                        'Consultoria',
+                        1,
                         CURRENT_TIMESTAMP(),
                         CURTIME(),
                         CURTIME(),

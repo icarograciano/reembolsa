@@ -59,10 +59,9 @@
                                                                 <strong class="text-danger ng-star-inserted"> *</strong>
                                                                 <select class="form-control" id="sel1" name="atendimento_motivo" required>
                                                                     <option value="" selected disabled hidden>Selecione</option>
-                                                                    <option>Consultoria</option>
-                                                                    <option>Suporte</option>
-                                                                    <option>Desenvolvimento</option>
-                                                                    <option>Visita Comercial</option>
+                                                                    {% for motivo in motivos %}
+                                                                    <option value="{{ motivo.id }}">{{ motivo.descricao }}</option>
+                                                                    {% endfor %}
                                                                 </select>
                                                             </div>
                                                         </div>

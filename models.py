@@ -100,7 +100,7 @@ class Lancamentos(db.Model):
     id = db.Column(db.Integer,primary_key = True, autoincrement=True)
     status = db.Column(db.String(40), nullable=False)
     cliente = db.Column(db.Integer, nullable=False)
-    motivo = db.Column(db.String(40), nullable=False)
+    motivo = db.Column(db.Integer, nullable=False)
     dt_atendimento = db.Column(db.Date, nullable=False)
     hora_ini = db.Column(db.Time, nullable=True)
     hora_fim = db.Column(db.Time, nullable=True)
@@ -119,8 +119,9 @@ def __repr__(self):
 class Lancamentos_query(db.Model):
     id = db.Column(db.Integer,primary_key = True, autoincrement=True)
     status = db.Column(db.String(40), nullable=False)
-    cliente = db.Column(db.String(40), nullable=False)
-    motivo = db.Column(db.String(40), nullable=False)
+    cliente = db.Column(db.Integer, nullable=False)
+    motivo = db.Column(db.Integer, nullable=False)
+    descricao_motivo = db.Column(db.String(50), nullable=False)
     dt_atendimento = db.Column(db.Date, nullable=False)
     hora_ini = db.Column(db.Time, nullable=True)
     hora_fim = db.Column(db.Time, nullable=True)
@@ -156,7 +157,29 @@ def __repr__(self):
 class Despesas(db.Model):
     id = db.Column(db.Integer,primary_key = True, autoincrement=True)
     dt_despesa = db.Column(db.Date, nullable=False)
-    tipo = db.Column(db.String(40), nullable=False)
+    tipo = db.Column(db.Integer, nullable=False)
+    quantidade = db.Column(db.Float, nullable=False)
+    valor_despesa = db.Column(db.Float, nullable=False)
+    valor_total = db.Column(db.Float, nullable=False)
+    id_lancamento = db.Column(db.Integer,primary_key = True)
+    observacao = db.Column(db.String(2000), nullable=False)
+    anexo = db.Column(db.String(1), nullable=False)
+    nome_arquivo = db.Column(db.String(100), nullable=True)
+    data_add = db.Column(db.DateTime, nullable=False)
+    usuario_add = db.Column(db.String(100), nullable=False)
+    data_edicao = db.Column(db.DateTime, nullable=False)
+    usuario_edicao = db.Column(db.String(100), nullable=False)
+
+def __repr__(self):
+    return '<Name %r>' % self.name
+
+
+#Tabela de Despesas_Query
+class Despesas_Query(db.Model):
+    id = db.Column(db.Integer,primary_key = True, autoincrement=True)
+    dt_despesa = db.Column(db.Date, nullable=False)
+    tipo = db.Column(db.Integer, nullable=False)
+    descricao = db.Column(db.String(50), nullable=False)
     quantidade = db.Column(db.Float, nullable=False)
     valor_despesa = db.Column(db.Float, nullable=False)
     valor_total = db.Column(db.Float, nullable=False)

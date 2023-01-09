@@ -68,12 +68,9 @@
                                                                 <label>Motivo</label>
                                                                 <strong class="text-danger ng-star-inserted"> *</strong>
                                                                 <select class="form-control" id="sel1" name="atendimento_motivo">
-                                                                    <option value="selected" selected disabled hidden>{{reg_insert.motivo}}</option>
-                                                                    <option>-----------</option>
-                                                                    <option>Consultoria</option>
-                                                                    <option>Suporte</option>
-                                                                    <option>Desenvolvimento</option>
-                                                                    <option>Visita Comercial</option>
+                                                                    {% for motivo in motivos %}
+                                                                    <option value="{{ motivo.id}}" {% if reg_insert.motivo == motivo.id %}selected{% endif %}>{{ motivo.descricao }}</option>
+                                                                    {% endfor %}
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -147,23 +144,9 @@
                                                                                                         <strong class="text-danger"> *</strong>
                                                                                                         <select appnexttab="" formcontrolname="idLancamento" class="form-control ng-pristine ng-valid ng-touched" name="tipo" required>
                                                                                                             <option value="" selected disabled hidden>Selecione</option>
-                                                                                                            <option class="ng-star-inserted"> Adiantamento </option>
-                                                                                                            <option class="ng-star-inserted"> Almoco </option>
-                                                                                                            <option class="ng-star-inserted"> Aluguel De Carro </option>
-                                                                                                            <option class="ng-star-inserted"> Cafe da manha </option>
-                                                                                                            <option class="ng-star-inserted"> Cafe da tarde </option>
-                                                                                                            <option class="ng-star-inserted"> Combustivel </option>
-                                                                                                            <option class="ng-star-inserted"> Estacionamento </option>
-                                                                                                            <option class="ng-star-inserted"> Hospedagem </option>
-                                                                                                            <option class="ng-star-inserted"> Jantar </option>
-                                                                                                            <option class="ng-star-inserted"> Km Carro </option>
-                                                                                                            <option class="ng-star-inserted"> Laboratorio </option>
-                                                                                                            <option class="ng-star-inserted"> Outros </option>
-                                                                                                            <option class="ng-star-inserted"> Passagem Aviao </option>
-                                                                                                            <option class="ng-star-inserted"> Passagem Metro/Trem</option>
-                                                                                                            <option class="ng-star-inserted"> Passagem Onibus </option>
-                                                                                                            <option class="ng-star-inserted"> Pedagios </option>
-                                                                                                            <option class="ng-star-inserted"> Uber/Taxi </option>
+                                                                                                            {% for tipo_despesa in tipos_despesa %}
+                                                                                                            <option value="{{ tipo_despesa.id }}">{{ tipo_despesa.descricao }}</option>
+                                                                                                            {% endfor %}
                                                                                                             <!---->
                                                                                                         </select>
                                                                                                         <!---->
@@ -228,7 +211,7 @@
                                                                                 {% for despesa in despesas %}
                                                                                 <tr class="ng-star-inserted">
                                                                                     <td style="text-align: center;" width="10%">{{despesa.dt_despesa.strftime('%d/%m/%Y')}}</td>
-                                                                                    <td style="text-align: center;" width="10%">{{despesa.tipo}}</td>
+                                                                                    <td style="text-align: center;" width="10%">{{despesa.descricao}}</td>
                                                                                     <td style="text-align: center;" width="5%">{{despesa.quantidade}}</td>
                                                                                     <td style="text-align: center;" width="10%">{{"R$ {:,.2f}".format(despesa.valor_despesa)}}</td>
                                                                                     <td style="text-align: center;" width="10%">{{"R$ {:,.2f}".format(despesa.valor_total)}}</td>
@@ -345,24 +328,9 @@
                                                                                         <label class="control-label" style="font-weight: bold;">Tipo</label>
                                                                                         <strong class="text-danger"> *</strong>
                                                                                         <select appnexttab="" formcontrolname="idLancamento" class="form-control ng-pristine ng-valid ng-touched" name="tipo">
-                                                                                            <option value="selected" selected disabled hidden>{{despesa_edit.tipo if despesa_edit != undefined else ''}}</option>
-                                                                                            <option class="ng-star-inserted"> Adiantamento </option>
-                                                                                            <option class="ng-star-inserted"> Almoco </option>
-                                                                                            <option class="ng-star-inserted"> Aluguel De Carro </option>
-                                                                                            <option class="ng-star-inserted"> Cafe da manha </option>
-                                                                                            <option class="ng-star-inserted"> Cafe da tarde </option>
-                                                                                            <option class="ng-star-inserted"> Combustivel </option>
-                                                                                            <option class="ng-star-inserted"> Estacionamento </option>
-                                                                                            <option class="ng-star-inserted"> Hospedagem </option>
-                                                                                            <option class="ng-star-inserted"> Jantar </option>
-                                                                                            <option class="ng-star-inserted"> Km Carro </option>
-                                                                                            <option class="ng-star-inserted"> Laboratorio </option>
-                                                                                            <option class="ng-star-inserted"> Outros </option>
-                                                                                            <option class="ng-star-inserted"> Passagem Aviao </option>
-                                                                                            <option class="ng-star-inserted"> Passagem Metro/Trem</option>
-                                                                                            <option class="ng-star-inserted"> Passagem Onibus </option>
-                                                                                            <option class="ng-star-inserted"> Pedagios </option>
-                                                                                            <option class="ng-star-inserted"> Uber/Taxi </option>
+                                                                                            {% for tipo_despesa in tipos_despesa %}
+                                                                                            <option value="{{ tipo_despesa.id}}" {% if (despesa_edit.tipo if despesa_edit != undefined else '') == tipo_despesa.id %}selected{% endif %}>{{ tipo_despesa.descricao }}</option>
+                                                                                            {% endfor %}
                                                                                             <!---->
                                                                                         </select>
                                                                                         <!---->

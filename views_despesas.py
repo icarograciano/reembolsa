@@ -1,9 +1,10 @@
 from flask import render_template, request, redirect, session, flash, url_for, send_from_directory
 from app import app, db
-from models import Despesas, Intervalos, Lancamentos, Usuarios, present_time 
+from models import Despesas, Intervalos, Lancamentos, Usuarios, present_time, Tipos_despesa, Despesas_Query
 import os
 from werkzeug.utils import secure_filename
 from permissoes import permissoes
+from sqlalchemy import func, text
 
 @app.route('/despesas/criar', methods=['POST',])
 def criar_despesas():
@@ -34,15 +35,21 @@ def editar_despesa(id_lancamento, id):
     id_lancamento = id_lancamento
     reg_insert = Lancamentos.query.filter_by(id=id_lancamento).first()
     intervalos = Intervalos.query.filter_by(id_lancamento=id_lancamento).order_by(Intervalos.id)
-    despesas = Despesas.query.filter_by(id_lancamento=id_lancamento).order_by(Despesas.id)
+    query = text(f'''select t1.*, t2.descricao from 
+                        app_admin.despesas t1
+                        inner join app_admin.tipos_despesa t2 on t2.id = t1.tipo
+                        where t1.id_lancamento = {id_lancamento}''')
+    despesas = Despesas_Query.query.from_statement(query).all()
     nome_usuario = Usuarios.query.filter_by(login=session['usuario_logado']).first()
     despesas_total = 0
     for despesa in despesas:
         despesas_total = despesas_total + despesa.valor_total
     despesas_total = despesas_total
     despesa_edit = Despesas.query.filter_by(id=id).first()
+    tipos_despesa  = Tipos_despesa.query.filter_by(ativo="S").all()
     return render_template('edita_Reembolso-Adiantamento.html', user_session = nome_usuario.nome, reg_insert = reg_insert, intervalos = intervalos, despesas = despesas,
-     despesa_edit = despesa_edit, despesas_total = despesas_total, navpills = 'navpills_4', current_user=nome_usuario.login, permissions = permissions)
+     despesa_edit = despesa_edit, despesas_total = despesas_total, navpills = 'navpills_4', current_user=nome_usuario.login, permissions = permissions,
+     tipos_despesa = tipos_despesa)
 
 
 @app.route('/despesa/atualizar', methods=['POST',])

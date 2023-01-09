@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, session, flash, url_for, send_file
 from app import app, db
-from models import Lancamentos, Intervalos, Despesas, Usuarios, present_time, Lancamentos_query, Clientes 
+from models import Lancamentos, Intervalos, Despesas, Usuarios, present_time, Lancamentos_query, Clientes, Motivos, Tipos_despesa, Despesas_Query
 from sqlalchemy import func, text
 from jsintegration.JasperServerIntegration import JasperServerIntegration
 from io import BytesIO
@@ -24,18 +24,20 @@ def index_Reembolso_Adiantamento():
     if 'S' in aprovadores[nome_usuario.login]:
         query = text(f'''SELECT t1.*, 
                             (select sum(t2.valor_total) from app_admin.despesas t2 where t2.id_lancamento = t1.id) as valor_total,
-                            t2.nome_fantasia
+                            t2.nome_fantasia, t3.descricao as descricao_motivo
                             FROM app_admin.lancamentos t1
                             inner join app_admin.clientes t2 on t2.id = t1.cliente
+                            inner join app_admin.motivos t3 on t3.id = t1.motivo
                             ORDER BY id
                             ''')
         lista = Lancamentos_query.query.from_statement(query).all()
     else:
         query = text(f'''SELECT t1.*, 
                 (select sum(t2.valor_total) from app_admin.despesas t2 where t2.id_lancamento = t1.id) as valor_total,
-                t2.nome_fantasia
+                t2.nome_fantasia, t3.descricao as descricao_motivo
                 FROM app_admin.lancamentos t1 
                 inner join app_admin.clientes t2 on t2.id = t1.cliente
+                inner join app_admin.motivos t3 on t3.id = t1.motivo
                 where t1.atendente = '{nome_usuario.nome}' ORDER BY id''')
         lista = Lancamentos_query.query.from_statement(query).all()
 
@@ -49,10 +51,11 @@ def novo_reemb_adian():
     permissions = {}
     permissions = permissoes(permissions)
     atendentes  = Usuarios.query.filter_by(atendente="S").all()
+    motivos  = Motivos.query.filter_by(ativo="S").all()
     nome_usuario = Usuarios.query.filter_by(login=session['usuario_logado']).first()
     lista_clientes = Clientes.query.all()
     return render_template('Reembolso-Adiantamento.html', user_session = nome_usuario.nome, current_user=nome_usuario.login, permissions = permissions, atendentes =atendentes,
-    lista_clientes=lista_clientes)
+    lista_clientes=lista_clientes, motivos = motivos)
 
 #inserindo novo registro
 @app.route('/reemb_adian/criar', methods=['POST',])
@@ -88,16 +91,23 @@ def edita_reemb_adian(reg_insert, navpills):
     reg_insert_1 = reg_insert
     reg_insert = Lancamentos.query.filter_by(id=reg_insert_1).first()
     intervalos = Intervalos.query.filter_by(id_lancamento=reg_insert_1).order_by(Intervalos.id)
-    despesas = Despesas.query.filter_by(id_lancamento=reg_insert_1).order_by(Despesas.id)
+    query = text(f'''select t1.*, t2.descricao from 
+                        app_admin.despesas t1
+                        inner join app_admin.tipos_despesa t2 on t2.id = t1.tipo
+                        where t1.id_lancamento = {reg_insert_1}''')
+    despesas = Despesas_Query.query.from_statement(query).all()
     nome_usuario = Usuarios.query.filter_by(login=session['usuario_logado']).first()
     despesas_total = 0
     for despesa in despesas:
         despesas_total = despesas_total + despesa.valor_total
     despesas_total = despesas_total
     atendentes  = Usuarios.query.filter_by(atendente="S").all()
+    motivos  = Motivos.query.filter_by(ativo="S").all()
+    tipos_despesa  = Tipos_despesa.query.filter_by(ativo="S").all()
     lista_clientes = Clientes.query.all()
     return render_template('edita_Reembolso-Adiantamento.html', user_session=nome_usuario.nome, reg_insert = reg_insert, intervalos = intervalos, 
-    despesas = despesas, despesas_total = despesas_total, navpills = navpills, current_user=nome_usuario.login, permissions = permissions, atendentes = atendentes, lista_clientes = lista_clientes)
+    despesas = despesas, despesas_total = despesas_total, navpills = navpills, current_user=nome_usuario.login, permissions = permissions, atendentes = atendentes,
+    lista_clientes = lista_clientes, motivos = motivos, tipos_despesa = tipos_despesa)
 
 #atualizando o registro
 @app.route('/reemb_adian/atualizar', methods=['POST',])

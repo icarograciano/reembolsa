@@ -69,6 +69,18 @@ TABLES['Clientes'] = ('''
       UNIQUE KEY id (id)
       )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;''')
 
+TABLES['Motivos'] = ('''
+      CREATE TABLE motivos (
+      `id` INTEGER NOT NULL AUTO_INCREMENT,
+      `descricao` VARCHAR(50) NOT NULL,
+      `ativo` varchar(1) NOT NULL,
+      `data_add` datetime NOT NULL,
+      `usuario_add` varchar(100) NOT NULL,
+      `data_edicao` datetime NOT NULL default current_timestamp(),
+      `usuario_edicao` varchar(100) NOT NULL,
+      UNIQUE KEY id (id)
+      )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;''')
+
 TABLES['Lancamentos'] = ('''
       CREATE TABLE `Lancamentos` (
       `id` int(11) NOT NULL auto_increment,

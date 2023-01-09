@@ -15,6 +15,7 @@ from views_perfil_usuario import *
 from views_usuario import *
 from views_pag_ini import *
 from views_clientes import *
+from views_motivos import *
 
 
 

@@ -176,7 +176,7 @@
                         {% endif %}
                         {% if 'Motivos' in permissions[current_user] %}
                         <ul aria-expanded="false">
-                            <li><a href="##">Motivos</a></li>
+                            <li><a href="{{url_for('motivos')}}">Motivos</a></li>
                         </ul>
                         {% endif %}
                         {% if 'Tipos de Despesa' in permissions[current_user] %}

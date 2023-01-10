@@ -5,6 +5,7 @@ import os
 from werkzeug.utils import secure_filename
 from permissoes import permissoes
 from sqlalchemy import func, text
+from aprovador import aprovador
 
 @app.route('/despesas/criar', methods=['POST',])
 def criar_despesas():
@@ -32,6 +33,10 @@ def editar_despesa(id_lancamento, id):
         return redirect(url_for('login'))
     permissions = {}
     permissions = permissoes(permissions)
+
+    aprovadores = {}
+    aprovadores = aprovador(aprovadores)
+    
     id_lancamento = id_lancamento
     reg_insert = Lancamentos.query.filter_by(id=id_lancamento).first()
     intervalos = Intervalos.query.filter_by(id_lancamento=id_lancamento).order_by(Intervalos.id)
@@ -49,7 +54,7 @@ def editar_despesa(id_lancamento, id):
     tipos_despesa  = Tipos_despesa.query.filter_by(ativo="S").all()
     return render_template('edita_Reembolso-Adiantamento.html', user_session = nome_usuario.nome, reg_insert = reg_insert, intervalos = intervalos, despesas = despesas,
      despesa_edit = despesa_edit, despesas_total = despesas_total, navpills = 'navpills_4', current_user=nome_usuario.login, permissions = permissions,
-     tipos_despesa = tipos_despesa)
+     tipos_despesa = tipos_despesa, aprovadores = aprovadores)
 
 
 @app.route('/despesa/atualizar', methods=['POST',])
@@ -84,6 +89,8 @@ def upload_despesa(id_lancamento, id):
         return redirect(url_for('login'))
     permissions = {}
     permissions = permissoes(permissions)
+    aprovadores = {}
+    aprovadores = aprovador(aprovadores)
     id_lancamento = id_lancamento
     reg_insert = Lancamentos.query.filter_by(id=id_lancamento).first()
     intervalos = Intervalos.query.filter_by(id_lancamento=id_lancamento).order_by(Intervalos.id)
@@ -95,7 +102,8 @@ def upload_despesa(id_lancamento, id):
     despesas_total = despesas_total
     despesa_edit_upload = Despesas.query.filter_by(id=id).first()
     return render_template('edita_Reembolso-Adiantamento.html', user_session = nome_usuario.nome, reg_insert = reg_insert, intervalos = intervalos, despesas = despesas,
-     despesa_edit_upload = despesa_edit_upload, despesas_total = despesas_total, navpills = 'navpills_4', current_user=nome_usuario.login, permissions = permissions)
+     despesa_edit_upload = despesa_edit_upload, despesas_total = despesas_total, navpills = 'navpills_4', current_user=nome_usuario.login, permissions = permissions,
+     aprovadores = aprovadores)
 # configurar o caminho de destino para os arquivos de upload
 # obter o caminho da pasta atual
 current_dir = os.path.abspath(os.path.dirname(__file__))
@@ -158,6 +166,9 @@ def exibir_comprovante(id_lancamento,nome_arquivo):
         return redirect(url_for('login'))
     permissions = {}
     permissions = permissoes(permissions)
+
+    aprovadores = {}
+    aprovadores = aprovador(aprovadores)
     id_lancamento = id_lancamento
     reg_insert = Lancamentos.query.filter_by(id=id_lancamento).first()
     intervalos = Intervalos.query.filter_by(id_lancamento=id_lancamento).order_by(Intervalos.id)
@@ -170,6 +181,7 @@ def exibir_comprovante(id_lancamento,nome_arquivo):
     despesa_exibir_comprovante = nome_arquivo
     return render_template('edita_Reembolso-Adiantamento.html', user_session = nome_usuario.nome, reg_insert = reg_insert, 
      intervalos = intervalos, despesas = despesas,
-     despesa_exibir_comprovante = despesa_exibir_comprovante, despesas_total = despesas_total, navpills = 'navpills_4', current_user=nome_usuario.login, permissions = permissions)
+     despesa_exibir_comprovante = despesa_exibir_comprovante, despesas_total = despesas_total, navpills = 'navpills_4', current_user=nome_usuario.login, permissions = permissions,
+     aprovadores = aprovadores)
 
 #######################################FIM EXIBIR COMPROVANTE DE DESPESAS#######################################

@@ -6,6 +6,9 @@ from jsintegration.JasperServerIntegration import JasperServerIntegration
 from io import BytesIO
 from permissoes import permissoes
 from aprovador import aprovador
+from flask_mail import Message
+from config_email import mail
+import os
 
 #pagina inicial com tabela dos registros
 @app.route('/')
@@ -87,6 +90,10 @@ def edita_reemb_adian(reg_insert, navpills):
         return redirect(url_for('login'))
     permissions = {}
     permissions = permissoes(permissions)
+
+    aprovadores = {}
+    aprovadores = aprovador(aprovadores)
+
     navpills = navpills
     reg_insert_1 = reg_insert
     reg_insert = Lancamentos.query.filter_by(id=reg_insert_1).first()
@@ -107,7 +114,7 @@ def edita_reemb_adian(reg_insert, navpills):
     lista_clientes = Clientes.query.all()
     return render_template('edita_Reembolso-Adiantamento.html', user_session=nome_usuario.nome, reg_insert = reg_insert, intervalos = intervalos, 
     despesas = despesas, despesas_total = despesas_total, navpills = navpills, current_user=nome_usuario.login, permissions = permissions, atendentes = atendentes,
-    lista_clientes = lista_clientes, motivos = motivos, tipos_despesa = tipos_despesa)
+    lista_clientes = lista_clientes, motivos = motivos, tipos_despesa = tipos_despesa, aprovadores = aprovadores)
 
 #atualizando o registro
 @app.route('/reemb_adian/atualizar', methods=['POST',])
@@ -173,3 +180,43 @@ def rel_reemb_adian(id):
     # Exceção, caso ocorra um erro na geração do relatório
     except:
       print('Error ' + obj.error_code + ': ' + obj.error_message)
+
+
+@app.route('/env_aprovacao/<int:id>', methods=['GET', 'POST'])
+def env_aprovacao(id):
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login'))
+        
+    env_aprovacao = Lancamentos.query.filter_by(id=id).first()
+    env_aprovacao.status = "Enviado"
+
+    msg = Message(subject='Reembolsa - Envio para Aprovação', recipients=['icaro.graciano@gmail.com'], body=f'RDV {id} enviado para aprovação',
+    sender='nao.responda.reembolsa@gmail.com' )
+    # Anexar um único arquivo
+    with app.open_resource('report.pdf') as fp:
+        msg.attach('report.pdf', 'application/pdf', fp.read())
+
+    # Definir o caminho da pasta que contém os arquivos a serem anexados
+    folder_path = 'C:/inetpub/wwwroot/Projeto Administrativo/app/static/uploads'
+
+    #lista de arquivos a serem anexados (comprovantes de despesas)
+    file_list  = Despesas.query.filter_by(id_lancamento=id).all()
+
+    for file in file_list:
+        file_path = os.path.join(folder_path, file.nome_arquivo)
+        if os.path.exists(file_path):
+            try:
+                with open(file_path, 'rb') as fp:
+                    file_content = fp.read()
+                msg.attach(file.nome_arquivo, 'application/pdf', file_content)
+                print(f'Arquivo {file.nome_arquivo} anexado com sucesso')
+            except Exception as e:
+                print(f'Erro ao anexar o arquivo {file.nome_arquivo}: {e}')
+        else:
+            print(f'O arquivo {file.nome_arquivo} não foi encontrado na pasta {folder_path}')
+
+    mail.send(msg)
+    db.session.add(env_aprovacao)
+    db.session.commit()
+    flash('Registro enviado com sucesso!')
+    return redirect(url_for('edita_reemb_adian', reg_insert = env_aprovacao.id, navpills = 'navpills_2'))

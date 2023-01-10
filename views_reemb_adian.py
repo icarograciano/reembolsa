@@ -169,10 +169,12 @@ def rel_reemb_adian(id):
       # Transforma os bytes do relatório em um objeto BytesIO
       report_bytesio = BytesIO(report)  
       
-      # Aqui, você pode fazer o que você quiser.
+      folder = 'relatorio_lancamento'
+      if not os.path.exists(folder):
+        os.makedirs(folder)
       # No caso, vamos salvar o arquivo no disco, como report.pdf
-    # Crie um nome de arquivo temporário para armazenar o relatório
-      temp_file = 'report.pdf'
+      # Crie um nome de arquivo temporário para armazenar o relatório
+      temp_file = f'report{1}.pdf'
       with open(temp_file, 'wb') as f:
           f.write(report)
           # Use o método send_file para enviar o arquivo para o navegador

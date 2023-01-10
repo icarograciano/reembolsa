@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, session, flash, url_for, send_file
 from app import app, db
-from models import Lancamentos, Intervalos, Despesas, Usuarios, present_time, Lancamentos_query, Clientes, Motivos, Tipos_despesa, Despesas_Query
+from models import Lancamentos, Intervalos, Despesas, Usuarios, present_time, Lancamentos_query, Clientes, Motivos, Tipos_despesa, Despesas_Query, PerfilUsuario
 from sqlalchemy import func, text
 from jsintegration.JasperServerIntegration import JasperServerIntegration
 from io import BytesIO
@@ -174,7 +174,7 @@ def rel_reemb_adian(id):
         os.makedirs(folder)
       # No caso, vamos salvar o arquivo no disco, como report.pdf
       # Crie um nome de arquivo temporário para armazenar o relatório
-      temp_file = f'report{1}.pdf'
+      temp_file = os.path.join(folder, f'report{id}.pdf')
       with open(temp_file, 'wb') as f:
           f.write(report)
           # Use o método send_file para enviar o arquivo para o navegador
@@ -192,11 +192,27 @@ def env_aprovacao(id):
     env_aprovacao = Lancamentos.query.filter_by(id=id).first()
     env_aprovacao.status = "Enviado"
 
-    msg = Message(subject='Reembolsa - Envio para Aprovação', recipients=['icaro.graciano@gmail.com'], body=f'RDV {id} enviado para aprovação',
+    query = text(f'''select * from app_admin.usuarios t1 where t1.id = {env_aprovacao.atendente}''')
+    recipients_list = Usuarios.query.from_statement(query).all()
+
+    """perfil_aprovacao = PerfilUsuario.query.filter_by(aprovador='S').all()
+
+    query_1 = text(f'''select login from app_admin.usuarios where id_perfil in ({perfil_aprovacao.id});''')
+    recipients_list_1 = Usuarios.query.from_statement(query_1).all()"""
+
+    msg = Message(subject='Reembolsa - Envio para Aprovação', recipients = [x.login for x in recipients_list], body=f'RDV {id} enviado para aprovação',
     sender='nao.responda.reembolsa@gmail.com' )
-    # Anexar um único arquivo
-    with app.open_resource('report.pdf') as fp:
-        msg.attach('report.pdf', 'application/pdf', fp.read())
+
+    # Gerar relatório
+    rel_reemb_adian(id)
+
+    # Anexar um único arquivo (relat´rio gerado no rel_reemb_adian)
+    try:
+        with open(rf'C:\inetpub\wwwroot\Projeto Administrativo\app\relatorio_lancamento\report{id}.pdf', 'rb') as fp:
+            msg.attach(f'RDV_{id}.pdf', 'application/pdf', fp.read())
+    except FileNotFoundError:
+        print("Arquivo não encontrado")
+
 
     # Definir o caminho da pasta que contém os arquivos a serem anexados
     folder_path = 'C:/inetpub/wwwroot/Projeto Administrativo/app/static/uploads'

@@ -81,7 +81,7 @@
                                                                     <select class="form-control" id="sel1" name="atendimento_atendente" required>
                                                                         <option value="" selected disabled hidden>Selecione</option>
                                                                         {% for atendente in atendentes %}
-                                                                        <option value="{{ atendente.nome }}">{{ atendente.nome }}</option>
+                                                                        <option value="{{ atendente.id }}">{{ atendente.nome }}</option>
                                                                         {% endfor %}
                                                                     </select>
                                                                       

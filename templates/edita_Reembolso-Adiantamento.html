@@ -89,9 +89,8 @@
                                                                     <label>Atendente</label>
                                                                     <strong class="text-danger ng-star-inserted"> *</strong>
                                                                     <select class="form-control" id="sel1" name="atendimento_atendente">
-                                                                        <option value="{{reg_insert.atendente}}" selected disabled hidden>{{reg_insert.atendente}}</option>
                                                                         {% for atendente in atendentes %}
-                                                                          <option value="{{ atendente.nome }}" {% if atendente.id == atendente.nome %}selected{% endif %}>{{ atendente.nome }}</option>
+                                                                          <option value="{{ atendente.id }}" {% if atendente.id == reg_insert.atendente %}selected{% endif %}>{{ atendente.nome }}</option>
                                                                         {% endfor %}
                                                                       </select>
                                                                       

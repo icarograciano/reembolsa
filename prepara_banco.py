@@ -102,7 +102,7 @@ TABLES['Lancamentos'] = ('''
       `dt_atendimento` date NOT NULL,
       `hora_ini` time  NULL,
       `hora_fim` time  NULL,
-      `atendente` varchar(40) NOT NULL,
+      `atendente` integer NOT NULL,
       `faturado` varchar(3)  NULL,
       `descr_atendimento` varchar(2000) NOT NULL,
       `data_add` datetime NOT NULL default current_timestamp(),

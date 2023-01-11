@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, session, flash, url_for, send_file
 from app import app, db
-from models import Lancamentos, Intervalos, Despesas, Usuarios, present_time, Lancamentos_query, Clientes, Motivos, Tipos_despesa, Despesas_Query, PerfilUsuario
+from models import Lancamentos, Intervalos, Despesas, Usuarios, present_time, Lancamentos_query, Clientes, Motivos, Tipos_despesa, Despesas_Query, Aprovadores
 from sqlalchemy import func, text
 from jsintegration.JasperServerIntegration import JasperServerIntegration
 from io import BytesIO
@@ -188,19 +188,23 @@ def rel_reemb_adian(id):
 def env_aprovacao(id):
     if 'usuario_logado' not in session or session['usuario_logado'] == None:
         return redirect(url_for('login'))
+
+    reg_enviado = Lancamentos.query.filter_by(id=id).first()
+    if reg_enviado.status == 'Enviado':
+        flash('Registro já enviado.')
+        return redirect(url_for('edita_reemb_adian', reg_insert=id, navpills = 'navpills_2'))
         
     env_aprovacao = Lancamentos.query.filter_by(id=id).first()
     env_aprovacao.status = "Enviado"
 
     query = text(f'''select * from app_admin.usuarios t1 where t1.id = {env_aprovacao.atendente}''')
-    recipients_list = Usuarios.query.from_statement(query).all()
+    atendente_list = Usuarios.query.from_statement(query).first()
 
-    """perfil_aprovacao = PerfilUsuario.query.filter_by(aprovador='S').all()
-
-    query_1 = text(f'''select login from app_admin.usuarios where id_perfil in ({perfil_aprovacao.id});''')
-    recipients_list_1 = Usuarios.query.from_statement(query_1).all()"""
-
-    msg = Message(subject='Reembolsa - Envio para Aprovação', recipients = [x.login for x in recipients_list], body=f'RDV {id} enviado para aprovação',
+    query_1 = text(f'''select login from app_admin.aprovadores;''')
+    aprovadores_list = Aprovadores.query.from_statement(query_1).all()
+    lista_recipients = [x.login for x in aprovadores_list]
+    lista_recipients.append(atendente_list.login)
+    msg = Message(subject='Reembolsa - Envio para Aprovação', recipients = [x.login for x in aprovadores_list], body=f'RDV {id} enviado para aprovação',
     sender='nao.responda.reembolsa@gmail.com' )
 
     # Gerar relatório

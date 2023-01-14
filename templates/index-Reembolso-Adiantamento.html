@@ -44,7 +44,7 @@
                                                 <td>{{reg.nome_fantasia}}</td>
                                                 <td>{{reg.descricao_motivo}}</td>
                                                 <td>{{reg.dt_atendimento.strftime('%d/%m/%Y')}}</td>
-                                                <td>{{reg.atendente}}</td>
+                                                <td>{{reg.nome_atendente}}</td>
                                                 <td>{{reg.status}}</td>
                                                 <td>{{"R$ {:,.2f}".format(0.00)}}</td>
                                                 <td>{{"R$ {:,.2f}".format(reg.valor_total if reg.valor_total != None else 0)}}</td>

@@ -138,16 +138,20 @@ def upload_file(id_lancamento, id):
             # Separa o nome do arquivo da extensão
             name, ext = os.path.splitext(file.filename)
             #Query para pegar o tipo da despesa e passar no arquivo
-            despesa = Despesas.query.filter_by(id=id).first()
+            query = text(f'''select t1.*, t2.descricao from 
+                        app_admin.despesas t1
+                        inner join app_admin.tipos_despesa t2 on t2.id = t1.tipo
+                        where t1.id = {id}''')
+            despesa = Despesas_Query.query.from_statement(query).first()
             # Aplica o novo nome ao arquivo
-            file.filename = f"RDV_{id_lancamento}_{despesa.tipo}_{id}{ext}"
+            file.filename = f"RDV_{id_lancamento}_{despesa.descricao}_{id}{ext}"
             # Salva o arquivo no servidor usando o secure_filename para evitar problemas de segurança
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             #faz update na tabela despesas setando o campo anexo = S para informar que tem comprovante de despesa
             despesa = Despesas.query.filter_by(id=id).first()
             despesa.anexo = 'S'
-            despesa.nome_arquivo = file.filename
+            despesa.nome_arquivo = filename
             db.session.add(despesa)
             db.session.commit()
             flash('Comprovante de despesa inserido com sucesso!')

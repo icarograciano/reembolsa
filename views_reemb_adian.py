@@ -27,20 +27,22 @@ def index_Reembolso_Adiantamento():
     if 'S' in aprovadores[nome_usuario.login]:
         query = text(f'''SELECT t1.*, 
                             (select sum(t2.valor_total) from app_admin.despesas t2 where t2.id_lancamento = t1.id) as valor_total,
-                            t2.nome_fantasia, t3.descricao as descricao_motivo
+                            t2.nome_fantasia, t3.descricao as descricao_motivo, t4.nome as nome_atendente
                             FROM app_admin.lancamentos t1
                             inner join app_admin.clientes t2 on t2.id = t1.cliente
                             inner join app_admin.motivos t3 on t3.id = t1.motivo
+                            inner join app_admin.usuarios t4 on t4.id = t1.atendente
                             ORDER BY id
                             ''')
         lista = Lancamentos_query.query.from_statement(query).all()
     else:
         query = text(f'''SELECT t1.*, 
                 (select sum(t2.valor_total) from app_admin.despesas t2 where t2.id_lancamento = t1.id) as valor_total,
-                t2.nome_fantasia, t3.descricao as descricao_motivo
+                t2.nome_fantasia, t3.descricao as descricao_motivo, t4.nome as nome_atendente
                 FROM app_admin.lancamentos t1 
                 inner join app_admin.clientes t2 on t2.id = t1.cliente
                 inner join app_admin.motivos t3 on t3.id = t1.motivo
+                inner join app_admin.usuarios t4 on t4.id = t1.atendente
                 where t1.atendente = '{nome_usuario.nome}' ORDER BY id''')
         lista = Lancamentos_query.query.from_statement(query).all()
 
@@ -202,9 +204,11 @@ def env_aprovacao(id):
 
     query_1 = text(f'''select login from app_admin.aprovadores;''')
     aprovadores_list = Aprovadores.query.from_statement(query_1).all()
+
     lista_recipients = [x.login for x in aprovadores_list]
     lista_recipients.append(atendente_list.login)
-    msg = Message(subject='Reembolsa - Envio para Aprovação', recipients = [x.login for x in aprovadores_list], body=f'RDV {id} enviado para aprovação',
+
+    msg = Message(subject='Reembolsa - Envio para Aprovação', recipients = lista_recipients, body=f'RDV {id} enviado para aprovação',
     sender='nao.responda.reembolsa@gmail.com' )
 
     # Gerar relatório

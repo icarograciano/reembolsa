@@ -1,0 +1,99 @@
+{% extends "template.html" %}
+{% block conteudo %}
+
+<!--**********************************
+    Content body start
+***********************************-->
+<div class="content-body">
+    <div class="row page-titles mx-0">
+        <div class="col p-md-0">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Configurações para envio de E-mail</a></li>
+            </ol>
+        </div>
+    </div>
+    <!-- row -->
+    <div class="container-fluid">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Configurações para envio de E-mail</h4>
+                    <div class="form-validation">
+                      <form class="form-valide" action="{{ url_for('atualiza_config_email') }}" method="post">
+                      <fieldset>
+                        <a href="{{ url_for('index_ini') }}" data-placement="top" title="Modo Lista" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-list" style="margin: 0 3px;"></i>Modo Lista</a>
+                        <button type="submit" title="Gravar alterações" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-save"></i> Gravar</button>                                       
+                        <br>
+                        <br>
+                          <div class="row align-items-center">
+                              <div class="col-sm-6 col-md-8 col-xl-12">
+                              <div class="form-validation">
+                                  <form class="form-valide" action="" method="post">
+                                  <fieldset>
+                                      <div class="d-md-flex align-items-center"><form novalidate="" class="ng-pristine ng-invalid ng-touched"><!----></form><div class="ml-auto"><div class="dl"><strong class="text-danger"> *</strong> Campos obrigatórios </div></div></div>
+                                      <hr>
+                                      <div class="col-lg-12">
+                                          <div class="card">
+                                            {% for reg in lista %}
+                                              <div class="card-body">
+                                                <input type="hidden" name="id" value="{{reg.id}}">
+                                                <div class="basic-form">
+                                                  <div class="row">
+                                                    <div class="form-group col-md-4">
+                                                      <label for="descricao">Servidor</label>
+                                                      <strong class="text-danger ng-star-inserted"> *</strong>
+                                                      <input type="text" class="form-control" id="servidor" name="servidor" maxlength="50" value="{{reg.servidor}}" required>
+                                                    </div>                                                    
+                                                  </div>
+                                                  <div class="row">
+                                                    <div class="form-group col-md-4">
+                                                      <label for="descricao">Porta</label>
+                                                      <strong class="text-danger ng-star-inserted"> *</strong>
+                                                      <input type="text" class="form-control" id="porta" name="porta" maxlength="50" value="{{reg.porta}}" required>
+                                                    </div>                                                    
+                                                  </div>
+                                                  <div class="row">
+                                                    <div class="form-group col-md-4">
+                                                      <label for="descricao">SSL</label>
+                                                      <strong class="text-danger ng-star-inserted"> *</strong>
+                                                      <input type="text" class="form-control" id="ssl_email" name="ssl_email" maxlength="50" value="{{reg.ssl_email}}" required>
+                                                    </div>                                                    
+                                                  </div>
+                                                  <div class="row">
+                                                    <div class="form-group col-md-4">
+                                                      <label for="descricao">Usuário</label>
+                                                      <strong class="text-danger ng-star-inserted"> *</strong>
+                                                      <input type="text" class="form-control" id="usuario" name="usuario" maxlength="50" value="{{reg.usuario}}" required>
+                                                    </div>                                                    
+                                                  </div>
+                                                  <div class="row">
+                                                    <div class="form-group col-md-4">
+                                                      <label for="descricao">Senha</label>
+                                                      <strong class="text-danger ng-star-inserted"> *</strong>
+                                                      <input type="text" class="form-control" id="senha" name="senha" maxlength="50" value="{{reg.senha}}" required>
+                                                    </div>                                                    
+                                                  </div>
+                                                </div>
+                                              </div>
+                                              {% endfor %}
+                                          </div>
+                                      </div>
+                                      </fieldset>    
+                                      </form>
+                                  </div>
+                                  </div>
+                              </div>
+                      </fieldset>
+                      </form>
+                    </div>         
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #/ container -->
+</div>
+<!--**********************************
+    Content body end
+***********************************-->
+        
+{% endblock %}

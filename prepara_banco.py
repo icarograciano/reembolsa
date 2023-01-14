@@ -26,6 +26,21 @@ cursor.execute("USE `app_admin`;")
 # criando tabelas
 TABLES = {}
 
+TABLES['Config_Email'] = ('''
+      CREATE TABLE config_email (
+      `id` INTEGER NOT NULL AUTO_INCREMENT,
+      `servidor` VARCHAR(50) NOT NULL,
+      `porta` VARCHAR(50) NOT NULL,
+      `ssl_email` VARCHAR(50) NOT NULL,
+      `usuario` VARCHAR(50) NOT NULL,
+      `senha` VARCHAR(50) NOT NULL,
+      `data_add` datetime NOT NULL,
+      `usuario_add` varchar(100) NOT NULL,
+      `data_edicao` datetime NOT NULL default current_timestamp(),
+      `usuario_edicao` varchar(100) NOT NULL,
+      UNIQUE KEY id (id)
+      )ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;''')
+
 TABLES['uf'] = ('''
       CREATE TABLE `uf` (
       `id` int(11) NOT NULL auto_increment,
@@ -190,6 +205,13 @@ for tabela_nome in TABLES:
       else:
             print('OK')
 
+cursor.execute(f'''INSERT INTO config_email (servidor, porta, ssl_email, usuario, senha, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES ("smtp.gmail.com", "465", "True", "nao.responda.reembolsa@gmail.com", "klmhlbwkseivfooq", current_timestamp(), "master", current_timestamp(), "master");''')
+
+cursor.execute('select * from config_email')
+print(' -------------  config_email:  -------------')
+for config_email in cursor.fetchall():
+    print(config_email[4])
 
 
 cursor.execute(f'''INSERT INTO uf (sigla, descricao) VALUES
@@ -228,19 +250,13 @@ for uf in cursor.fetchall():
 
 
 cursor.execute(f'''INSERT INTO usuarios (nome, login, senha, id_perfil, atendente, data_add, usuario_add, data_edicao, usuario_edicao)
-VALUES ("Master", "master", '{generate_password_hash("master").decode('utf-8')}', '1', 'S', current_timestamp(), "master", current_timestamp(), "master");''')
-
-cursor.execute(f'''INSERT INTO usuarios (nome, login, senha, id_perfil, atendente, data_add, usuario_add, data_edicao, usuario_edicao)
-VALUES ("Admin", "admin", '{generate_password_hash("admin").decode('utf-8')}', '1', 'S', current_timestamp(), "master", current_timestamp(), "master");''')
-
-cursor.execute(f'''INSERT INTO usuarios (nome, login, senha, id_perfil, atendente, data_add, usuario_add, data_edicao, usuario_edicao)
 VALUES ("Icaro Graciano", "icaro.graciano@xcsolucoes.com.br", '{generate_password_hash("master").decode('utf-8')}', '1', 'S', current_timestamp(), "master", current_timestamp(), "master");''')
 
 cursor.execute(f'''INSERT INTO usuarios (nome, login, senha, id_perfil, atendente, data_add, usuario_add, data_edicao, usuario_edicao)
-VALUES ("Hilton", "hilton.rocha@xcsolucoes.com.br", '{generate_password_hash("master").decode('utf-8')}', '2', 'S', current_timestamp(), "master", current_timestamp(), "master");''')
+VALUES ("Hilton ROcha", "hilton.rocha@xcsolucoes.com.br", '{generate_password_hash("master").decode('utf-8')}', '2', 'S', current_timestamp(), "master", current_timestamp(), "master");''')
 
 cursor.execute(f'''INSERT INTO usuarios (nome, login, senha, id_perfil, atendente, data_add, usuario_add, data_edicao, usuario_edicao)
-VALUES ("Nicanor", "nicanor.soares@xcsolucoes.com.br", '{generate_password_hash("master").decode('utf-8')}', '2', 'S', current_timestamp(), "master", current_timestamp(), "master");''')
+VALUES ("Nicanor Soares", "nicanor.soares@xcsolucoes.com.br", '{generate_password_hash("master").decode('utf-8')}', '2', 'S', current_timestamp(), "master", current_timestamp(), "master");''')
 
 cursor.execute('select * from app_admin.usuarios')
 print(' -------------  Usuários:  -------------')
@@ -269,6 +285,8 @@ cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela,
 VALUES (1, "Cadastros", "Motivos", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
 cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
 VALUES (1, "Cadastros", "Tipos de Despesa", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES (1, "Cadastros", "Email", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
 
 cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
 VALUES (1, "Atendimentos", "Atendimento Diario", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
@@ -290,6 +308,8 @@ cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela,
 VALUES (2, "Cadastros", "Motivos", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
 cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
 VALUES (2, "Cadastros", "Tipos de Despesa", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES (2, "Cadastros", "Email", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
 
 cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
 VALUES (2, "Atendimentos", "Atendimento Diario", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
@@ -311,6 +331,8 @@ cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela,
 VALUES (3, "Cadastros", "Motivos", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
 cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
 VALUES (3, "Cadastros", "Tipos de Despesa", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
+cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
+VALUES (3, "Cadastros", "Email", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
 
 cursor.execute(f'''INSERT INTO Perfil_Usuario_Det (cod_perfil, grupo_menu, tela, mostrar, Incluir, Editar, Excluir, data_add, usuario_add, data_edicao, usuario_edicao)
 VALUES (3, "Atendimentos", "Atendimento Diario", "S", "S", "S", "S", current_timestamp(), "master", current_timestamp(), "master");''')
@@ -328,7 +350,7 @@ cursor.execute('select * from app_admin.Perfil_Usuario_Det')
 print(' -------------  Perfil_Usuario_Det:  -------------')
 for Perfil_Usuario_Det in cursor.fetchall():
     print(str(Perfil_Usuario_Det[1]) + " " + Perfil_Usuario_Det[2] + " " + Perfil_Usuario_Det[3])
-
+"""
 # inserindo lançamentos de teste
 
 for i in range(1):
@@ -355,7 +377,7 @@ for i in range(1):
                         CURRENT_TIMESTAMP(),
                         CURTIME(),
                         CURTIME(),
-                        'Icaro Graciano',
+                        '1',
                         'Não',
                         'Teste 123',
                         CURRENT_TIMESTAMP(),
@@ -368,7 +390,7 @@ cursor.execute('select * from app_admin.lancamentos')
 print(' -------------  Lançamentos.:  -------------')
 for seqs in cursor.fetchall():
     print(seqs[0])
-
+"""
 # commitando se não nada tem efeito
 conn.commit()
 

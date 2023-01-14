@@ -6,6 +6,22 @@ from datetime import datetime
 present_time = datetime.now()   
 '{:%H:%M:%S}'.format(present_time)
 
+#Tabela de Config Email
+class ConfigEmail(db.Model):
+    id = db.Column(db.Integer, primary_key = True, autoincrement=True)
+    servidor = db.Column(db.String(50), nullable=False)
+    porta = db.Column(db.String(50), nullable=False)
+    ssl_email = db.Column(db.String(50), nullable=False)
+    usuario = db.Column(db.String(50), nullable=False)
+    senha = db.Column(db.String(50), nullable=False)
+    data_add = db.Column(db.DateTime, nullable=False)
+    usuario_add = db.Column(db.String(100), nullable=False)
+    data_edicao = db.Column(db.DateTime, nullable=False)
+    usuario_edicao = db.Column(db.String(100), nullable=False)
+
+def __repr__(self):
+    return '<Name %r>' % self.name
+
 #Tabela de Uf
 class uf(db.Model):
     id = db.Column(db.Integer,primary_key = True, autoincrement=True)
@@ -59,7 +75,7 @@ class Clientes(db.Model):
 def __repr__(self):
     return '<Name %r>' % self.name
 
-#Tabela de Clientes
+#Tabela de Motivos
 class Motivos(db.Model):
     id = db.Column(db.Integer, primary_key = True, autoincrement=True)
     descricao = db.Column(db.String(50), nullable=False)

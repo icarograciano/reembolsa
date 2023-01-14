@@ -180,6 +180,11 @@
                             <li><a href="{{url_for('clientes')}}">Clientes</a></li>
                         </ul>
                         {% endif %}
+                        {% if 'Email' in permissions[current_user] %}
+                        <ul aria-expanded="false">
+                            <li><a href="{{url_for('config_email')}}">Configuração de E-mail</a></li>
+                        </ul>
+                        {% endif %}
                         {% if 'Motivos' in permissions[current_user] %}
                         <ul aria-expanded="false">
                             <li><a href="{{url_for('motivos')}}">Motivos</a></li>

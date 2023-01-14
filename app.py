@@ -19,6 +19,7 @@ from views_pag_ini import *
 from views_clientes import *
 from views_motivos import *
 from views_tipos_despesa import *
+from views_config_email import *
 
 
 

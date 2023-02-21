@@ -256,7 +256,7 @@ for uf in cursor.fetchall():
 
 
 cursor.execute(f'''INSERT INTO usuarios (nome, login, senha, id_perfil, atendente, data_add, usuario_add, data_edicao, usuario_edicao)
-VALUES ("Icaro Graciano", "reembolsa@reembolsa.com.br", '{generate_password_hash("master").decode('utf-8')}', '1', 'S', current_timestamp(), "master", current_timestamp(), "master");''')
+VALUES ("Reembolsa", "reembolsa@reembolsa.com.br", '{generate_password_hash("master").decode('utf-8')}', '1', 'S', current_timestamp(), "master", current_timestamp(), "master");''')
 
 cursor.execute('select * from app_admin.usuarios')
 print(' -------------  Usuários:  -------------')

@@ -1,4 +1,3 @@
-#https://cursos.alura.com.br/course/flask-crie-webapp-python/task/102454 (para executar a logica de quando a tabela estiver vazia)
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail

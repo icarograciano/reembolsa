@@ -43,7 +43,7 @@ def index_Reembolso_Adiantamento():
                 inner join app_admin.clientes t2 on t2.id = t1.cliente
                 inner join app_admin.motivos t3 on t3.id = t1.motivo
                 inner join app_admin.usuarios t4 on t4.id = t1.atendente
-                where t1.atendente = '{nome_usuario.nome}' ORDER BY id''')
+                where t1.atendente = '{nome_usuario.id}' ORDER BY id''')
         lista = Lancamentos_query.query.from_statement(query).all()
 
     return render_template('index-Reembolso-Adiantamento.html', user_session = nome_usuario.nome, atendimentos_lis = lista, current_user=nome_usuario.login, permissions=permissions)
@@ -158,7 +158,7 @@ def rel_reemb_adian(id):
         return redirect(url_for('login'))
     parameter1 = id
     obj = JasperServerIntegration(
-      'http://localhost:8082/jasperserver',   # URL do Jasper Server
+      'http://localhost:8080/jasperserver',   # URL do Jasper Server
       'reports/Invoice',                      # Caminho para o Relatório sem a primeira barra
       'pdf',                                  # Tipo do Arquivo do Relatório
       'jasperadmin',                          # Usuário com acesso ao relatório
@@ -214,16 +214,18 @@ def env_aprovacao(id):
     # Gerar relatório
     rel_reemb_adian(id)
 
-    # Anexar um único arquivo (relat´rio gerado no rel_reemb_adian)
+    # Anexar um único arquivo (relatório gerado no rel_reemb_adian)
     try:
-        with open(rf'C:\inetpub\wwwroot\Projeto Administrativo\app\relatorio_lancamento\report{id}.pdf', 'rb') as fp:
+        #with open(rf'C:\inetpub\wwwroot\Projeto Administrativo\app\relatorio_lancamento\report{id}.pdf', 'rb') as fp:
+        with open(rf'C:\Users\icaro_xipv80j\OneDrive\Área de Trabalho\Projeto Administrativo\app\relatorio_lancamento\report{id}.pdf', 'rb') as fp:    
             msg.attach(f'RDV_{id}.pdf', 'application/pdf', fp.read())
     except FileNotFoundError:
         print("Arquivo não encontrado")
 
 
     # Definir o caminho da pasta que contém os arquivos a serem anexados
-    folder_path = 'C:/inetpub/wwwroot/Projeto Administrativo/app/static/uploads'
+    #folder_path = 'C:/inetpub/wwwroot/Projeto Administrativo/app/static/uploads'
+    folder_path = 'C:/Users/icaro_xipv80j/OneDrive/Área de Trabalho/Projeto Administrativo/app/static/uploads'
 
     #lista de arquivos a serem anexados (comprovantes de despesas)
     file_list  = Despesas.query.filter_by(id_lancamento=id).all()
@@ -245,4 +247,84 @@ def env_aprovacao(id):
     db.session.add(env_aprovacao)
     db.session.commit()
     flash('Registro enviado com sucesso!')
+    return redirect(url_for('edita_reemb_adian', reg_insert = env_aprovacao.id, navpills = 'navpills_2'))
+
+
+
+@app.route('/aprovar/<int:id>', methods=['GET', 'POST'])
+def aprovar(id):
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login'))
+
+    reg_enviado = Lancamentos.query.filter_by(id=id).first()
+
+    if reg_enviado.status == 'Finalizado':
+        flash('Registro já Finalizado.')
+        return redirect(url_for('edita_reemb_adian', reg_insert=id, navpills = 'navpills_2'))
+
+    if reg_enviado.status == 'Aprovado':
+        flash('Registro já aprovado.')
+        return redirect(url_for('edita_reemb_adian', reg_insert=id, navpills = 'navpills_2'))
+
+    if reg_enviado.status != 'Enviado':
+        flash('Registro ainda não foi enviado para aprovação.')
+        return redirect(url_for('edita_reemb_adian', reg_insert=id, navpills = 'navpills_2'))
+
+        
+    env_aprovacao = Lancamentos.query.filter_by(id=id).first()
+    env_aprovacao.status = "Aprovado"
+
+    query = text(f'''select * from app_admin.usuarios t1 where t1.id = {env_aprovacao.atendente}''')
+    atendente_list = Usuarios.query.from_statement(query).first()
+
+    query_1 = text(f'''select login from app_admin.aprovadores;''')
+    aprovadores_list = Aprovadores.query.from_statement(query_1).all()
+
+    lista_recipients = [x.login for x in aprovadores_list]
+    lista_recipients.append(atendente_list.login)
+
+    msg = Message(subject=f'Reembolsa - RDV {id} Aprovado', recipients = lista_recipients, body=f'RDV {id} aprovado com sucesso',
+    sender='nao.responda.reembolsa@gmail.com' )
+
+    mail.send(msg)
+    db.session.add(env_aprovacao)
+    db.session.commit()
+    flash('Registro foi aprovado com sucesso!')
+    return redirect(url_for('edita_reemb_adian', reg_insert = env_aprovacao.id, navpills = 'navpills_2'))
+
+
+@app.route('/finalizar/<int:id>', methods=['GET', 'POST'])
+def finalizar(id):
+    if 'usuario_logado' not in session or session['usuario_logado'] == None:
+        return redirect(url_for('login'))
+
+    reg_enviado = Lancamentos.query.filter_by(id=id).first()
+    
+    if reg_enviado.status == 'Finalizado':
+        flash('Registro já Finalizado.')
+        return redirect(url_for('edita_reemb_adian', reg_insert=id, navpills = 'navpills_2'))
+
+    if reg_enviado.status != 'Aprovado':
+        flash('Registro ainda não foi aprovado, impossível finalizar.')
+        return redirect(url_for('edita_reemb_adian', reg_insert=id, navpills = 'navpills_2'))
+        
+    env_aprovacao = Lancamentos.query.filter_by(id=id).first()
+    env_aprovacao.status = "Finalizado"
+
+    query = text(f'''select * from app_admin.usuarios t1 where t1.id = {env_aprovacao.atendente}''')
+    atendente_list = Usuarios.query.from_statement(query).first()
+
+    query_1 = text(f'''select login from app_admin.aprovadores;''')
+    aprovadores_list = Aprovadores.query.from_statement(query_1).all()
+
+    lista_recipients = [x.login for x in aprovadores_list]
+    lista_recipients.append(atendente_list.login)
+
+    msg = Message(subject=f'Reembolsa - RDV {id} Aprovado', recipients = lista_recipients, body=f'RDV {id} finalizado com sucesso',
+    sender='nao.responda.reembolsa@gmail.com' )
+
+    mail.send(msg)
+    db.session.add(env_aprovacao)
+    db.session.commit()
+    flash('Registro foi finalizado com sucesso!')
     return redirect(url_for('edita_reemb_adian', reg_insert = env_aprovacao.id, navpills = 'navpills_2'))

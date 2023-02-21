@@ -1,21 +1,7 @@
-import mysql.connector
-from mysql.connector import errorcode
+from config_mysql import conn
 
 
 def permissoes(permissions):
-    print("Conectando...")
-    try:
-        conn = mysql.connector.connect(
-                host='127.0.0.1',
-                user='root',
-                password='123456'
-        )
-    except mysql.connector.Error as err:
-        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-                print('Existe algo errado no nome de usuário ou senha')
-        else:
-                print(err)
-
     cursor = conn.cursor()
 
     cursor.execute('''select distinct
@@ -28,8 +14,10 @@ def permissoes(permissions):
     for login, tela in cursor.fetchall():
         if login not in permissions:
             permissions[login] = []
-        permissions[login].append(tela)
-        
+        permissions[login].append(tela)  
+
+    cursor.close()    
+
     return permissions
 
 permissions = {}

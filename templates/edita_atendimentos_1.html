@@ -1,0 +1,477 @@
+{% extends "template.html" %}
+{% block conteudo %}
+        <!--**********************************
+            Content body start
+        ***********************************-->
+        <div class="content-body">
+
+            <div class="row page-titles mx-0">
+                <div class="col p-md-0">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Atendimentos</a></li>
+                        <li class="breadcrumb-item active"><a href="javascript:void(0)">Editar Lançamento</a></li>
+                    </ol>
+                </div>
+            </div>
+            <!-- row -->
+
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="form-validation">
+                                    <form class="form-valide" action="{{ url_for('atualiza_atendimento_1') }}" method="post">
+                                    <fieldset>
+                                        <input type="hidden" name="id" value="{{reg_insert_1.id}}">
+                                        <button type="submit" title="Gravar alterações" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-save"></i> Gravar</button>
+                                        <button type="button" title="Localizar atendimento" class="btn waves-effect waves-light btn-sm btn-info" data-toggle="modal" data-target="#modal_edita_atendimento_localizar" style="font-weight: bold;"><i class="fa fa-search"></i> Localizar</button>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="modal_edita_atendimento_localizar">
+                                            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Lista de Atendimentos</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="table-responsive">
+                                                            <table id="tabelaIntervalos" class="table table-hover table-striped table-bordered display" width="100%">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th style="text-align: center;">Código</th>
+                                                                        <th style="text-align: center;">Cliente</th>
+                                                                        <th style="text-align: center;">Descrição Cliente</th>
+                                                                        <th style="text-align: center;">Motivo</th>
+                                                                        <th style="text-align: center;">Data Atendimento</th>
+                                                                        <th style="text-align: center;">Atendente</th>
+                                                                        <!---->
+                                                                    </tr>
+                                                                </thead><!---->
+                                                                <tbody class="ng-star-inserted">
+                                                                    {% for reg in atendimentos_lis %}
+                                                                    <tr class="ng-star-inserted">
+                                                                        <td style="text-align: center;" width="5%">{{reg.id}}</td>
+                                                                        <td style="text-align: center;" width="5%">{{reg.cliente}}</td>
+                                                                        <td style="text-align: center;" width="20%">{{reg.atendimento_descricao_cliente}}</td>
+                                                                        <td style="text-align: center;" width="5%">{{reg.atendimento_motivo}}</td>
+                                                                        <td style="text-align: center;" width="5%">{{reg.atendimento_dt_atendimento}}</td>
+                                                                        <td style="text-align: center;" width="20%">{{reg.atendimento_atendente}}</td>
+                                                                    </tr>
+                                                                    {% endfor %}
+                                                                </tbody><!---->
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
+                                                        <button type="button" class="btn btn-primary">Selecionar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="button" title="Imprimir atendimento" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-print"></i> Imprimir</button>
+                                        <button type="button" title="Enviar e-mail com o atendimento" class="btn waves-effect waves-light btn-sm btn-info" style="font-weight: bold;"><i class="fa fa-envelope"></i> E-mail</button>
+                                        <br>
+                                        <br>
+                                        <div class="d-md-flex align-items-center"><form novalidate="" class="ng-pristine ng-invalid ng-touched"><!----></form><div class="ml-auto"><div class="dl"><strong class="text-danger"> *</strong> Campos obrigatórios </div></div></div>
+                                        <hr>
+                                        <div class="col-lg-12">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="basic-form">
+                                                        <div class="row">
+                                                            <div class="form-group col-md-2">
+                                                                <label for="atendimento_codigo">Código</label>
+                                                                <input type="text" id="atendimento_codigo" name="atendimento_codigo" class="form-control" disabled value="{{reg_insert_1.id}}">
+                                                            </div>
+                                                            <div class="form-group col-md-2">
+                                                                <label>Status</label>
+                                                                <strong class="text-danger ng-star-inserted"> *</strong>
+                                                                <select class="form-control" id="sel1" name="atendimento_status">
+                                                                    <option value="selected" selected disabled hidden>{{reg_insert_1.status}}</option>
+                                                                    <option>-----------</option>
+                                                                    <option>Aberto</option>
+                                                                    <option>Em Análise</option>
+                                                                    <option>Aprovado</option>
+                                                                    <option>Finalizado</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label>Cliente</label>
+                                                                <strong class="text-danger ng-star-inserted"> *</strong>
+                                                                <select class="form-control" id="sel1" name="atendimento_cliente">
+                                                                    <option value="selected" selected disabled hidden>{{reg_insert_1.cliente}}</option>
+                                                                    <option>-----------</option>
+                                                                    <option>Cellier</option>
+                                                                    <option>Ipel</option>
+                                                                    <option>RCervellini</option>
+                                                                    <option>Mega Modas</option>
+                                                                    <option>Comando Auto Peças</option>
+                                                                    <option>Giga Utilidades</option>
+                                                                    <option>Total</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label>Motivo</label>
+                                                                <strong class="text-danger ng-star-inserted"> *</strong>
+                                                                <select class="form-control" id="sel1" name="atendimento_motivo">
+                                                                    <option value="selected" selected disabled hidden>{{reg_insert_1.motivo}}</option>
+                                                                    <option>-----------</option>
+                                                                    <option>Consultoria</option>
+                                                                    <option>Suporte</option>
+                                                                    <option>Desenvolvimento</option>
+                                                                    <option>Visita Comercial</option>
+                                                                </select>
+                                                            </div>
+                                                            <!--
+                                                            <div class="form-group col-md-2">
+                                                                <label>Cliente</label>
+                                                                <strong class="text-danger ng-star-inserted"> *</strong>
+                                                                <input type="text" name="atendimento_cliente" class="form-control">
+                                                                
+                                                            </div>
+                                                            <div class="form-group col-md-5" style="padding-left: 0px; padding-top: 20px; margin-left: -10px; margin-top: 9px;">
+                                                                <div class="input-group">
+                                                                    <input readonly="" type="text" id="descricaoComponentCliente" formcontrolname="descricao" name="atendimento_descricao_cliente" class="form-control ng-untouched ng-pristine ng-valid">
+                                                                    <button style="height: 32px;" type="button" title="Localizar Cliente" class="btn btn-outline-info">
+                                                                        <i class="fa fa-search"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>-->
+                                                        </div>
+                                                        <div class="row">
+                                                        </div>
+                                                        <div class="row"></div>
+                                                            <div class="row align-items-center">
+                                                                <div class="form-group col-md-4">
+                                                                    <label>Data Atendimento</label>
+                                                                    <strong class="text-danger ng-star-inserted"> *</strong>
+                                                                    <input type="date" class="form-control ng-pristine ng-valid ng-touched" name="atendimento_dt_atendimento" style="text-align: center;" value="{{reg_insert_1.dt_atendimento}}">
+                                                                </div>
+                                                                <div class="form-group col-md-4">
+                                                                    <label>Hora Inicio</label>
+                                                                    <strong class="text-danger ng-star-inserted"> *</strong>
+                                                                    <input type="time" class="form-control ng-pristine ng-valid ng-touched" name="hora_ini" style="text-align: center;" value="{{reg_insert_1.hora_ini}}">
+                                                                </div>
+                                                                <div class="form-group col-md-4">
+                                                                    <label>Hora Fim</label>
+                                                                    <strong class="text-danger ng-star-inserted"> *</strong>
+                                                                    <input type="time" class="form-control ng-pristine ng-valid ng-touched" name="hora_fim" style="text-align: center;" value="{{reg_insert_1.hora_fim}}">
+                                                                </div>
+                                                                <div class="form-group col-md-4">
+                                                                    <label>Atendente</label>
+                                                                    <strong class="text-danger ng-star-inserted"> *</strong>
+                                                                    <select class="form-control" id="sel1" name="atendimento_atendente">
+                                                                        <option value="selected" selected disabled hidden>{{reg_insert_1.atendente}}</option>
+                                                                        <option>-----------</option>
+                                                                        <option>Icaro Graciano</option>
+                                                                        <option>Alephe Baruc</option>
+                                                                        <option>Leandro Oliveira</option>
+                                                                        <option>Nicanor Soares</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group col-md-4">
+                                                                    <label>Faturado?</label>
+                                                                    <strong class="text-danger ng-star-inserted"> *</strong>
+                                                                    <select class="form-control" id="sel1" name="faturado">
+                                                                        <option value="selected" selected disabled hidden>{{reg_insert_1.faturado}}</option>
+                                                                        <option>Não</option>
+                                                                        <option>Sim</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                        <ul class="nav nav-pills mb-3">
+                                                            <li class="nav-item"><a href="#navpills-2" class="nav-link active" data-toggle="tab" aria-expanded="true">Resumo do Atendimento</a>
+                                                            </li>
+                                                            <li class="nav-item"><a href="#navpills-3" class="nav-link" data-toggle="tab" aria-expanded="true">Intervalos</a>
+                                                            </li>
+                                                            <li class="nav-item"><a href="#navpills-4" class="nav-link" data-toggle="tab" aria-expanded="true">Despesas</a>
+                                                            </li>
+                                                            <li class="nav-item"><a href="#navpills-5" class="nav-link" data-toggle="tab" aria-expanded="true">Comprovantes de Despesas</a>
+                                                            </li>
+                                                        </ul>
+                                                        <div class="tab-content br-n pn">
+                                                            <div id="navpills-2" class="tab-pane active">
+                                                                <div class="row align-items-center">
+                                                                    <div class="col-sm-6 col-md-8 col-xl-10">
+                                                                    </div>
+                                                                </div>
+                                                                <textarea class="form-control" id="val-suggestions" name="atendimento_discriminacao" rows="10" maxlength=2000>{{reg_insert_1.descr_atendimento}}</textarea>
+                                                            </div>
+                                                            <div id="navpills-3" class="tab-pane">
+                                                                <div class="row align-items-center">
+                                                                    <div class="col-sm-6 col-md-8 col-xl-10">
+                                                                    </div>
+                                                                    <div class="tab-pane fade ng-star-inserted active show" id="ngb-nav-114-panel" role="tabpanel"
+                                                                        aria-labelledby="ngb-nav-114" style="width:100%">
+                                                                            <button type="button" title="Detalhe Intervalo de Atendimento" 
+                                                                                class="btn waves-effect waves-light btn-sm btn-info" data-toggle="modal" 
+                                                                                data-target="#modal_edita_atendimento_detalhe_intervalo" style="font-weight: bold;">
+                                                                                <i class="fa fa-plus"></i> 
+                                                                                Inserir intervalo
+                                                                            </button>
+                                                                            <hr>
+                                                                            <!-- Modal -->
+                                                                            <div class="modal fade" id="modal_edita_atendimento_detalhe_intervalo">
+                                                                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <h4 id="modal-basic-title" class="modal-title">Detalhe Intervalo no Atendimento</h4>
+                                                                                            <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                                                                                        </div>
+                                                                                        <div class="modal-body">
+                                                                                            <form novalidate="" class="ng-untouched ng-pristine ng-invalid">
+                                                                                                <div class="row">
+                                                                                                    <div class="col-sm-6"><label class="control-label" style="font-weight: bold;">Início</label><strong
+                                                                                                            class="text-danger"> *</strong><input apponlytime="" appnexttab="" formcontrolname="inicio"
+                                                                                                            type="time" class="form-control ng-untouched ng-pristine ng-invalid"
+                                                                                                            style="text-align: center; background-color: white;">
+                                                                                                    </div>
+                                                                                                    <div class="col-sm-6"><label class="control-label" style="font-weight: bold;">Término</label><strong
+                                                                                                            class="text-danger"> *</strong><input apponlytime="" appnexttab="" formcontrolname="termino"
+                                                                                                            type="time" class="form-control ng-untouched ng-pristine ng-invalid" style="text-align: center;">
+                                                                                                    </div>
+                                                                                                </div><br>
+                                                                                                <div class="row">
+                                                                                                    <div class="col-sm-12"><label class="control-label" style="font-weight: bold;">Motivo do
+                                                                                                            Intervalo</label><strong class="text-danger"> *</strong><select appnexttab=""
+                                                                                                            formcontrolname="idMotivoIntervalo" id="cmbMotivo" name="cmbMotivo"
+                                                                                                            class="form-control ng-untouched ng-pristine ng-invalid">
+                                                                                                            <option value="16" class="ng-star-inserted"> Acompanhando Processo </option>
+                                                                                                            <option value="1" class="ng-star-inserted"> Aguardando Atendimento Da Software House </option>
+                                                                                                            <option value="2" class="ng-star-inserted"> Aguardando Cliente </option>
+                                                                                                            <option value="3" class="ng-star-inserted"> Aguardando Correcao Da Software House </option>
+                                                                                                            <option value="4" class="ng-star-inserted"> Ajuste Do Desenvolvimento </option>
+                                                                                                            <option value="5" class="ng-star-inserted"> Almoco </option>
+                                                                                                            <option value="6" class="ng-star-inserted"> Break </option>
+                                                                                                            <option value="7" class="ng-star-inserted"> Descanso </option>
+                                                                                                            <option value="8" class="ng-star-inserted"> Falta De Conexao Na Loja </option>
+                                                                                                            <option value="9" class="ng-star-inserted"> Intervencao XC </option>
+                                                                                                            <option value="10" class="ng-star-inserted"> Janta </option>
+                                                                                                            <option value="11" class="ng-star-inserted"> Problemas De Conexao </option>
+                                                                                                            <option value="12" class="ng-star-inserted"> Problemas Na Versao </option>
+                                                                                                            <option value="13" class="ng-star-inserted"> Refeicao </option>
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </form><br><br><br><strong class="text-danger"> *</strong> Campos obrigatórios
+                                                                                        </div>
+                                                                                        <div class="modal-footer">
+                                                                                            <!----><button type="button" class="btn waves-effect waves-light btn-sm btn-success" style="font-weight: bold;"><i
+                                                                                                    class="fa fa-save"></i> Gravar</button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!---->
+                                                                            <div class="table-responsive">
+                                                                                <table id="tabelaIntervalos" class="table table-hover table-striped table-bordered display" width="100%">
+                                                                                    <thead>
+                                                                                        <tr>
+                                                                                            <th>Início</th>
+                                                                                            <th>Término</th>
+                                                                                            <th>Motivo</th>
+                                                                                            <th class="ng-star-inserted">Ações</th>
+                                                                                            <!---->
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody class="ng-star-inserted">
+                                                                                        <tr class="ng-star-inserted">
+                                                                                            <td style="text-align: right;" width="10%">12:00</td>
+                                                                                            <td style="text-align: right;" width="10%">13:00</td>
+                                                                                            <td>Almoco</td>
+                                                                                            <td style="text-align: center;" class="ng-star-inserted" width="5%">
+                                                                                                <div class="btn-group">
+                                                                                                    <a data-placement="top" title="Editar linha"><i class="fa fa-edit text-primary m-r-10" style="margin: 0 3px;"></i></a>
+                                                                                                    <a data-placement="top" title="Excluir linha"><i class="fa fa fa-minus text-danger" style="margin: 0 8px;"></i></a>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <!---->
+                                                                                        </tr>
+                                                                                        <!---->
+                                                                                    </tbody>
+                                                                                    <!---->
+                                                                                    <!---->
+                                                                                    <tbody></tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                        <!---->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div id="navpills-4" class="tab-pane">
+                                                                <div class="row align-items-center">
+                                                                    <div class="col-sm-6 col-md-8 col-xl-10">
+                                                                        <button type="button" title="Inserir Despesas" 
+                                                                                class="btn waves-effect waves-light btn-sm btn-info" data-toggle="modal" 
+                                                                                data-target="#modal_edita_atendimento_inserir_despesas" style="font-weight: bold;">
+                                                                                <i class="fa fa-plus"></i> 
+                                                                                Inserir Despesas
+                                                                            </button>
+                                                                            <!-- Modal -->
+                                                                            <div class="modal fade" id="modal_edita_atendimento_inserir_despesas">
+                                                                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                                                                    <div class="modal-content">
+                                                                                        <div class="modal-header">
+                                                                                            <h4 id="modal-basic-title" class="modal-title">Detalhe da Despesa no Atendimento</h4>
+                                                                                            <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                                                                                        </div>
+                                                                                        <div class="modal-body">
+                                                                                            <form novalidate="" class="ng-pristine ng-invalid ng-touched">
+                                                                                                <div class="row">
+                                                                                                    <div class="col-sm-9"><label class="control-label" style="font-weight: bold;">Tipo</label><strong
+                                                                                                            class="text-danger"> *</strong><select appnexttab="" formcontrolname="idLancamento"
+                                                                                                            class="form-control ng-pristine ng-valid ng-touched">
+                                                                                                            <option value="363" class="ng-star-inserted"> Acordo Comercial </option>
+                                                                                                            <option value="1" class="ng-star-inserted"> Alimentacao </option>
+                                                                                                            <option value="324" class="ng-star-inserted"> Aluguel De Carros </option>
+                                                                                                            <option value="76" class="ng-star-inserted"> Combustivel Tecnicos </option>
+                                                                                                            <option value="46" class="ng-star-inserted"> Estacionamentos </option>
+                                                                                                            <option value="194" class="ng-star-inserted"> Frete </option>
+                                                                                                            <option value="11" class="ng-star-inserted"> Hospedagem </option>
+                                                                                                            <option value="366" class="ng-star-inserted"> Insumos </option>
+                                                                                                            <option value="14" class="ng-star-inserted"> Km Carro </option>
+                                                                                                            <option value="135" class="ng-star-inserted"> Laboratorio </option>
+                                                                                                            <option value="329" class="ng-star-inserted"> Manutencao De Veiculos </option>
+                                                                                                            <option value="362" class="ng-star-inserted"> Mao De Obra De Consultoria </option>
+                                                                                                            <option value="301" class="ng-star-inserted"> Mao De Obra Hardware </option>
+                                                                                                            <option value="406" class="ng-star-inserted"> Outros </option>
+                                                                                                            <option value="364" class="ng-star-inserted"> Pacote De Horas </option>
+                                                                                                            <option value="205" class="ng-star-inserted"> Passagem Aviao </option>
+                                                                                                            <option value="204" class="ng-star-inserted"> Passagem Metro </option>
+                                                                                                            <option value="207" class="ng-star-inserted"> Passagem Onibus Intermunicipal </option>
+                                                                                                            <option value="202" class="ng-star-inserted"> Passagem Onibus Municipal </option>
+                                                                                                            <option value="208" class="ng-star-inserted"> Passagem Onibus Rodoviario </option>
+                                                                                                            <option value="203" class="ng-star-inserted"> Passagem Trem </option>
+                                                                                                            <option value="56" class="ng-star-inserted"> Pedagios </option>
+                                                                                                            <option value="411" class="ng-star-inserted"> Scrum Premiacao </option>
+                                                                                                            <option value="206" class="ng-star-inserted"> Taxi </option>
+                                                                                                            <option value="408" class="ng-star-inserted"> Visita Tecnica </option>
+                                                                                                            <!---->
+                                                                                                        </select>
+                                                                                                        <!---->
+                                                                                                    </div>
+                                                                                                    <div class="col-sm-3"><label class="control-label" style="font-weight: bold;">Quantidade</label><strong
+                                                                                                            class="text-danger"> *</strong><input appnexttab="" apponlydecimal="" formcontrolname="qtde"
+                                                                                                            type="text" class="form-control ng-untouched ng-pristine ng-invalid" style="text-align: right;">
+                                                                                                        <!---->
+                                                                                                    </div>
+                                                                                                </div><br>
+                                                                                                <div class="row">
+                                                                                                    <div class="col-sm-6"><label class="control-label" style="font-weight: bold;">Valor da Despesa</label><input
+                                                                                                            appnexttab="" apponlydecimal="" formcontrolname="valor" type="text"
+                                                                                                            class="form-control ng-untouched ng-pristine ng-valid" style="text-align: right;"></div>
+                                                                                                    <div class="col-sm-6"><label class="control-label" style="font-weight: bold;">Total</label><input readonly=""
+                                                                                                            apponlydecimal="" tabindex="32000" formcontrolname="total" type="text"
+                                                                                                            class="form-control ng-untouched ng-pristine ng-valid" style="text-align: right;"></div>
+                                                                                                </div>
+                                                                                                <div class="row">
+                                                                                                    <div class="col-sm-12">
+                                                                                                        <label class="control-label" style="font-weight: bold;">Observações</label>
+                                                                                                        <textarea class="form-control" id="val-suggestions" name="obs_despesas" rows="5" maxlength=2000></textarea>          
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </form><br><strong class="text-danger"> *</strong> Campos obrigatórios
+                                                                                        </div>
+                                                                                        <div class="modal-footer">
+                                                                                            <!---->
+                                                                                            <button type="button" class="btn waves-effect waves-light btn-sm btn-success" style="font-weight: bold;">
+                                                                                                <i class="fa fa-save"></i> Gravar
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!---->
+                                                                    </div>
+                                                                </div>
+                                                                <hr>
+                                                                <div class="table-responsive">
+                                                                    <table id="tabelaDespesas" class="table table-hover table-striped table-bordered display" width="100%">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th style="text-align: center;">Tipo</th>
+                                                                                <th style="text-align: center;">Qtde</th>
+                                                                                <th style="text-align: center;">Valor</th>
+                                                                                <th style="text-align: center;">Total</th>
+                                                                                <th style="text-align: center;">Observação</th>
+                                                                                <th style="text-align: center;" class="ng-star-inserted">Ações</th>
+                                                                                <!----></tr>
+                                                                            </thead>
+                                                                            <tbody class="ng-star-inserted">
+                                                                                <tr class="ng-star-inserted">
+                                                                                    <td style="text-align: left;" width="10%">Km</td>
+                                                                                    <td style="text-align: center;" width="5%">1</td>
+                                                                                    <td style="text-align: center;" width="10%">100</td>
+                                                                                    <td style="text-align: center;" width="10%">115,00</td>
+                                                                                    <td style="text-align: center;" width="30%">Teste 123</td>
+                                                                                    <td style="text-align: center;" class="ng-star-inserted" width="5%">
+                                                                                        <div class="btn-group">
+                                                                                            <a data-placement="top" title="Editar linha">
+                                                                                                <i class="fa fa-edit text-primary m-r-10"></i>
+                                                                                            </a>
+                                                                                            <a data-placement="top" title="Excluir linha" style="margin: 0 15px;">
+                                                                                                <i class="fa fa fa-minus text-danger"></i>
+                                                                                            </a>
+                                                                                            <a data-placement="top" title="Anexo de Comprovante">
+                                                                                                <i class="fa fa fa-cloud-upload text-primary m-r-10"></i>
+                                                                                            </a>
+                                                                                        </div>
+                                                                                    </td><!---->
+                                                                                </tr><!---->
+                                                                            </tbody><!---->
+                                                                            <tfoot class="ng-star-inserted">
+                                                                                <tr>
+                                                                                    <td style="text-align: left; font-weight: bold;" width="10%">Total</td>
+                                                                                    <td style="text-align: right;" width="5%"></td>
+                                                                                    <td style="text-align: right;" width="5%"></td>
+                                                                                    <td style="text-align: center; font-weight: bold;" width="10%">115,00</td>
+                                                                                    <td style="text-align: center;" class="ng-star-inserted" width="5%"></td>
+                                                                                    <!---->
+                                                                                </tr>
+                                                                            </tfoot><!----><!---->
+                                                                        </thead>     
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                            <div id="navpills-5" class="tab-pane">
+                                                                <div class="row align-items-center">
+                                                                    <div class="col-sm-6 col-md-8 col-xl-10">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="container text-center mb-5 mt-5">
+                                                                    <div class="row">
+                                                                    </div>
+                                                                </div>
+                                                                <div id="drop-area">
+                                                                    <form class="my-form">
+                                                                      <p>Arraste ou selecione múltiplos arquivos</p>
+                                                                      <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
+                                                                      <label class="button" for="fileElem">Selecione os arquivos</label>
+                                                                    </form>
+                                                                    <progress id="progress-bar" max=100 value=0></progress>
+                                                                    <div id="gallery" /></div>
+                                                                </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>    
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #/ container -->
+        </div>
+        <!--**********************************
+            Content body end
+        ***********************************-->
+{% endblock %}

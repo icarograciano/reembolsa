@@ -34,8 +34,8 @@
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <li><a class="dropdown-item" href="{{ url_for('env_aprovacao', id = reg_insert.id ) }}">Enviar para Aprovação</a></li>
                                             {% if 'S' in aprovadores[current_user] %}
-                                            <li><a class="dropdown-item" href="#">Aprovar</a></li>
-                                            <li><a class="dropdown-item" href="#">Finalizar</a></li>
+                                            <li><a class="dropdown-item" href="{{ url_for('aprovar', id = reg_insert.id ) }}">Aprovar</a></li>
+                                            <li><a class="dropdown-item" href="{{ url_for('finalizar', id = reg_insert.id ) }}">Finalizar</a></li>
                                             {% endif %}
                                         </ul>                                       
                                         <br>

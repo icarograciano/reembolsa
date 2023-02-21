@@ -1,20 +1,7 @@
-import mysql.connector
-from mysql.connector import errorcode
+from config_mysql import conn
 
 
 def aprovador(aprovadores):
-    print("Conectando...")
-    try:
-        conn = mysql.connector.connect(
-                host='127.0.0.1',
-                user='root',
-                password='123456'
-        )
-    except mysql.connector.Error as err:
-        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-                print('Existe algo errado no nome de usuário ou senha')
-        else:
-                print(err)
 
     cursor = conn.cursor()
 
@@ -25,10 +12,13 @@ def aprovador(aprovadores):
         if login not in aprovadores:
             aprovadores[login] = []
         aprovadores[login].append(aprovador)
-        
+    
+    cursor.close()
+    
     return aprovadores
 
 aprovadores = {}
 aprovadores = aprovador(aprovadores)
 #print(aprovadores)
+
 

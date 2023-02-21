@@ -1,19 +1,8 @@
 import mysql.connector
 from mysql.connector import errorcode
 from flask_bcrypt import generate_password_hash
+from config_mysql import conn
 
-print("Conectando...")
-try:
-      conn = mysql.connector.connect(
-            host='127.0.0.1',
-            user='root',
-            password='123456'
-      )
-except mysql.connector.Error as err:
-      if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print('Existe algo errado no nome de usuário ou senha')
-      else:
-            print(err)
 
 cursor = conn.cursor()
 
@@ -191,6 +180,23 @@ TABLES['Perfil_Usuario_Det'] = ('''
       PRIMARY KEY (`id`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;''')
 
+
+TABLES['View_aprovadores'] = ('''
+      create or replace
+      algorithm = UNDEFINED view `app_admin`.`aprovadores` as
+      select
+      `app_admin`.`usuarios`.`login` as `login`
+      from
+      `app_admin`.`usuarios`
+      where
+      `app_admin`.`usuarios`.`id_perfil` in (
+      select
+            `app_admin`.`perfil_usuario`.`id`
+      from
+            `app_admin`.`perfil_usuario`
+      where
+            (`app_admin`.`perfil_usuario`.`aprovador` = 'S'));;''')
+
 #printando criação das tabelas
 for tabela_nome in TABLES:
       tabela_sql = TABLES[tabela_nome]
@@ -250,13 +256,7 @@ for uf in cursor.fetchall():
 
 
 cursor.execute(f'''INSERT INTO usuarios (nome, login, senha, id_perfil, atendente, data_add, usuario_add, data_edicao, usuario_edicao)
-VALUES ("Icaro Graciano", "icaro.graciano@xcsolucoes.com.br", '{generate_password_hash("master").decode('utf-8')}', '1', 'S', current_timestamp(), "master", current_timestamp(), "master");''')
-
-cursor.execute(f'''INSERT INTO usuarios (nome, login, senha, id_perfil, atendente, data_add, usuario_add, data_edicao, usuario_edicao)
-VALUES ("Hilton ROcha", "hilton.rocha@xcsolucoes.com.br", '{generate_password_hash("master").decode('utf-8')}', '2', 'S', current_timestamp(), "master", current_timestamp(), "master");''')
-
-cursor.execute(f'''INSERT INTO usuarios (nome, login, senha, id_perfil, atendente, data_add, usuario_add, data_edicao, usuario_edicao)
-VALUES ("Nicanor Soares", "nicanor.soares@xcsolucoes.com.br", '{generate_password_hash("master").decode('utf-8')}', '2', 'S', current_timestamp(), "master", current_timestamp(), "master");''')
+VALUES ("Icaro Graciano", "reembolsa@reembolsa.com.br", '{generate_password_hash("master").decode('utf-8')}', '1', 'S', current_timestamp(), "master", current_timestamp(), "master");''')
 
 cursor.execute('select * from app_admin.usuarios')
 print(' -------------  Usuários:  -------------')

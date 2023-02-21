@@ -45,7 +45,7 @@ Rota de Envio de email automático a cada mudança de status do processo
 ![image](https://user-images.githubusercontent.com/70548062/220225009-7c8dce5e-be46-48da-b178-af02eb855d35.png)
 
 
-2 - Execute o arquivo prepara_banco.py para rodar todas as tabelas do essencias do programa
+2 - Execute o arquivo prepara_banco.py para rodar todas as tabelas essencias do programa
 
 ![image](https://user-images.githubusercontent.com/70548062/220225934-8f4d9d97-a7de-4cad-bf8e-d57b9079e962.png)
 

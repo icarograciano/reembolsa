@@ -17,7 +17,7 @@ cvxpy==1.2.1
 cx-Oracle==8.3.0
 cycler==0.11.0
 defusedxml==0.7.1
-Django==3.2.9
+Django==3.2.18
 ecos==2.0.10
 et-xmlfile==1.1.0
 Flask==2.1.2
